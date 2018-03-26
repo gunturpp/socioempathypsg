@@ -1,0 +1,154 @@
+page-signup {
+ 
+  div {
+    .top {
+      height: 20vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      // border: solid;
+      // margin-bottom: 60px;
+
+      img {
+        width: 60vw;
+        position: relative;
+      }
+    }
+    .backCss {
+      background-image: url("../assets/images/Bg_2_Splash_Screen.png");
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: 100%;
+      height: 100%;
+    }
+
+    .bottom {
+      margin-top: 5px;
+      height: 60vh;
+
+      .buttons {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        // border: solid;
+        position: relative;
+        // padding-top: 90px;
+      }
+
+      p {
+        color: #000000;
+        font-size: 1.1em;
+      }
+
+      p.activated,
+      p:active {
+        color: $primary;
+      }
+
+      button {
+        width: 70vw;
+        margin-top: 0.5em;
+
+      }
+
+      .register {
+        background: rgba(0, 0, 0, 0.5);
+        width: 100%;
+        height: 100%;
+
+        // .text-input::-moz-placeholder {
+        //   color: white;
+        // }
+
+        // .text-input:-ms-input-placeholder {
+        //   color: white;
+        // }
+
+        // .text-input::-webkit-input-placeholder {
+        //   text-indent: 0;
+        //   color: white;
+        // }
+
+        p {
+          width: 70vw;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        ion-list {
+          padding: 0;
+          margin: 0 0 0.75em;
+          background-color: transparent;
+
+          ion-item {
+            background: transparent;
+            color: $primary;
+
+            ion-label {
+              text-align: left;
+              width: 24vw;
+            }
+
+            ion-input {
+              color: #000000;
+            }
+          }
+        }
+
+        button.clear {
+          color: #000000;
+          margin: 0;
+          width: auto !important;
+          background: transparent !important;
+        }
+
+        button.clear.activated {
+          color: $primary;
+        }
+      }
+
+      .form {
+        width: 80%;
+        height: 100%;
+        text-align: center;
+
+        p {
+          width: 70vw;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        ion-list {
+          padding: 0;
+          margin: 0 0 0.75em;
+
+          ion-item {
+            background: transparent;
+            color: $primary;
+
+            ion-label {
+              text-align: left;
+              width: 24vw;
+            }
+
+            ion-input {
+              color: #000000;
+            }
+          }
+        }
+
+        button.clear {
+          color: #000000;
+          margin: 0;
+          width: auto !important;
+          background: transparent !important;
+        }
+
+        button.clear.activated {
+          color: $primary;
+        }
+      }
+    }
+  }
+}

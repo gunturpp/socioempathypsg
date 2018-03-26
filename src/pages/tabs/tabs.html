@@ -1,0 +1,7 @@
+<ion-tabs small selectedIndex="0">
+  <ion-tab [root]="messages" tabIcon="chatboxes" tabBadgeStyle="danger" tabBadge="{{getUnreadMessagesCount()}}"></ion-tab>
+  <!-- <ion-tab [root]="timeLine" tabIcon="time" tabBadgeStyle="danger"></ion-tab> -->
+  <!-- <ion-tab [root]="achievement" tabIcon="md-star-outline" tabTitle="Achievement" tabBadgeStyle="danger"></ion-tab> -->
+  <ion-tab [root]="friends" tabIcon="md-people" tabBadgeStyle="danger" tabBadge="{{friendRequestCount}}"></ion-tab>
+  <ion-tab [root]="profile" tabIcon="md-settings" ></ion-tab>
+</ion-tabs>

@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-navbar>
+      <!-- <img class="socioCss" src="assets/images/headerSocio.png" /> -->
+      <ion-title>Profile</ion-title>
+      <ion-buttons style="margin-right:10px;" end> <ion-icon class="edit-icon" name="create" item-right></ion-icon></ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div class="background" *ngIf="user">
+    <div class="profile">
+      <img src="{{user.img}}" tappable  />
+    </div>
+    <!-- Show icon of logged in provider -->
+    
+    <p tappable class="username">edit Photo</p>
+    <p tappable class="username">Remove Photo</p>
+    <!-- <p tappable (click)="setDescription()" class="gender">{{user.description}}</p> -->
+    <!-- <p tappable class="gender">{{user.gender}}</p> -->
+    <!-- Profile Menu -->
+    <ion-list>
+      <ion-item>
+          <ion-label>Personal Information</ion-label>
+      </ion-item>
+
+      <ion-item>
+          <h5 style="margin-bottom: 8px;"> Name </h5>
+          <h2> Muhammad Wiranegara Girinata </h2>
+      </ion-item>
+
+      <ion-item>
+          <h5 style="margin-bottom: 8px;"> Username </h5>
+          <h2> @wiranegara777 </h2>
+      </ion-item>
+
+      <ion-item>
+          <h5 style="margin-bottom: 8px;"> Email </h5>
+          <h2> muhammadwiranegara777@gmail.com </h2>
+      </ion-item>
+
+      <ion-item>
+          <h5 style="margin-bottom: 8px;"> Phone number </h5>
+          <h2> 0878 6570 8976 </h2>
+      </ion-item>
+
+      <ion-item>
+          <h5 style="margin-bottom: 8px;"> City </h5>
+          <h2> Jakarta </h2>
+      </ion-item>
+
+      <ion-item>
+          <h5 style="margin-bottom: 8px;"> Profession </h5>
+          <h2> Mahasiswa </h2>
+      </ion-item>
+
+      <ion-item>
+          <h5 style="margin-bottom: 8px;"> Status </h5>
+          <h2> Single </h2>
+      </ion-item>
+
+      <ion-item>
+          <h5 style="margin-bottom: 8px;"> Date of Birth </h5>
+          <h2> 20-02-1997 </h2>
+      </ion-item>
+      
+
+    </ion-list>
+  </div>
+</ion-content>

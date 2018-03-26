@@ -1,0 +1,69 @@
+<!--
+  Generated template for the AchievementPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Life Achievement</ion-title>
+    <ion-buttons end>
+        <button (click)="guide()" ion-button>
+      <ion-icon name="md-book"></ion-icon>
+    </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+
+ <ion-list>
+   <ion-row>
+    <ion-col col-12 *ngFor="let item of items" (click)="showDescription('1')">
+      {{item.title}}
+    </ion-col>
+   </ion-row>
+        <!--     <ion-item text-wrap>
+      <ion-label>Get closer to God</ion-label>
+      <ion-checkbox item-right></ion-checkbox>
+      <button ion-button (click)="showDescription('1')" clear item-right>
+                <ion-icon class="icon" name="information-circle"></ion-icon>
+            </button>
+    </ion-item>
+    <br>
+    <ion-item text-wrap>
+      <ion-label>Get enough rest</ion-label>
+      <ion-checkbox item-right></ion-checkbox>
+      <button ion-button (click)="showDescription('2')" clear item-right>
+                <ion-icon class="icon" name="information-circle"></ion-icon>
+            </button>
+    </ion-item>
+    <br>
+    <ion-item text-wrap>
+      <ion-label>Look for new hobbies</ion-label>
+      <ion-checkbox item-right></ion-checkbox>
+      <button ion-button (click)="showDescription('3')" clear item-right>
+                <ion-icon class="icon" name="information-circle"></ion-icon>
+            </button>
+    </ion-item>
+    <br>
+    <ion-item text-wrap>
+      <ion-label>Find a counselor</ion-label>
+      <ion-checkbox item-right></ion-checkbox>
+      <button ion-button (click)="showDescription('4')" clear item-right>
+                <ion-icon class="icon" name="information-circle"></ion-icon>
+            </button>
+    </ion-item>
+    <br>
+    <ion-item text-wrap>
+      <ion-label>Take a walk out</ion-label>
+      <ion-checkbox item-right></ion-checkbox>
+      <button ion-button (click)="showDescription('5')" clear item-right>
+                <ion-icon class="icon" name="information-circle"></ion-icon>
+            </button>
+    </ion-item> -->
+
+  </ion-list>
+</ion-content>

@@ -1,0 +1,29 @@
+
+<ion-content class="tutorial-page">
+    
+      <ion-slides pager>
+        <ion-slide *ngFor="let slide of slides">
+        <ion-header>
+          <ion-navbar color='primary'>
+            <ion-buttons color="primary-active" end>
+              <button ion-button (click)="lewati()">SKIP</button>
+            </ion-buttons>
+          </ion-navbar>
+        </ion-header>
+          <img [src]="slide.image" class="slide-image"/>
+<!--           <h2 class="slide-title" [innerHTML]="slide.title"></h2>
+          <p [innerHTML]="slide.description"></p> -->
+        </ion-slide>
+        <ion-slide>
+          <ion-header>
+            <ion-navbar color='primary'>
+              <ion-buttons color="primary-active" end>
+                <button ion-button (click)="mulai()">START</button>
+              </ion-buttons>
+            </ion-navbar>
+          </ion-header>
+          <img src="assets/images/onboarding4.jpg" class="slide-image"/>
+          <h2 class="slide-title">Ready to Play?</h2>
+        </ion-slide>
+      </ion-slides>
+    </ion-content>

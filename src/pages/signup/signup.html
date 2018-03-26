@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-navbar class="navbar">
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="backCss">
+    <div class="top">
+      <img src="assets/images/SocioEmpathy_Blue.png" />
+    </div>
+    <div class="bottom">
+      <div class="buttons">
+        <div class="form">
+          <form [formGroup]="emailPasswordForm">
+            <ion-list>
+
+              <ion-item>
+                <ion-label stacked color="theblues">Email</ion-label>
+                <ion-input type="email" formControlName="email" placeholder="Your Email Address"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label stacked color="theblues">Password</ion-label>
+                <ion-input type="password" formControlName="password" placeholder="Create A Password"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label stacked color="theblues">Phone</ion-label>
+                <ion-input type="number" [(ngModel)]="phoneNumber" formControlName="phone" placeholder="Enter your Phone Number" [textMask]="{mask: masks.phoneNumber}"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label stacked color="theblues">Gender</ion-label>
+                <ion-select formControlName="gender" placeholder="Select Your Role" style="margin-right:27%; color:black">
+                  <ion-option style="margin-right:80%; color:#549AD4" value="Male">Male&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</ion-option>
+                  <ion-option style="margin-right:80%; color:#549AD4" value="Female">Female&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</ion-option>
+                </ion-select>
+              </ion-item>
+
+              <!-- <ion-item>
+                <ion-label stacked color="theblues">Role</ion-label>
+                <ion-select formControlName="role" placeholder="Select Your Role" style="margin-right:27%; color:black">
+                  <ion-option style="margin-right:80%; color:#549AD4" value="Regular User">Regular User&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</ion-option>
+                  <ion-option style="margin-right:80%; color:#549AD4" value="Psychology Student">Psychology Student&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</ion-option>
+                  <ion-option style="margin-right:80%; color:#549AD4" value="Junior Psychologist">Junior Psychologist&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</ion-option>
+                  <ion-option style="margin-right:80%; color:#549AD4" value="Senior Psychologist">Senior Psychologist&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</ion-option>
+                </ion-select>
+              </ion-item> -->
+
+            </ion-list>
+            <button ion-button tappable (click)="register()" [disabled]="!emailPasswordForm.valid">SIGN UP</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

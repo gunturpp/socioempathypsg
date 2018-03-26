@@ -1,0 +1,272 @@
+<!--
+  Generated template for the TimeLinePage page.
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar>
+        <img class="socioCss" src="assets/images/headerSocio.png" />
+        <!-- new commented -->
+        <ion-buttons end>
+            <button (click)="goTodynamic()" ion-button>
+                <!-- <button (click)="underConstruction()" ion-button> -->
+                <img class="imageLove" src="assets/images/love.png" />
+            </button>
+            <button (click)="goTodynamic()" ion-button>
+                <!-- <button (click)="underConstruction()" ion-button> -->
+                <img class="imageLove" src="assets/images/panicButton.png" />
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+</ion-header>
+<!-- GUE NGUBAH BUILD/MAIN.CSS -->
+
+<ion-content>
+    <ion-card>
+        <ion-card-header class="headerCss">
+            How's your mood today?
+        </ion-card-header>
+        <ion-card-content>
+            <ion-grid>
+                <ion-row class="centerin">
+                    <ion-col col-2 class="moodCol" style="margin-left:10px;">
+                        <ion-row>
+                            <ion-icon *ngIf="moodLevel == 'Depress'" class="icon-checked" name="md-checkmark-circle-outline"></ion-icon>
+                            <img class="imggCss" (click)="changeMoodLevel('Depress')" src="assets/images/depress.png" />
+                            <p class="moodLable">Depressed</p>
+                        </ion-row>
+                    </ion-col>
+
+                    <ion-col col-2 class="moodCol">
+                        <ion-row>
+                            <ion-icon *ngIf="moodLevel == 'Pressure'" class="icon-checked" name="md-checkmark-circle-outline"></ion-icon>
+                            <img class="imggCss" (click)="changeMoodLevel('Pressure')" src="assets/images/pressure.png" />
+                            <p class="moodLable">Pressured</p>
+                        </ion-row>
+                    </ion-col>
+
+                    <ion-col col-2 class="moodCol">
+                        <ion-row>
+                            <!-- <button class="circle"  (click)="changeMoodLevel('Normal')" ion-button block> -->
+                            <ion-icon *ngIf="moodLevel == 'Normal'" class="icon-checked" name="md-checkmark-circle-outline"></ion-icon>
+                            <img class="imggCss" (click)="changeMoodLevel('Normal')" src="assets/images/normal.png" />
+                            <!-- </button> -->
+                            <p class="moodLable"> Normal</p>
+                        </ion-row>
+                    </ion-col>
+
+                    <ion-col col-2 class="moodCol">
+                        <ion-row>
+                            <ion-icon *ngIf="moodLevel == 'Good'" class="icon-checked" name="md-checkmark-circle-outline"></ion-icon>
+                            <img class="imggCss" (click)="changeMoodLevel('Good')" src="assets/images/good.png" />
+                            <p class="moodLable">&nbsp; Good</p>
+                        </ion-row>
+                    </ion-col>
+
+                    <ion-col col-2 class="moodCol">
+                        <ion-row>
+                            <ion-icon *ngIf="moodLevel == 'Happy'" class="icon-checked" name="md-checkmark-circle-outline"></ion-icon>
+                            <img class="imggCss" (click)="changeMoodLevel('Happy')" src="assets/images/happy.png" />
+                            <p class="moodLable">&nbsp;Happy</p>
+                        </ion-row>
+                    </ion-col>
+
+                </ion-row>
+                <ion-row style="padding-top:7px;">
+                    <!-- <ion-col text-right> -->
+                    <p class="moodCss" (click)="moodTracker()">Mood Tracker >></p>
+                </ion-row>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
+    <div class="haha">
+        <form class="rounded" [formGroup]="storyForm">
+            <ion-item>
+                <ion-textarea type="text" formControlName="story" placeholder="Express your feelings..."></ion-textarea>
+            </ion-item>
+        </form>
+        <button ion-button (click)="postNewStory()" class="publishButton" clear item-right>
+            <!-- <ion-icon class="icon" name="md-send"></ion-icon> -->
+            <ion-icon class="icon" name="md-send"></ion-icon>
+        </button>
+
+    </div>
+    <ion-card *ngIf="!timeLineNotNull">
+        <ion-card-content>
+            <p class="noData">No post yet.</p>
+            <!-- <p class="noData">There is no data yet</p> -->
+        </ion-card-content>
+    </ion-card>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
+        </ion-refresher-content>
+    </ion-refresher>
+    <!-- container comment -->
+    <div *ngIf="commentToggle" class="comment-container">
+
+    </div>
+    <ion-card *ngFor="let item of timeLine">
+        <ion-item>
+            <div class="rightMenu">
+                <!-- <ion-icon class="moreCss" (click)="openMenu()" name="md-more"></ion-icon> -->
+            </div>
+            <ion-avatar item-start>
+                <img src="{{item.img}}">
+            </ion-avatar>
+            <h2 style="margin-top:-10px" *ngIf="item.senderId != loggedInID" class="userName">{{item.name}}</h2>
+            <h2 *ngIf="item.senderId == loggedInID" class="userName">Me</h2>
+            <ion-icon class="genderCss" name="male">&nbsp;{{item.role}}</ion-icon>
+        </ion-item>
+
+        <ion-card-content>
+            <p>{{item.story}}</p>
+            <br>
+            <div>
+                <!-- new commented -->
+                <img (click)="likes(item.timeLineID)" class="hugCss" src="assets/images/hug.png" />
+                <img (click)="commentFunction(item.timeLineID)" class="hugCss" src="assets/images/message.png" />
+                <!-- <ion-icon (click)="hugFunction()" class="hugCss" name="ios-heart-outline"></ion-icon> -->
+                <!-- <ion-icon  class="hugCss" name="ios-text-outline"></ion-icon> -->
+                <br>
+                <br>
+            </div>
+            <!-- new commented -->
+            <p item-start class="warna">{{item.likes}} Hugs</p>
+            <p class="commentCss"> 5 Comment</p>
+
+            <div class="dateRight">
+                <ion-col item-end>{{item.date | DateFormat}}</ion-col>
+            </div>
+        </ion-card-content>
+
+            <!-- new commented -->
+        <ion-row class="leftComment">
+            <ion-col>
+                <button *ngIf="item.senderId != loggedInID" (click)="sendMessage(item.senderId)" ion-button icon-left clear small>
+                    <ion-icon name="text"></ion-icon>
+                    <div>Send Message</div>
+                </button>
+                <!-- GUE NGUBAH BUILD/MAIN.CSS -->
+            </ion-col>
+        </ion-row>
+
+        <ion-content>
+            <ion-card>
+                <ion-card-header class="headerCss">
+                    How's your mood today?
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-grid>
+                        <ion-row class="centerin">
+                            <ion-col col-2>
+                                <ion-row>
+                                    <ion-icon *ngIf="moodLevel == 'Depress'" class="icon-checked" name="md-checkmark-circle-outline"></ion-icon>
+                                    <img (click)="changeMoodLevel('Depress')" src="assets/images/depress.png" />
+                                    <p class="moodLable">Depressed</p>
+                                </ion-row>
+                            </ion-col>
+
+                            <ion-col col-2 style="margin-left: 10px;">
+                                <ion-row>
+                                    <ion-icon *ngIf="moodLevel == 'Pressure'" class="icon-checked" name="md-checkmark-circle-outline"></ion-icon>
+                                    <img (click)="changeMoodLevel('Pressure')" src="assets/images/pressure.png" />
+                                    <p class="moodLable">Pressured</p>
+                                </ion-row>
+                            </ion-col>
+
+                            <ion-col col-2 style="margin-left: 10px;">
+                                <ion-row>
+                                    <!-- <button class="circle"  (click)="changeMoodLevel('Normal')" ion-button block> -->
+                                    <ion-icon *ngIf="moodLevel == 'Normal'" class="icon-checked" name="md-checkmark-circle-outline"></ion-icon>
+                                    <img (click)="changeMoodLevel('Normal')" src="assets/images/normal.png" />
+                                    <!-- </button> -->
+                                    <p class="moodLable">Normal</p>
+                                </ion-row>
+                            </ion-col>
+
+                            <ion-col col-2 style="margin-left: 10px;">
+                                <ion-row>
+                                    <ion-icon *ngIf="moodLevel == 'Good'" class="icon-checked" name="md-checkmark-circle-outline"></ion-icon>
+                                    <img (click)="changeMoodLevel('Good')" src="assets/images/good.png" />
+                                    <p class="moodLable">&nbsp;Good</p>
+                                </ion-row>
+                            </ion-col>
+
+                            <ion-col col-2 style="margin-left: 10px;">
+                                <ion-row>
+                                    <ion-icon *ngIf="moodLevel == 'Happy'" class="icon-checked" name="md-checkmark-circle-outline"></ion-icon>
+                                    <img (click)="changeMoodLevel('Happy')" src="assets/images/happy.png" />
+                                    <p class="moodLable">&nbsp;Happy</p>
+                                </ion-row>
+                            </ion-col>
+
+                        </ion-row>
+                        <ion-row style="padding-top:7px;">
+                            <!-- <ion-col text-right> -->
+                            <p class="moodCss" (click)="moodTracker()">Mood Tracker >></p>
+                        </ion-row>
+                    </ion-grid>
+                </ion-card-content>
+            </ion-card>
+            <form [formGroup]="storyForm" style="margin-right: 20px;">
+                <ion-item class="rounded">
+                    <ion-textarea type="text" formControlName="story" placeholder="Express your feelings..."></ion-textarea>
+                    <button ion-button (click)="postNewStory()" class="publishButton" clear item-right>
+                        <ion-icon class="icon" name="md-send"></ion-icon>
+                    </button>
+                </ion-item>
+            </form>
+
+            <ion-card *ngIf="!timeLineNotNull">
+                <ion-card-content>
+                    <p class="noData">No post yet.</p>
+                    <!-- <p class="noData">There is no data yet</p> -->
+                </ion-card-content>
+            </ion-card>
+            <ion-refresher (ionRefresh)="doRefresh($event)">
+                <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
+                </ion-refresher-content>
+            </ion-refresher>
+
+            <ion-card *ngFor="let item of timeLine">
+                <ion-item>
+                    <div class="rightMenu">
+                        <ion-icon class="moreCss" (click)="openMenu()" name="md-more"></ion-icon>
+                    </div>
+                    <ion-avatar item-start>
+                        <img src="{{item.img}}">
+                    </ion-avatar>
+                    <h2 *ngIf="item.senderId != loggedInID" class="userName">{{item.name}}</h2>
+                    <h2 *ngIf="item.senderId == loggedInID" class="userName">Me</h2>
+                    <ion-icon class="genderCss" name="male"> {{item.role}}
+                    </ion-icon>
+                </ion-item>
+
+                <ion-card-content>
+                    <p>{{item.story}}</p>
+                    <br>
+                    <div>
+                        <img (click)="hugFunction()" class="hugCss" src="assets/images/hug.png" />
+                        <b>10</b>
+                        <img (click)="commentFunction()" class="hugCss" src="assets/images/message.png" />
+                        <!-- <ion-icon (click)="hugFunction()" class="hugCss" name="ios-heart-outline"></ion-icon> --> -->
+                        <!-- <ion-icon  class="hugCss" name="ios-text-outline"></ion-icon> -->
+                    </div>
+                    <div class="dateRight">
+                        <ion-col>{{item.date | DateFormat}}</ion-col>
+                    </div>
+                </ion-card-content>
+
+                <ion-row class="leftComment">
+                    <ion-col>
+                        <button *ngIf="item.senderId != loggedInID" (click)="sendMessage(item.senderId)" ion-button icon-left clear small>
+                            <ion-icon name="text"></ion-icon>
+                            <div>Send Message</div>
+                        </button>
+                    </ion-col>
+                </ion-row>
+
+            </ion-card>
+        </ion-content>

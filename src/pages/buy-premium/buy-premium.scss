@@ -1,0 +1,38 @@
+page-buy-premium {
+    .middleCss{
+        text-align: center;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .imgCss {
+        margin-left: auto;
+        margin-right: auto;
+        height:180px;
+        width: 180px;
+    }
+    .pinkCss {
+        color: #EB5487;
+    }
+    .closeButton {
+        text-align: right;
+        color: blue;
+        margin-right: 15px;
+    }
+    .container {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        background-color: gray;
+        margin-left: auto;
+        margin-right: auto;
+        position: fixed;
+        width:90%;
+    }
+    .marginCss {
+        margin:10px;
+    }
+    .cardCss {
+        padding-top: 30px;
+        margin-bottom: 10px;
+    }
+}

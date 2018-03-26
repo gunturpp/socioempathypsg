@@ -1,0 +1,33 @@
+<!--
+  Generated template for the AchievDetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar [color]="isRecording ? 'danger' : 'primary'">
+    <ion-title>{{task}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <p>Ceritakan masalahmu hari ini</p>
+
+  <button ion-button (click)="getPermissions()">Get Permission</button>
+  <button ion-button (click)="startListening()">Start listening</button>
+  <button ion-button (click)="stopListening()" *ngIf="isIos()">Stop Listening</button>
+
+  <ion-card>
+    <ion-card-header>This is wath you say... </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let match of matches">
+          {{ match }}
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

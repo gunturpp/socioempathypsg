@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-navbar>
+      <img class="socioCss" src="assets/images/headerSocio.png" />
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div class="background" *ngIf="user">
+    <div class="profile">
+      <img src="{{user.img}}" tappable (click)="setPhoto()" />
+    </div>
+    <!-- Show icon of logged in provider -->
+    <h4>
+      <!-- <span tappable (click)="setName()"><ion-icon name="male"></ion-icon>{{user.name}} </span> -->
+      <span tappable (click)="setName()" class="name">{{user.name}} </span>
+        <!-- <ion-icon name="md-flame" *ngIf="user.provider == 'Firebase'" class="firebase"></ion-icon>
+      <ion-icon name="logo-facebook" *ngIf="user.provider == 'Facebook'" class="facebook"></ion-icon>
+      <ion-icon name="logo-google" *ngIf="user.provider == 'Google'" class="google"></ion-icon> -->
+    </h4>
+    <p tappable (click)="setUsername()" class="username">@{{user.username}}</p>
+    <!-- <p tappable (click)="setDescription()" class="gender">{{user.description}}</p> -->
+    <p tappable class="gender">{{user.gender}}</p>
+    <!-- Profile Menu -->
+    <ion-list>
+      <ion-item>
+          <ion-label>Account</ion-label>
+      </ion-item>
+      
+    <ion-item no-lines tappable (click)="profile()">
+        <ion-icon color="theblues" name="person" item-left></ion-icon>
+        <ion-label>Profile</ion-label>
+    </ion-item>
+
+      <ion-item no-lines tappable>
+          <ion-icon color="theblues" name="eye" item-left></ion-icon>
+          <ion-label>Anonymous Mode</ion-label>
+          <ion-toggle [checked]="anonymouseFlag" (ionChange)="anonymouseMode()"></ion-toggle>
+      </ion-item>
+<!-- uncomment   -->
+
+      <!-- <ion-item no-lines tappable (click)="setName()">
+        <ion-icon color="theblues" name="md-contact" item-left></ion-icon>
+        Edit Name
+      </ion-item>
+  
+      <ion-item no-lines tappable (click)="setUsername()">
+        <ion-icon name="md-at" item-right></ion-icon>
+        Set Username
+      </ion-item>
+  
+      <ion-item no-lines tappable (click)="verify()" *ngIf="user.role == 'Junior Psychologist' || user.role == 'Senior Psychologist'">
+        <ion-icon name="md-checkmark-circle" item-right></ion-icon>
+        Document Verification
+      </ion-item>
+  
+      <ion-item no-lines tappable (click)="setDescription()">
+        <ion-icon name="md-clipboard" item-right></ion-icon>
+        Set Description
+      </ion-item>
+  
+      <ion-item no-lines tappable (click)="setPhoto()">
+        <ion-icon name="ios-camera" item-right></ion-icon>
+        Set Profile Photo
+      </ion-item>
+  
+      <ion-item no-lines tappable (click)="setEmail()">
+        <ion-icon name="md-mail-open" item-right></ion-icon>
+        Change Email Address
+      </ion-item> -->
+
+<!-- uncomment   -->
+      <ion-item no-lines tappable (click)="setPassword()" *ngIf="user && user.provider == 'Firebase'">
+        <ion-icon color="theblues" name="md-key" item-left></ion-icon>
+        Change Password
+      </ion-item>
+      <!-- <ion-item no-lines tappable (click)="deleteAccount()">
+        Delete Account
+        <ion-icon name="md-trash" item-right></ion-icon>
+      </ion-item> -->
+      <ion-item no-lines tappable (click)="logout()">
+        <ion-icon color="danger" name="md-log-out" item-left></ion-icon>
+        <span style="color:#f53d3d">Logout</span>
+      </ion-item>
+
+      <!-- details -->
+      <ion-item>
+          <ion-label>Details</ion-label>
+      </ion-item>
+  
+      <ion-item no-lines tappable (click)="underconstruction()">
+        <ion-icon color="theblues" name="information" item-left></ion-icon>
+        Feedback
+      </ion-item>
+    
+      <ion-item no-lines tappable (click)="underconstruction()">
+        <ion-icon color="theblues" name="information-circle" item-left></ion-icon>
+        About
+      </ion-item>
+
+    </ion-list>
+  </div>
+</ion-content>

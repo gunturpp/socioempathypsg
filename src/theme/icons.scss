@@ -1,0 +1,82 @@
+// These fonts were generated on https://icomoon.io/app/
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../assets/fonts/icomoon.eot?39m2i2');
+  src:  url('../assets/fonts/icomoon.eot?39m2i2#iefix') format('embedded-opentype'),
+    url('../assets/fonts/icomoon.ttf?39m2i2') format('truetype'),
+    url('../assets/fonts/icomoon.woff?39m2i2') format('woff'),
+    url('../assets/fonts/icomoon.svg?39m2i2#icomoon') format('svg');
+    // src:  url('../assets/fonts/icomoon2.eot?39m2i2');
+    // src:  url('../assets/fonts/icomoon2.eot?39m2i2#iefix') format('embedded-opentype'),
+    //   url('../assets/fonts/icomoon2.ttf?39m2i2') format('truetype'),
+    //   url('../assets/fonts/icomoon2.woff?39m2i2') format('woff'),
+    //   url('../assets/fonts/icomoon2.svg?39m2i2#icomoon') format('svg');
+  
+    font-weight: normal;
+  font-style: normal;
+}
+// @font-face {
+//   font-family: 'icomoon2';
+//   src:  url('../assets/fonts/icomoon2.eot?39m2i2');
+//   src:  url('../assets/fonts/icomoon2.eot?39m2i2#iefix') format('embedded-opentype'),
+//     url('../assets/fonts/icomoon2.ttf?39m2i2') format('truetype'),
+//     url('../assets/fonts/icomoon2.woff?39m2i2') format('woff'),
+//     url('../assets/fonts/icomoon2.svg?39m2i2#icomoon') format('svg');
+//     font-weight: normal;
+//   font-style: normal;
+// }
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+// [class^="icon2-"], [class*=" icon2-"] {
+//   /* use !important to prevent issues with browser extensions that change fonts */
+//   font-family: 'icomoon2' !important;
+//   speak: none;
+//   font-style: normal;
+//   font-weight: normal;
+//   font-variant: normal;
+//   text-transform: none;
+//   line-height: 1;
+
+//   /* Better Font Rendering =========== */
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+// }
+
+@mixin makeIcon($arg, $val) {
+  .ai-#{$arg}:before ,
+  .ion-ios-ai-#{$arg}:before ,
+  .ion-ios-ai-#{$arg}-outline:before ,
+  .ion-md-ai-#{$arg}:before ,
+  .ion-md-ai-#{$arg}-outline:before  {
+    content: $val;
+    font-size: 26px;
+  }
+}
+
+@include makeIcon(pencil, '\e905');
+@include makeIcon(message, '\e96e');
+@include makeIcon(star, '\e9d7');
+@include makeIcon(warning, '\ea07');
+// EMOTICON
+// @include makeIcon(depressed, '\e900');
+// @include makeIcon(good, '\e90e');
+// @include makeIcon(happy, '\e918');
+// @include makeIcon(hug, '\e925');
+// @include makeIcon(lovepoints, '\e926');
+// @include makeIcon(message, '\e92a');
+// @include makeIcon(normal-icon, '\e92b');
+// @include makeIcon(panic-button, '\e935');
+// @include makeIcon(pressured, '\e936');

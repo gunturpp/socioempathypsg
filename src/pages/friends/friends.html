@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-navbar>
+    <img class="socioCss" src="assets/images/headerSocio.png" />
+    <ion-buttons end>
+      <button ion-button icon-only tappable (click)="manageRequests()">
+        <ion-icon name="md-filing"></ion-icon>
+        <ion-badge color="danger" *ngIf="friendRequests">{{friendRequests.length}}</ion-badge>
+      </button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button style="margin-left:15px" ion-button icon-only tappable (click)="searchPeople()">
+        <ion-icon name="md-person-add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <!-- No friends to show -->
+  <!-- <div class="empty-list" *ngIf="friends && friends.length == 0"> -->
+  <div *ngIf="friends && friends.length == 0">
+    <!-- <h1>
+      <ion-icon name="md-contacts"></ion-icon>
+    </h1>
+    <p>Uh-oh! You have not added any friends right now.</p>
+    <button ion-button icon-left tappable (click)="searchPeople()"> -->
+    <!-- <ion-icon name="md-search"></ion-icon>Search People</button> -->
+    <ion-list>
+      <ion-list-header>Regular Users</ion-list-header>
+      <ion-item>
+        <p style="text-align:center;font-size:24px"><b>Oops!</b></p>
+        <p style="text-align:center">You have no users added as a friend.
+          <br>Tap the
+          <ion-icon name="md-person-add"></ion-icon>
+          icon on the right corer to add new.
+        </p>
+      </ion-item>
+    </ion-list>
+    <br>
+    <br>
+    <ion-list>
+      <ion-list-header>Psychologist Student</ion-list-header>
+      <ion-item>
+        <p style="text-align:center;font-size:24px"><b>Oops!</b></p>
+        <p style="text-align:center">You have no psychologist student added as a friend
+          <br>Tap the
+          <ion-icon name="md-person-add"></ion-icon>
+          icon on the right corer to add new.
+        </p>
+      </ion-item>
+    </ion-list>
+    <br>
+    <br>
+    <ion-list>
+      <ion-list-header>Psychologist
+        <p class="premiumCss" item-end>
+          <ion-icon name="star"></ion-icon>PREMIUM FEATURE
+        </p>
+      </ion-list-header>
+
+      <ion-item>
+        <p style="text-align:center;font-size:24px"><b>Oops!</b></p>
+        <p style="text-align:center">You have no psychologist added as a friend
+          <br>Tap the
+          <ion-icon name="md-person-add"></ion-icon>
+          icon on the right corer to add new.
+        </p>
+      </ion-item>
+
+    </ion-list>
+  </div>
+
+  <!-- CLOSE No friends to show -->
+
+
+  <!-- Show list of friends -->
+  <ion-list class="avatar-list" *ngIf="friends && friends.length > 0">
+    <ion-searchbar [(ngModel)]="searchFriend" placeholder="Search for friend or username" showCancelButton="true" cancelButtonText="Done"></ion-searchbar>
+    <ion-item (press)="pressEvent($event)" *ngFor="let friend of friends | friendFilter:searchFriend" no-lines tappable (click)="viewUser(friend.$key)">
+      <ion-fab middle right>
+        <button ion-fab mini tappable (click)="message(friend.$key); $event.stopPropagation();">
+          <ion-icon name="md-text" class="success"></ion-icon>
+        </button>
+      </ion-fab>
+      <ion-avatar item-left>
+        <img src="{{friend.img}}">
+      </ion-avatar>
+      <h2>{{friend.name}}</h2>
+      <p>@{{friend.username}}</p>
+    </ion-item>
+  </ion-list>
+</ion-content>

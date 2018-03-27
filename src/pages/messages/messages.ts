@@ -203,26 +203,31 @@ export class MessagesPage {
 
           // Set default description.
           let description = "Hello! I am a new SocioEmpathy user.";
-          let anonymouse = "false";
           // set default displayName to Firebase
-          let displayName = "Ganti Nama";
 
           // Insert data on our database using AngularFire.
           this.angularfireDatabase
             .object("/accounts/" + userId)
             .set({
               userId: userId,
-              displayName: displayName,
+              displayName: "Ganti Nama",
               name: name,
               username: username,
-              role: localStorage.getItem("registerRole"),
+              role: localStorage.getItem('registerRole'),
+              anonymouse: "false",
+              realName: name,
               moodLevel: "Normal",
               provider: provider,
               img: img,
+              docStatus: "false",
+              KTM: "",
+              PsyCard: "",
+              KTP: "",
+              gender: localStorage.getItem('gender'),
               email: email,
+              phone: localStorage.getItem('phone'),
               description: description,
-              dateCreated: new Date().toString(),
-              anonymouse: anonymouse
+              dateCreated: new Date().toString()
             })
             .then(() => {
               this.loadingProvider.hide();

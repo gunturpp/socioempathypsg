@@ -110,7 +110,7 @@
     <ion-card *ngFor="let item of timeLine">
         <ion-item>
             <div class="rightMenu">
-                <!-- <ion-icon class="moreCss" (click)="openMenu()" name="md-more"></ion-icon> -->
+                <ion-icon class="moreCss" (click)="openMenu()" name="md-more"></ion-icon>
             </div>
             <ion-avatar item-start>
                 <img src="{{item.img}}">
@@ -127,8 +127,6 @@
                 <!-- new commented -->
                 <img (click)="likes(item.timeLineID)" class="hugCss" src="assets/images/hug.png" />
                 <img (click)="commentFunction(item.timeLineID)" class="hugCss" src="assets/images/message.png" />
-                <!-- <ion-icon (click)="hugFunction()" class="hugCss" name="ios-heart-outline"></ion-icon> -->
-                <!-- <ion-icon  class="hugCss" name="ios-text-outline"></ion-icon> -->
                 <br>
                 <br>
             </div>

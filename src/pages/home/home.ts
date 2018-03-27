@@ -49,7 +49,7 @@ export class HomePage {
     this.angularfireDatabase.object('/accounts/' + this.user.userId).subscribe(userData=>{
         if(userData != null){
         console.log(userData.anonymouse);
-        if(userData.anonymouse == "true"){
+        if(userData.anonymouse == "false"){
           this.anonymouseFlag = false;
         } else{
           this.anonymouseFlag = true;

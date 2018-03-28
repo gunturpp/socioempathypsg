@@ -6,6 +6,7 @@ import { HomePage } from '../home/home';
 import { MessagesPage } from '../messages/messages';
 import { FriendsPage } from '../friends/friends';
 import { DataProvider } from '../../providers/data';
+import { CalendarPage } from '../calendar/calendar';
 import * as firebase from 'firebase';
 
 @Component({
@@ -16,6 +17,7 @@ export class TabsPage {
   messages: any = MessagesPage;
   friends: any = FriendsPage;
   profile: any = HomePage;
+  calendar: any = CalendarPage;
   // timeLine: any = TimeLinePage;
   // achievement: any = AchievementPage;
   private unreadMessagesCount: any;

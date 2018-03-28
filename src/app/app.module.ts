@@ -42,7 +42,11 @@ import { Payment1Page } from '../pages/payment1/payment1';
 import { Payment2Page } from '../pages/payment2/payment2';
 import { Payment3Page } from '../pages/payment3/payment3';
 import { ProfilePage } from '../pages/profile/profile';
-
+import { CalendarPage } from '../pages/calendar/calendar';
+import { EventModalPage } from '../pages/event-modal/event-modal';
+//import { EventModalModule } from '../pages/event-modal/event-modal.module.ts';
+//import calendar plugin
+import { NgCalendarModule } from 'ionic2-calendar';
 
 // Guntur
 import { DynamiclinkPage } from '../pages/dynamiclink/dynamiclink';
@@ -112,9 +116,12 @@ firebase.initializeApp(Login.firebaseConfig);
     Payment3Page,
     CommentPage,
     SignupPage,
-    ProfilePage
+    ProfilePage,
+    CalendarPage,
+    EventModalPage
   ],
   imports: [
+    NgCalendarModule,
     BrowserModule,
     TextMaskModule,
 
@@ -125,6 +132,7 @@ firebase.initializeApp(Login.firebaseConfig);
     AngularFireModule.initializeApp(Login.firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule
+  //  EventModalModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -162,7 +170,9 @@ firebase.initializeApp(Login.firebaseConfig);
     Payment2Page,
     Payment3Page,
     CommentPage,
-    ProfilePage
+    ProfilePage,
+    CalendarPage,
+    EventModalPage
   ],
   providers: [
     SpeechRecognition,

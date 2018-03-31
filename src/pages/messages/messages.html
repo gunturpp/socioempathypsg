@@ -1,20 +1,27 @@
 <ion-header>
   <ion-navbar color="theblues">
     <img class="socioCss" src="assets/images/headerSocio.png" />
-    <ion-buttons end>
+    <ion-buttons start>
       <button ion-button icon-only tappable (click)="newMessage()"><ion-icon name="ios-create"></ion-icon></button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button ion-button icon-only tappable (click)="notif()">
+        <ion-icon name="notifications">
+            <ion-badge class="notif" color="danger">1</ion-badge>
+        </ion-icon>
+      </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 <ion-content>
   <!-- Fablist -->
-  <ion-fab right bottom>
+  <!-- <ion-fab right bottom>
       <button color="theblues" ion-fab mini (click)="newMessage()"><ion-icon name="add"></ion-icon></button>
-  </ion-fab>
+  </ion-fab> -->
   <!-- No conversations to show -->
   <div class="empty-list" *ngIf="conversations && conversations.length <= 0">
     <h1><ion-icon name="md-text"></ion-icon></h1>
-    <p>Uh-oh! You are not part of any conversation yet.</p>
+    <p>Atur Waktu Konsultasimu untuk para klien</p>
      <button ion-button icon-left tappable (click)="newMessage()"><ion-icon name="md-add"></ion-icon>New Conversation</button> 
   </div>
   <!-- Show conversations -->

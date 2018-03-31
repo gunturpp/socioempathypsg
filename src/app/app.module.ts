@@ -45,6 +45,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { CalendarPage } from '../pages/calendar/calendar';
 import { EventModalPage } from '../pages/event-modal/event-modal';
 import { EventModalPageModule } from '../pages/event-modal/event-modal.module.ts';
+import {NotifPage} from '../pages/notif/notif';
 //import calendar plugin
 import { NgCalendarModule } from 'ionic2-calendar';
 
@@ -117,7 +118,8 @@ firebase.initializeApp(Login.firebaseConfig);
     CommentPage,
     SignupPage,
     ProfilePage,
-    CalendarPage
+    CalendarPage,
+    NotifPage
    // EventModalPage
   ],
   imports: [
@@ -172,7 +174,8 @@ firebase.initializeApp(Login.firebaseConfig);
     CommentPage,
     ProfilePage,
     CalendarPage,
-    EventModalPage
+    EventModalPage,
+    NotifPage
   ],
   providers: [
     SpeechRecognition,

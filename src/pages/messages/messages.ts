@@ -15,6 +15,7 @@ import { MessagePage } from "../message/message";
 import * as firebase from "firebase";
 import { Message2Page } from "../message2/message2";
 import { concat } from "rxjs/observable/concat";
+import { NotifPage } from "../notif/notif";
 
 @Component({
   selector: "page-messages",
@@ -309,4 +310,10 @@ export class MessagesPage {
     });
     actionSheet.present();
   }
+
+  notif(){
+    this.navCtrl.push(NotifPage);
+  }
+
+  //this is the last
 }

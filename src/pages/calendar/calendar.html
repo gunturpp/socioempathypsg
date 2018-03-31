@@ -2,17 +2,20 @@
 
   <ion-navbar>
     <img class="socioCss" src="assets/images/headerSocio.png" />
-    <ion-buttons end>
+    <!-- <ion-buttons end>
         <button ion-button icon-only (click)="addEvent()">
           <ion-icon name="add"></ion-icon>
         </button>
-      </ion-buttons>
+      </ion-buttons> -->
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding class="has-header">
+  <ion-fab bottom right>
+    <button class="kanan" ion-fab color="primary" (click)="addEvent()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
   <h4 text-center>{{viewTitle}}</h4>
   <calendar [eventSource]="eventSource"
             [calendarMode]="calendar.mode"

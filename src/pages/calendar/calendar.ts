@@ -12,7 +12,7 @@ export class CalendarPage {
   
   //make a calendar
   eventSource=[];
-  viewTitle: String;
+  viewTitle: string;
   selectedDay = new Date();
 
   isToday:boolean;
@@ -45,7 +45,7 @@ export class CalendarPage {
     });
   }
 
-  // these are the variable used by the calendar.
+  // create random events.
   loadEvents() {
       this.eventSource = this.createRandomEvents();
       console.log(this.eventSource);

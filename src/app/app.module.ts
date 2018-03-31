@@ -44,7 +44,7 @@ import { Payment3Page } from '../pages/payment3/payment3';
 import { ProfilePage } from '../pages/profile/profile';
 import { CalendarPage } from '../pages/calendar/calendar';
 import { EventModalPage } from '../pages/event-modal/event-modal';
-//import { EventModalModule } from '../pages/event-modal/event-modal.module.ts';
+import { EventModalPageModule } from '../pages/event-modal/event-modal.module.ts';
 //import calendar plugin
 import { NgCalendarModule } from 'ionic2-calendar';
 
@@ -117,8 +117,8 @@ firebase.initializeApp(Login.firebaseConfig);
     CommentPage,
     SignupPage,
     ProfilePage,
-    CalendarPage,
-    EventModalPage
+    CalendarPage
+   // EventModalPage
   ],
   imports: [
     NgCalendarModule,
@@ -131,8 +131,8 @@ firebase.initializeApp(Login.firebaseConfig);
     }),
     AngularFireModule.initializeApp(Login.firebaseConfig),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
-  //  EventModalModule
+    AngularFireAuthModule,
+    EventModalPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

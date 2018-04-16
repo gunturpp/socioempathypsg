@@ -166,4 +166,8 @@ export class DataProvider {
     return firebase.auth().currentUser.uid;
   }
 
+  //setSchedule
+  setScheduling(psychologstId){
+    return this.angularfireDatabase.object('/scheduling/' + psychologstId);
+  }
 }

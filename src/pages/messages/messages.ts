@@ -119,7 +119,7 @@ export class MessagesPage {
   deleteConversation(conversation) {
     // realtime load data
     this.navCtrl.setRoot(this.navCtrl.getActive().component);
-    this.dataProvider.getConversations().remove(conversation);
+    this.angularfireDatabase.list('/psg/' + firebase.auth().currentUser.uid + '/conversations/').remove(conversation);
   }
 
   // Add or update conversation for real-time sync based on our observer, sort by active date.
@@ -157,7 +157,7 @@ export class MessagesPage {
   createUserData() {
     firebase
       .database()
-      .ref("accounts/" + firebase.auth().currentUser.uid)
+      .ref("psg/" + firebase.auth().currentUser.uid)
       .once("value")
       .then(account => {
         //console.log(account.val());
@@ -208,7 +208,7 @@ export class MessagesPage {
 
           // Insert data on our database using AngularFire.
           this.angularfireDatabase
-            .object("/accounts/" + userId)
+            .object("/psg/" + userId)
             .set({
               userId: userId,
               displayName: "Ganti Nama",

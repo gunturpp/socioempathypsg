@@ -1,5 +1,3 @@
-import { DocverRegPage } from './../docver-reg/docver-reg';
-import { DocverPage } from './../docver/docver';
 import { Component } from '@angular/core';
 import { NavController, AlertController, NavParams, App } from 'ionic-angular';
 import { LogoutProvider } from '../../providers/logout';
@@ -13,7 +11,6 @@ import { Login } from '../../login';
 import * as firebase from 'firebase';
 import { Camera } from '@ionic-native/camera';
 import { ModalController, ViewController } from 'ionic-angular';
-import { DocverStudentPage } from '../docver-student/docver-student';
 import { ProfilePage } from '../profile/profile';
 
 @Component({
@@ -29,7 +26,7 @@ export class HomePage {
   // A couple of profile management function is available for the user in this page such as:
   // Change name, profile pic, email, and password
   // The user can also opt for the deletion of their account, and finally logout.
-  constructor(public navCtrl: NavController, public modalCtrl : ModalController, public view: ViewController ,public alertCtrl: AlertController, public navParams: NavParams, public app: App,
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public view: ViewController, public alertCtrl: AlertController, public navParams: NavParams, public app: App,
     public logoutProvider: LogoutProvider, public loadingProvider: LoadingProvider, public imageProvider: ImageProvider,
     public angularfireDatabase: AngularFireDatabase, public alertProvider: AlertProvider, public dataProvider: DataProvider, public camera: Camera) {
     this.logoutProvider.setApp(this.app);
@@ -42,22 +39,25 @@ export class HomePage {
     this.dataProvider.getCurrentUser().subscribe((user) => {
       this.loadingProvider.hide();
       this.user = user;
-      console.log(this.user);
+      console.log("user:", this.user);
     });
+    //this.logoutProvider.logout();
+  }
 
+  ionViewDidLeave() {
     //set anonymouse flag
-    this.angularfireDatabase.object('/accounts/' + this.user.userId).subscribe(userData=>{
-        if(userData != null){
+    this.dataProvider.getUser(this.user.userId).subscribe(userData => {
+      if (userData != null) {
         console.log(userData.anonymouse);
-        if(userData.anonymouse == "false"){
+        if (userData.anonymouse == "false") {
           this.anonymouseFlag = false;
-        } else{
+        } else {
           this.anonymouseFlag = true;
         }
       }
     });
-
   }
+
   underconstruction() {
     this.alert = this.alertCtrl.create({
       title: 'Ooops..',
@@ -130,7 +130,7 @@ export class HomePage {
                   firebase.auth().currentUser.updateProfile(profile)
                     .then((success) => {
                       // Update userData on Database.
-                      this.angularfireDatabase.object('/accounts/' + this.user.userId).update({
+                      this.angularfireDatabase.object('/psg/' + this.user.userId).update({
                         realName: name,
                         name: name
                       }).then((success) => {
@@ -189,7 +189,7 @@ export class HomePage {
                 if (userList.length > 0) {
                   this.alertProvider.showErrorMessage('profile/error-same-username');
                 } else {
-                  this.angularfireDatabase.object('/accounts/' + this.user.userId).update({
+                  this.angularfireDatabase.object('/psg/' + this.user.userId).update({
                     username: username
                   }).then((success) => {
                     this.alertProvider.showProfileUpdatedMessage();
@@ -228,7 +228,7 @@ export class HomePage {
             let description = data["description"];
             // Check if entered description is different from the current description
             if (this.user.description != description) {
-              this.angularfireDatabase.object('/accounts/' + this.user.userId).update({
+              this.angularfireDatabase.object('/psg/' + this.user.userId).update({
                 description: description
               }).then((success) => {
                 this.alertProvider.showProfileUpdatedMessage();
@@ -273,7 +273,7 @@ export class HomePage {
                 firebase.auth().currentUser.updateEmail(email)
                   .then((success) => {
                     // Update userData on Database.
-                    this.angularfireDatabase.object('/accounts/' + this.user.userId).update({
+                    this.angularfireDatabase.object('/psg/' + this.user.userId).update({
                       email: email
                     }).then((success) => {
                       Validator.profileEmailValidator.pattern.test(email);
@@ -445,12 +445,12 @@ export class HomePage {
     }).present();
   }
 
-  anonymouseMode(){
+  anonymouseMode() {
     console.log("responded");
-    this.angularfireDatabase.object('/accounts/' + this.user.userId).take(1).subscribe(userData=>{
-      if(userData != null){
-        if(userData.anonymouse == "false"){
-          this.angularfireDatabase.object('/accounts/' + this.user.userId).update({
+    this.dataProvider.getUser(this.user.userId).subscribe(userData => {
+      if (userData != null) {
+        if (userData.anonymouse == "false") {
+          this.angularfireDatabase.object('/psg/' + this.user.userId).update({
             anonymouse: "true",
             name: "anonymous"
           }).then((success) => {
@@ -458,37 +458,22 @@ export class HomePage {
           }).catch((error) => {
             this.alertProvider.showErrorMessage('profile/error-update-profile');
           });
-        } else{
-          this.angularfireDatabase.object('/accounts/' + this.user.userId).update({
+        } else {
+          this.angularfireDatabase.object('/psg/' + this.user.userId).update({
             anonymouse: "false",
             name: userData.realName
           }).then((success) => {
             this.alertProvider.showProfileUpdatedMessage();
           }).catch((error) => {
             this.alertProvider.showErrorMessage('profile/error-update-profile');
-          }); 
+          });
         }
 
       }
     });
   }
 
-  verify(){
-    const mymodal = this.modalCtrl.create(DocverPage);
-    mymodal.present();
-  }
-
-  verifyStudent(){
-    const mymodal = this.modalCtrl.create(DocverStudentPage);
-    mymodal.present();
-  }
-
-  verifyReg(){
-    const mymodal = this.modalCtrl.create(DocverRegPage);
-    mymodal.present();
-  }
-
-  profile(){
+  profile() {
     this.app.getRootNav().push(ProfilePage, { userId: 1 });
   }
 

@@ -1,6 +1,4 @@
 import { IonicPage } from 'ionic-angular';
-import { DocverRegPage } from './../docver-reg/docver-reg';
-import { DocverPage } from './../docver/docver';
 import { Component } from '@angular/core';
 import { NavController, AlertController, NavParams, App } from 'ionic-angular';
 import { LogoutProvider } from '../../providers/logout';
@@ -14,7 +12,6 @@ import { Login } from '../../login';
 import * as firebase from 'firebase';
 import { Camera } from '@ionic-native/camera';
 import { ModalController, ViewController } from 'ionic-angular';
-import { DocverStudentPage } from '../docver-student/docver-student';
 /**
  * Generated class for the ProfilePage page.
  *
@@ -53,7 +50,8 @@ export class ProfilePage {
     });
 
     //set anonymouse flag
-    this.angularfireDatabase.object('/accounts/' + this.user.userId).subscribe(userData=>{
+
+   this.dataProvider.getUser(this.user.userId).subscribe(userData=>{
       if(userData != null){
         console.log(userData.anonymouse);
         if(userData.anonymouse == "true"){
@@ -137,7 +135,7 @@ export class ProfilePage {
                   firebase.auth().currentUser.updateProfile(profile)
                     .then((success) => {
                       // Update userData on Database.
-                      this.angularfireDatabase.object('/accounts/' + this.user.userId).update({
+                      this.angularfireDatabase.object('/psg/' + this.user.userId).update({
                         realName: name,
                         name: name
                       }).then((success) => {
@@ -196,7 +194,7 @@ export class ProfilePage {
                 if (userList.length > 0) {
                   this.alertProvider.showErrorMessage('profile/error-same-username');
                 } else {
-                  this.angularfireDatabase.object('/accounts/' + this.user.userId).update({
+                  this.angularfireDatabase.object('/psg/' + this.user.userId).update({
                     username: username
                   }).then((success) => {
                     this.alertProvider.showProfileUpdatedMessage();
@@ -235,7 +233,7 @@ export class ProfilePage {
             let description = data["description"];
             // Check if entered description is different from the current description
             if (this.user.description != description) {
-              this.angularfireDatabase.object('/accounts/' + this.user.userId).update({
+              this.angularfireDatabase.object('/psg/' + this.user.userId).update({
                 description: description
               }).then((success) => {
                 this.alertProvider.showProfileUpdatedMessage();
@@ -280,7 +278,7 @@ export class ProfilePage {
                 firebase.auth().currentUser.updateEmail(email)
                   .then((success) => {
                     // Update userData on Database.
-                    this.angularfireDatabase.object('/accounts/' + this.user.userId).update({
+                    this.angularfireDatabase.object('/psg/' + this.user.userId).update({
                       email: email
                     }).then((success) => {
                       Validator.profileEmailValidator.pattern.test(email);
@@ -415,7 +413,7 @@ export class ProfilePage {
                 // Delete profilePic of user on Firebase storage
                 this.imageProvider.deleteUserImageFile(this.user);
                 // Delete user data on Database
-                this.angularfireDatabase.object('/accounts/' + this.user.userId).remove().then(() => {
+                this.angularfireDatabase.object('/psg/' + this.user.userId).remove().then(() => {
                   this.loadingProvider.hide();
                   this.alertProvider.showAccountDeletedMessage();
                   this.logoutProvider.logout();
@@ -454,10 +452,10 @@ export class ProfilePage {
 
   anonymouseMode(){
     console.log("responded");
-    this.angularfireDatabase.object('/accounts/' + this.user.userId).take(1).subscribe(userData=>{
+    this.dataProvider.getUser(this.user.userId).subscribe(userData=>{
       if(userData != null){
         if(userData.anonymouse == "false"){
-          this.angularfireDatabase.object('/accounts/' + this.user.userId).update({
+          this.angularfireDatabase.object('/psg/' + this.user.userId).update({
             anonymouse: "true",
             name: "anonymous"
           }).then((success) => {
@@ -466,7 +464,7 @@ export class ProfilePage {
             this.alertProvider.showErrorMessage('profile/error-update-profile');
           });
         } else{
-          this.angularfireDatabase.object('/accounts/' + this.user.userId).update({
+          this.angularfireDatabase.object('/psg/' + this.user.userId).update({
             anonymouse: "false",
             name: userData.realName
           }).then((success) => {
@@ -480,19 +478,6 @@ export class ProfilePage {
     });
   }
 
-  verify(){
-    const mymodal = this.modalCtrl.create(DocverPage);
-    mymodal.present();
-  }
-
-  verifyStudent(){
-    const mymodal = this.modalCtrl.create(DocverStudentPage);
-    mymodal.present();
-  }
-
-  verifyReg(){
-    const mymodal = this.modalCtrl.create(DocverRegPage);
-    mymodal.present();   
-  }
+  
 
 }

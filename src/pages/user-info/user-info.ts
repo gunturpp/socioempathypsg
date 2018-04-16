@@ -5,7 +5,6 @@ import { LoadingProvider } from '../../providers/loading';
 import { FirebaseProvider } from '../../providers/firebase';
 import { MessagePage } from '../message/message';
 import { ImageModalPage } from '../image-modal/image-modal';
-import { CallNumber } from '@ionic-native/call-number';
 import * as firebase from 'firebase';
 
 @Component({
@@ -21,7 +20,7 @@ export class UserInfoPage {
   private alert: any;
   // UserInfoPage
   // This is the page where the user can view user information, and do appropriate actions based on their relation to the current logged in user.
-  constructor(public navCtrl: NavController, public navParams: NavParams, private callNumber: CallNumber ,public modalCtrl: ModalController, public dataProvider: DataProvider,
+  constructor(public navCtrl: NavController, public navParams: NavParams ,public modalCtrl: ModalController, public dataProvider: DataProvider,
     public loadingProvider: LoadingProvider, public alertCtrl: AlertController, public firebaseProvider: FirebaseProvider) { }
 
   ionViewDidLoad() {
@@ -159,9 +158,9 @@ export class UserInfoPage {
     return true;
   }
 
-  callPerson(){
-    this.callNumber.callNumber(this.user.phone, true)
-    .then(() => console.log('Launched dialer!'))
-    .catch(() => console.log('Error launching dialer'));
-  }
+  // callPerson(){
+  //   this.callNumber.callNumber(this.user.phone, true)
+  //   .then(() => console.log('Launched dialer!'))
+  //   .catch(() => console.log('Error launching dialer'));
+  // }
 }

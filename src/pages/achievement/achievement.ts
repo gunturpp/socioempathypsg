@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 
-import { AchievDetailPage } from '../achiev-detail/achiev-detail';
 
 /**
  * Generated class for the AchievementPage page.
@@ -36,10 +35,10 @@ export class AchievementPage {
   ]
   }
   // show description about achievement list
-  showDescription(ID){
-    this.navCtrl.push(AchievDetailPage, {ID: ID});
-    console.log("show keterangan disini");
-  }
+ // showDescription(ID){
+  //  this.navCtrl.push(AchievDetailPage, {ID: ID});
+   // console.log("show keterangan disini");
+ // }
   ionViewDidLoad() {
     console.log('ionViewDidLoad AchievementPage');
   }

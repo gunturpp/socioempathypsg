@@ -49,7 +49,7 @@ export class DuplicateMessagePage {
     });
 
     // Get conversationInfo with friend.
-    this.angularfireDatabase.object('/accounts/' + firebase.auth().currentUser.uid + '/conversations/' + this.userId).subscribe((conversation) => {
+    this.dataProvider.getConversationbyCurrentUser(this.userId).subscribe((conversation) => {
       if (conversation.$exists()) {
         // User already have conversation with this friend, get conversation
         this.conversationId = conversation.conversationId;
@@ -58,7 +58,7 @@ export class DuplicateMessagePage {
         this.dataProvider.getConversationMessages(this.conversationId).subscribe((messages) => {
           if (this.messages) {
             //update messageRead
-            this.angularfireDatabase.object('/accounts/' + firebase.auth().currentUser.uid + '/conversations/' + this.userId).update({
+            this.angularfireDatabase.object('/psg/' + firebase.auth().currentUser.uid + '/conversations/' + this.userId).update({
               messagesRead: messages.length
             });
 
@@ -229,7 +229,7 @@ export class DuplicateMessagePage {
         });
         // Update conversation on database.
         console.log(messages);
-        this.dataProvider.getConversation(this.conversationId).update({
+        this.angularfireDatabase.object('/conversations/' + this.conversationId).update({
           messages: messages
         });
         // Clear messagebox.

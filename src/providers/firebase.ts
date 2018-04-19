@@ -142,7 +142,7 @@ export class FirebaseProvider {
         friends.push(userId);
       }
       // Add both users as friends.
-      this.dataProvider.getUser(loggedInUserId).update({
+      this.angularfireDatabase.object('/psg/' + loggedInUserId).update({
         friends: friends
       }).then((success) => {
         this.dataProvider.getUser(userId).take(1).subscribe((account) => {
@@ -152,7 +152,7 @@ export class FirebaseProvider {
           } else {
             friends.push(loggedInUserId);
           }
-          this.dataProvider.getUser(userId).update({
+          this.angularfireDatabase.object(userId).update({
             friends: friends
           }).then((success) => {
             this.loadingProvider.hide();

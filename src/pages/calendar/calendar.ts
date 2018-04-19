@@ -14,7 +14,7 @@ export class CalendarPage {
   eventSource=[];
   viewTitle: string;
   selectedDay = new Date();
-
+  
   isToday:boolean;
   calendar = {
         mode: 'month',
@@ -26,23 +26,23 @@ export class CalendarPage {
 
   //add event in Calendar function
   addEvent() {
-    let modal = this.modalCtrl.create('EventModalPage', {selectedDay: this.selectedDay});
+    let modal = this.modalCtrl.create('EventModalPage', {selectedDay: this.selectedDay });
     modal.present();
-    modal.onDidDismiss(data => {
-      if (data) {
-        let eventData = data;
+    // modal.onDidDismiss(data => {
+    //   if (data) {
+    //     let eventData = data;
  
-        eventData.startTime = new Date(data.startTime);
-        eventData.endTime = new Date(data.endTime);
+    //     eventData.startTime = new Date(data.startTime);
+    //     eventData.endTime = new Date(data.endTime);
  
-        let events = this.eventSource;
-        events.push(eventData);
-        this.eventSource = [];
-        setTimeout(() => {
-          this.eventSource = events;
-        });
-      }
-    });
+    //     let events = this.eventSource;
+    //     events.push(eventData);
+    //     this.eventSource = [];
+    //     setTimeout(() => {
+    //       this.eventSource = events;
+    //     });
+    //   }
+    // });
   }
 
   // create random events.

@@ -1,37 +1,46 @@
 <ion-header>
-    <ion-navbar color="primary">
-      <ion-buttons start>
-        <button ion-button icon-only (click)="cancel()">
-          <ion-icon name="close"></ion-icon>
-        </button>
-      </ion-buttons>
-      <ion-title>Event Details</ion-title>
-    </ion-navbar>
-  </ion-header>
-   
-  <ion-content>
+  <ion-navbar color="primary">
+    <ion-buttons start>
+      <button ion-button icon-only (click)="cancel()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Schedule Details</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <!-- <form [formGroup]="emailPasswordForm"> -->
     <ion-list>
+
       <ion-item>
-        <ion-input type="text" placeholder="Title" [(ngModel)]="event.title"></ion-input>
+        <ion-label>04.00 - 06.00</ion-label>
+        <ion-checkbox [(ngModel)]="session1"></ion-checkbox>
       </ion-item>
-   
+
       <ion-item>
-        <ion-label>Start</ion-label>
-        <ion-datetime displayFormat="MM/DD/YYYY HH:mm" pickerFormat="MMM D:HH:mm" [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
+        <ion-label>06.00 - 07.00</ion-label>
+        <ion-checkbox [(ngModel)]="session2"></ion-checkbox>
       </ion-item>
-   
+
       <ion-item>
-        <ion-label>End</ion-label>
-        <ion-datetime displayFormat="MM/DD/YYYY HH:mm" pickerFormat="MMM D:HH:mm" [(ngModel)]="event.endTime" [min]="minDate"></ion-datetime>
+        <ion-label>08.00 - 10.00</ion-label>
+        <ion-checkbox [(ngModel)]="session3"></ion-checkbox>
       </ion-item>
-   
+
       <ion-item>
-        <ion-label>All Day?</ion-label>
-        <ion-checkbox [(ngModel)]="event.allDay"></ion-checkbox>
+        <ion-label>10.00 - 12.00</ion-label>
+        <ion-checkbox [(ngModel)]="session4"></ion-checkbox>
       </ion-item>
+
+      <ion-item>
+        <ion-label>12.00 - 14.00</ion-label>
+        <ion-checkbox [(ngModel)]="session5"></ion-checkbox>
+      </ion-item>
+
     </ion-list>
-   
-    <button ion-button full icon-left (click)="createScheduling()">
-      <ion-icon name="checkmark"></ion-icon> Add Event
-    </button>
-  </ion-content>
+  <!-- </form> -->
+  <button ion-button full icon-left (click)="createScheduling()">
+    <ion-icon name="checkmark"></ion-icon> Add Schedule
+  </button>
+</ion-content>

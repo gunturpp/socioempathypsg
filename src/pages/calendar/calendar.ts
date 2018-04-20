@@ -74,6 +74,7 @@ export class CalendarPage {
       console.log('Selected time: ' + ev.selectedTime + ', hasEvents: ' +
           (ev.events !== undefined && ev.events.length !== 0) + ', disabled: ' + ev.disabled);
       this.selectedDay = ev.selectedTime;
+      console.log('ini waktu sekarang: ' + this.selectedDay);
   }
   // onCurrentDateChanged(event:Date) {
   //     var today = new Date();

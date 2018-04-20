@@ -23,7 +23,10 @@ export class EventModalPage {
   session3: boolean = false;
   session4: boolean = false;
   session5: boolean = false;
+  dates: any;
+
   private scheduleForm: FormGroup;
+
 
   event = { startTime: new Date().toISOString(), endTime: new Date().toISOString(), allDay: false };
   minDate = new Date().toISOString();
@@ -38,6 +41,7 @@ export class EventModalPage {
     // let sessionPsg = this.navParams.get('session');
     this.event.startTime = preselectedDate;
     this.event.endTime = preselectedDate;
+    this.dates = preselectedDate;
   }
   //end of construtor
   cancel() {
@@ -62,20 +66,19 @@ export class EventModalPage {
   createScheduling() {
     firebase
       .database()
-      .ref("/scheduling/" + firebase.auth().currentUser.uid)
+      .ref("/scheduling/" + firebase.auth().currentUser.uid + '/' + this.dates)
       .once("value")
       .then(account => {
         //console.log(account.val());
         // No database data yet, create user data on database
         if (!account.val()) {
-          // this.loadingProvider.show();
+          this.loadingProvider.show();
           // Insert data on our database using AngularFire.
-          this.angularfireDatabase.object('/scheduling/' + this.user.userId)
+          this.angularfireDatabase.object('/scheduling/' + this.user.userId + '/' + this.dates)
             .set({
               userId: this.userId,
               scheduling: "PSG tes",
-              date: "10 januari 2018",
-              session: '1',
+              date: this.dates,
               switchStatus: true,
               session1: this.session1,
               session2: this.session2,
@@ -85,6 +88,7 @@ export class EventModalPage {
 
             })
             .then(() => {
+              this.loadingProvider.hide();
               console.log("sukses buat schedule");
               this.viewCtrl.dismiss(this.event);
             });

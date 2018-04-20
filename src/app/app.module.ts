@@ -35,7 +35,9 @@ import { ProfilePage } from '../pages/profile/profile';
 import { CalendarPage } from '../pages/calendar/calendar';
 import { EventModalPage } from '../pages/event-modal/event-modal';
 import { EventModalPageModule } from '../pages/event-modal/event-modal.module.ts';
-import {NotifPage} from '../pages/notif/notif';
+import { NotifPage } from '../pages/notif/notif';
+import { LovestorePage } from '../pages/lovestore/lovestore';
+import { LovestorePageModule } from '../pages/lovestore/lovestore.module.ts';
 //import calendar plugin
 import { NgCalendarModule } from 'ionic2-calendar';
 
@@ -96,7 +98,8 @@ firebase.initializeApp(Login.firebaseConfig);
     SignupPage,
     ProfilePage,
     CalendarPage,
-    NotifPage
+    NotifPage,
+    LovestorePage
    // EventModalPage
   ],
   imports: [
@@ -112,6 +115,7 @@ firebase.initializeApp(Login.firebaseConfig);
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     EventModalPageModule
+   // LovestorePageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -141,7 +145,8 @@ firebase.initializeApp(Login.firebaseConfig);
     ProfilePage,
     CalendarPage,
     EventModalPage,
-    NotifPage
+    NotifPage,
+    LovestorePage
   ],
   providers: [
     StatusBar, SplashScreen, Camera, GooglePlus, Keyboard, { provide: ErrorHandler, useClass: IonicErrorHandler }, LoginProvider, LogoutProvider, LoadingProvider, AlertProvider, ImageProvider, DataProvider, FirebaseProvider]

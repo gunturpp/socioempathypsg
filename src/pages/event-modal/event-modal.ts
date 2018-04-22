@@ -24,6 +24,7 @@ export class EventModalPage {
   session4: boolean = false;
   session5: boolean = false;
   dates: any;
+  dates2: any;
 
   private scheduleForm: FormGroup;
 
@@ -38,11 +39,13 @@ export class EventModalPage {
 
 
     let preselectedDate = moment(this.navParams.get('selectedDay')).format();
+    //let preselectedDate = this.navParams.get('selectedDay').format();
     // let sessionPsg = this.navParams.get('session');
     this.event.startTime = preselectedDate;
     this.event.endTime = preselectedDate;
-    this.dates = preselectedDate.substring(0,10);
-    console.log('substring' , this.dates.substring(0,10));
+    this.dates2 = preselectedDate.substring(0,10);
+    this.dates = preselectedDate;
+  console.log('substring' , this.dates.substring(0,10));
   }
   //end of construtor
   cancel() {
@@ -76,9 +79,10 @@ export class EventModalPage {
           this.loadingProvider.show();
           // Insert data on our database using AngularFire.
           if(this.session1){
-              this.angularfireDatabase.object('/scheduling/' + this.dates + '/session1/' + firebase.auth().currentUser.uid )
-                .set({
-                  available: true
+              this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session1/' + firebase.auth().currentUser.uid )
+                .update({
+                  available: true,
+                  date: this.dates
 
                 })
                 .then(() => {
@@ -87,7 +91,7 @@ export class EventModalPage {
                 //  this.viewCtrl.dismiss(this.event);
                 });
 
-                this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates )
+                this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
                 .update({
                   session1: true,
                 })
@@ -98,9 +102,10 @@ export class EventModalPage {
                 });
             } 
              if (this.session2){
-                this.angularfireDatabase.object('/scheduling/' + this.dates + '/session2/' + firebase.auth().currentUser.uid )
-                .set({
-                  available: true
+                this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session2/' + firebase.auth().currentUser.uid )
+                .update({
+                  available: true,
+                  date: this.dates
 
                 })
                 .then(() => {
@@ -109,7 +114,7 @@ export class EventModalPage {
                 //  this.viewCtrl.dismiss(this.event);
                 });
 
-                this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates  )
+                this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2  )
                 .update({
                   session2: true,
                 })
@@ -120,9 +125,10 @@ export class EventModalPage {
                 });
             } 
              if (this.session3) {
-                this.angularfireDatabase.object('/scheduling/' + this.dates + '/session3/' + firebase.auth().currentUser.uid )
-                .set({
-                  available: true
+                this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session3/' + firebase.auth().currentUser.uid )
+                .update({
+                  available: true,
+                  date: this.dates
 
                 })
                 .then(() => {
@@ -131,9 +137,9 @@ export class EventModalPage {
                 //  this.viewCtrl.dismiss(this.event);
                 });
 
-                this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates )
+                this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
                 .update({
-                  session3: true,
+                  session3: true
                 })
                 .then(() => {
                 //  this.loadingProvider.hide();
@@ -142,9 +148,10 @@ export class EventModalPage {
                 });
             } 
              if (this.session4){
-                this.angularfireDatabase.object('/scheduling/' + this.dates + '/session4/' + firebase.auth().currentUser.uid )
-                .set({
-                  available: true
+                this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session4/' + firebase.auth().currentUser.uid )
+                .update({
+                  available: true,
+                  date: this.dates
 
                 })
                 .then(() => {
@@ -153,7 +160,7 @@ export class EventModalPage {
                 //  this.viewCtrl.dismiss(this.event);
                 });
 
-                this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates )
+                this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
                 .update({
                   session4: true,
                 })
@@ -164,9 +171,10 @@ export class EventModalPage {
                 });
             } 
              if (this.session5){
-                this.angularfireDatabase.object('/scheduling/' + this.dates + '/session5/' + firebase.auth().currentUser.uid )
-                .set({
-                  available: true
+                this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session5/' + firebase.auth().currentUser.uid )
+                .update({
+                  available: true,
+                  date: this.dates
 
                 })
                 .then(() => {
@@ -175,7 +183,7 @@ export class EventModalPage {
                 //  this.viewCtrl.dismiss(this.event);
                 });
 
-                this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates )
+                this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
                 .update({
                   session5: true,
                 })

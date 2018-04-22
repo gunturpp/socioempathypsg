@@ -170,4 +170,15 @@ export class DataProvider {
   setScheduling(psychologstId){
     return this.angularfireDatabase.object('/scheduling/' + psychologstId);
   }
+
+  // Get conversations of the current logged in user.
+  getScheduleByUser() {
+    this.items = this.angularfireDatabase.list('/psg/' + firebase.auth().currentUser.uid + '/scheduling/').snapshotChanges();
+    return this.items;
+  }
+
+  getSchedules(){
+    this.items = this.angularfireDatabase.list('/psg/' + firebase.auth().currentUser.uid + '/scheduling/').snapshotChanges();
+    return this.items;
+  }
 }

@@ -41,7 +41,8 @@ export class EventModalPage {
     // let sessionPsg = this.navParams.get('session');
     this.event.startTime = preselectedDate;
     this.event.endTime = preselectedDate;
-    this.dates = preselectedDate;
+    this.dates = preselectedDate.substring(0,10);
+    console.log('substring' , this.dates.substring(0,10));
   }
   //end of construtor
   cancel() {
@@ -64,36 +65,130 @@ export class EventModalPage {
   }
 
   createScheduling() {
-    firebase
-      .database()
-      .ref("/scheduling/" + firebase.auth().currentUser.uid + '/' + this.dates)
-      .once("value")
-      .then(account => {
+   // firebase
+      //.database()
+     // .ref("/scheduling/" + this.dates + '/' + )
+     // .once("value")
+     // .then(account => {
         //console.log(account.val());
         // No database data yet, create user data on database
-        if (!account.val()) {
+      //  if (!account.val()) {
           this.loadingProvider.show();
           // Insert data on our database using AngularFire.
-          this.angularfireDatabase.object('/scheduling/' + this.user.userId + '/' + this.dates)
-            .set({
-              userId: this.userId,
-              scheduling: "PSG tes",
-              date: this.dates,
-              switchStatus: true,
-              session1: this.session1,
-              session2: this.session2,
-              session3: this.session3,
-              session4: this.session4,
-              session5: this.session5
+          if(this.session1){
+              this.angularfireDatabase.object('/scheduling/' + this.dates + '/session1/' + firebase.auth().currentUser.uid )
+                .set({
+                  available: true
 
-            })
-            .then(() => {
-              this.loadingProvider.hide();
-              console.log("sukses buat schedule");
-              this.viewCtrl.dismiss(this.event);
-            });
-        }
-      });
+                })
+                .then(() => {
+                //  this.loadingProvider.hide();
+                  console.log("sukses buat schedule1");
+                //  this.viewCtrl.dismiss(this.event);
+                });
+
+                this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates )
+                .update({
+                  session1: true,
+                })
+                .then(() => {
+                //  this.loadingProvider.hide();
+                  console.log("sukses buat schedule1s");
+                //  this.viewCtrl.dismiss(this.event);
+                });
+            } 
+             if (this.session2){
+                this.angularfireDatabase.object('/scheduling/' + this.dates + '/session2/' + firebase.auth().currentUser.uid )
+                .set({
+                  available: true
+
+                })
+                .then(() => {
+                //  this.loadingProvider.hide();
+                  console.log("sukses buat schedule2");
+                //  this.viewCtrl.dismiss(this.event);
+                });
+
+                this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates  )
+                .update({
+                  session2: true,
+                })
+                .then(() => {
+                //  this.loadingProvider.hide();
+                  console.log("sukses buat schedule2s");
+                //  this.viewCtrl.dismiss(this.event);
+                });
+            } 
+             if (this.session3) {
+                this.angularfireDatabase.object('/scheduling/' + this.dates + '/session3/' + firebase.auth().currentUser.uid )
+                .set({
+                  available: true
+
+                })
+                .then(() => {
+                //  this.loadingProvider.hide();
+                  console.log("sukses buat schedule3");
+                //  this.viewCtrl.dismiss(this.event);
+                });
+
+                this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates )
+                .update({
+                  session3: true,
+                })
+                .then(() => {
+                //  this.loadingProvider.hide();
+                  console.log("sukses buat schedule3s");
+                //  this.viewCtrl.dismiss(this.event);
+                });
+            } 
+             if (this.session4){
+                this.angularfireDatabase.object('/scheduling/' + this.dates + '/session4/' + firebase.auth().currentUser.uid )
+                .set({
+                  available: true
+
+                })
+                .then(() => {
+                //  this.loadingProvider.hide();
+                  console.log("sukses buat schedule4");
+                //  this.viewCtrl.dismiss(this.event);
+                });
+
+                this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates )
+                .update({
+                  session4: true,
+                })
+                .then(() => {
+                //  this.loadingProvider.hide();
+                  console.log("sukses buat schedule4s");
+                //  this.viewCtrl.dismiss(this.event);
+                });
+            } 
+             if (this.session5){
+                this.angularfireDatabase.object('/scheduling/' + this.dates + '/session5/' + firebase.auth().currentUser.uid )
+                .set({
+                  available: true
+
+                })
+                .then(() => {
+                //  this.loadingProvider.hide();
+                  console.log("sukses buat schedule5");
+                //  this.viewCtrl.dismiss(this.event);
+                });
+
+                this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates )
+                .update({
+                  session5: true,
+                })
+                .then(() => {
+                //  this.loadingProvider.hide();
+                  console.log("sukses buat schedule5s");
+                //  this.viewCtrl.dismiss(this.event);
+                });
+             }
+      ///  }
+     // });
+     this.loadingProvider.hide();
+     this.viewCtrl.dismiss(this.event);
   }
 
 }

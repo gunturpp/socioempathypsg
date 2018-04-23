@@ -4,38 +4,26 @@ import { Login } from '../login';
 import { NavController } from 'ionic-angular';
 import { LoadingProvider } from './loading';
 import { AlertProvider } from './alert';
+import { LoginPage } from '../pages/login/login';
+import { CalendarPage } from '../pages/calendar/calendar';
+import { TabsPage} from '../pages/tabs/tabs';
 
 @Injectable()
 export class LoginProvider {
   private navCtrl: NavController;
-
+  
   constructor(public loadingProvider: LoadingProvider, public alertProvider: AlertProvider, public zone: NgZone) {
-    // Detect changes on the Firebase user and redirects the view depending on the user's status.
-    firebase.auth().onAuthStateChanged((user) => {
-      //console.log("firebase auth : ");
-      console.log(JSON.stringify(user));
-      if (user) {
-          if (Login.emailVerification) {
-            if (1) { //user["emailVerified"]
-              //Goto Home Page.
-              this.zone.run(() => {
-                this.navCtrl.setRoot(Login.homePage, { animate: false });
-              });
-              //Since we're using a TabsPage an NgZone is required.
-            } else {
-              //Goto Verification Page.
-              this.navCtrl.setRoot(Login.verificationPage, { animate: false });
-            }
-          } else {
-            //Goto Home Page.
-            this.zone.run(() => {
-              this.navCtrl.setRoot(Login.homePage, { animate: false });
-            });
-            //Since we're using a TabsPage an NgZone is required.
-          }
-        }
-    //last block
-    });
+    console.log('fire', localStorage.getItem('uid'));
+      
+      this.cek();
+    
+  }
+  cek(){
+    if (localStorage.getItem('token') != null && localStorage.getItem('token')) {
+      //   //  if (Login.emailVerification) {
+         //  this.navCtrl.setRoot(Login.homePage);
+           console.log('sese', localStorage.getItem('token'));
+           } 
   }
 
   // Hook this provider up with the navigationController.
@@ -51,6 +39,10 @@ export class LoginProvider {
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then((success) => {
         this.loadingProvider.hide();
+        let val = '1';
+        localStorage.setItem('token', val);
+        console.log('userr ', firebase.auth().currentUser);
+        this.navCtrl.setRoot(Login.homePage);
       })
       .catch((error) => {
         this.loadingProvider.hide();

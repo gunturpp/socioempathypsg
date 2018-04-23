@@ -47,9 +47,13 @@ export class MessagesPage {
   ) {}
 
   ionViewDidLoad() {
-    // post new data
+    /// post new data
     this.createUserData();
-
+  //console.log('uid gue ' , firebase.auth().currentUser.uid);
+    if(localStorage.getItem('uid') == null){
+      localStorage.setItem('uid',firebase.auth().currentUser.uid);
+    }
+    console.log('uid dari local', localStorage.getItem('uid'));
     // Create userData on the database if it doesn't exist yet.
     //this.createUserData();
     this.searchFriend = "";

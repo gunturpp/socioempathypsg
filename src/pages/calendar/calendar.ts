@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { EventModalPage } from '../event-modal/event-modal';
 import { DataProvider } from "../../providers/data";
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import * as firebase from 'firebase';
 
 @IonicPage()
 @Component({
@@ -28,7 +29,7 @@ export class CalendarPage {
   };
   
   constructor(public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private alertCtrl: AlertController,
-    public dataProvider: DataProvider,
+    public dataProvider: DataProvider, public angularfireDatabase: AngularFireDatabase
 ) {
   }
 
@@ -36,24 +37,24 @@ export class CalendarPage {
   addEvent() {
     let modal = this.modalCtrl.create('EventModalPage', {selectedDay: this.selectedDay });
     modal.present();
-    modal.onDidDismiss(data => {
-      if (data) {
-        let eventData = data;
+    // modal.onDidDismiss(data => {
+    //   if (data) {
+    //     let eventData = data;
         
-        console.log('data dari didimis',data.startTime);
-        eventData.startTime = new Date(data.startTime);
-        console.log('data setelah didmis ',data.startDay);
-        eventData.endTime = new Date(data.endTime);
+    //     console.log('data dari didimis',data.startTime);
+    //     eventData.startTime = new Date(data.startTime);
+    //     console.log('data setelah didmis ',data.startDay);
+    //     eventData.endTime = new Date(data.endTime);
  
-        let events = this.eventSource;
-        events.push(eventData);
-        this.eventSource = [];
-        setTimeout(() => {
-          this.eventSource = events;
-          console.log('EVa: ', this.eventSource);
-        });
-      }
-    });
+    //     let events = this.eventSource;
+    //     events.push(eventData);
+    //     this.eventSource = [];
+    //     setTimeout(() => {
+    //       this.eventSource = events;
+    //       console.log('EVa: ', this.eventSource);
+    //     });
+    //   }
+    // });
   }
 
   // create random events.
@@ -143,6 +144,8 @@ export class CalendarPage {
   ionViewDidLoad() {
     this.createRandomEvents();
     console.log('ionViewDidLoad CalendarPage');
+    console.log('tes uid ', localStorage.getItem('uid'));
+    console.log('auth2 ', firebase.auth());
     this.dataProvider.getScheduleByUser().subscribe(schedules=>{
         var x = schedules;
         for (var i=0; i < schedules.length; i++){
@@ -188,5 +191,9 @@ export class CalendarPage {
     });
     
 }
+
+    // ionViewDidLeave(){
+    //     this.eventSource = [];
+    // }
 
 }

@@ -7,9 +7,11 @@ import { Keyboard } from '@ionic-native/keyboard';
 
 //Pages
 import { LoginPage } from '../pages/login/login';
+import { MessagesPage } from '../pages/messages/messages';
 import { FirstProfilePage } from '../pages/first-profile/first-profile';
 // import { Payment3Page } from '../pages/payment3/payment3';
 import { SignupPage } from '../pages/signup/signup';
+import * as firebase from 'firebase';
 
 @Component({
   templateUrl: 'app.html'

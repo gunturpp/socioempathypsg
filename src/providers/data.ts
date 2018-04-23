@@ -33,7 +33,7 @@ export class DataProvider {
   }
   // Get logged in user data
   getCurrentUser() {
-    this.items = this.angularfireDatabase.object('/psg/' + firebase.auth().currentUser.uid).valueChanges();
+    this.items = this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid')).valueChanges();
     return this.items;
   }
   updateCurrentUser() {
@@ -173,7 +173,7 @@ export class DataProvider {
 
   // Get conversations of the current logged in user.
   getScheduleByUser() {
-    this.items = this.angularfireDatabase.list('/psg/' + firebase.auth().currentUser.uid + '/scheduling/').snapshotChanges();
+    this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/scheduling/').snapshotChanges();
     return this.items;
   }
 

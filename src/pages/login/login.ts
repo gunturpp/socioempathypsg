@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validator } from '../../validator';
 import { Validators } from '@angular/forms';
 import { SignupPage } from '../signup/signup';
-
+import { TabsPage } from '../tabs/tabs';
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
@@ -43,6 +43,14 @@ export class LoginPage {
   ionViewDidLoad() {
     // Set view mode to main.
     this.mode = 'main';
+
+    console.log('uid', localStorage.getItem('uid'));
+    if (localStorage.getItem('uid') != null && localStorage.getItem('uid')) {
+     //  if (Login.emailVerification) {
+       this.navCtrl.setRoot(TabsPage);
+         console.log('sese3333333', localStorage.getItem('token'));
+       }
+      
   }
 
   // Call loginProvider and login the user with email and password.

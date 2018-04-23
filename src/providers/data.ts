@@ -177,8 +177,16 @@ export class DataProvider {
     return this.items;
   }
 
+  //get list of schedule per session in speific date
+  getListSchedule(date){
+    this.items = this.angularfireDatabase.list('psg/' + localStorage.getItem('uid') + '/scheduling/'+date ).snapshotChanges();
+    return this.items;
+  }
+
   getSchedules(){
     this.items = this.angularfireDatabase.list('/psg/' + firebase.auth().currentUser.uid + '/scheduling/').snapshotChanges();
     return this.items;
   }
+
+
 }

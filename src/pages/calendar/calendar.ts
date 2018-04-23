@@ -5,6 +5,7 @@ import { EventModalPage } from '../event-modal/event-modal';
 import { DataProvider } from "../../providers/data";
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import * as firebase from 'firebase';
+import { count } from 'rxjs/operator/count';
 
 @IonicPage()
 @Component({
@@ -13,6 +14,8 @@ import * as firebase from 'firebase';
 })
 export class CalendarPage {
   
+    index: number;
+    datedate: void;
   //make a calendar
   eventSource=[];
   viewTitle: string;
@@ -31,30 +34,32 @@ export class CalendarPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private alertCtrl: AlertController,
     public dataProvider: DataProvider, public angularfireDatabase: AngularFireDatabase
 ) {
+    console.log(this.schedules);
+    
   }
 
   //add event in Calendar function
   addEvent() {
     let modal = this.modalCtrl.create('EventModalPage', {selectedDay: this.selectedDay });
     modal.present();
-    // modal.onDidDismiss(data => {
-    //   if (data) {
-    //     let eventData = data;
+    modal.onDidDismiss(data => {
+      if (data) {
+        let eventData = data;
         
-    //     console.log('data dari didimis',data.startTime);
-    //     eventData.startTime = new Date(data.startTime);
-    //     console.log('data setelah didmis ',data.startDay);
-    //     eventData.endTime = new Date(data.endTime);
+        console.log('data dari didimis',data.startTime);
+        eventData.startTime = new Date(data.startTime);
+        console.log('data setelah didmis ',data.startDay);
+        eventData.endTime = new Date(data.endTime);
  
-    //     let events = this.eventSource;
-    //     events.push(eventData);
-    //     this.eventSource = [];
-    //     setTimeout(() => {
-    //       this.eventSource = events;
-    //       console.log('EVa: ', this.eventSource);
-    //     });
-    //   }
-    // });
+        let events = this.eventSource;
+        events.push(eventData);
+        this.eventSource = [];
+        setTimeout(() => {
+          this.eventSource = events;
+          console.log('EVa: ', this.eventSource);
+        });
+      }
+    });
   }
 
   // create random events.
@@ -88,6 +93,7 @@ export class CalendarPage {
           (ev.events !== undefined && ev.events.length !== 0) + ', disabled: ' + ev.disabled);
       this.selectedDay = ev.selectedTime;
       console.log('ini waktu sekarang: ' + this.selectedDay);
+
   }
   // onCurrentDateChanged(event:Date) {
   //     var today = new Date();
@@ -140,6 +146,10 @@ export class CalendarPage {
       return date < current;
   };
 
+  ionViewDidEnter(){
+      console.log(this.schedules);
+      
+  }
 
   ionViewDidLoad() {
     this.createRandomEvents();
@@ -147,38 +157,76 @@ export class CalendarPage {
     console.log('tes uid ', localStorage.getItem('uid'));
     console.log('auth2 ', firebase.auth());
     this.dataProvider.getScheduleByUser().subscribe(schedules=>{
-        var x = schedules;
+        console.log('hasil 2 return ', schedules);
+        //first for get date
         for (var i=0; i < schedules.length; i++){
-            this.schedules[i] = schedules[i];
 
-                let eventData = this.eventz;
+                this.schedules[i] = schedules[i];
+                this.index = 0;
+                //get Key date to localstorage
+                localStorage.setItem('schedule', this.schedules[i].key);
                 
-                    this.eventSource.push({
-                        title: 'test',
-                        startTime: new Date(this.schedules[i].key),
-                        endTime: new Date(this.schedules[i].key),
-                        allDay: false
-                    });
-                    let events = this.eventSource;
-                    console.log('EVAAAAAAAAAAAA: ', events);
-                   // this.eventSource=[];
-                    // setTimeout(() => {
-                    //       // this.eventSource = events;
-                    //        console.log('EV: ', this.eventSource);
-                    //      });    
-                    
-                    // setTimeout(() => {
-                    //     this.eventSource = events;
-                    //     console.log('EV: ', this.eventSource);
-                    // });    
                 
-              
+                console.log('dalem i', this.schedules)
+                
+            //    this.eventSource.push({
+            //        //  title: listSchedules[j].key,
+            //          title: 'listSchedules[j].key',
+            //          startTime: new Date(localStorage.getItem('schedule')),
+            //          endTime: new Date(localStorage.getItem('schedule')),
+            //          allDay: false
+            //      });
+            //      let events = this.eventSource;
+            //      console.log('EVAAAAAAAAAAAA: ', events); 
+                  
+                        this.dataProvider.getListSchedule(this.schedules[i].key).subscribe(listSchedules=>{
+                        //second get session
+                          for(var j=0; j < listSchedules.length; j++){
+                            //var i = localStorage.getItem('schedule');
+                            var k = this.schedules[this.index].key;
+                             console.log('dalem j ', k);
+                            
+                             console.log('list arr', listSchedules[j].key);
+                            
+                              this.eventSource.push({
+                                   //  title: listSchedules[j].key,
+                                    title: listSchedules[j].key,
+                                    startTime: new Date(k),
+                                    endTime: new Date(k),
+                                    allDay: false
+                                });
+                            
+                             }
+                             //end of for
+                           // localStorage.removeItem('schedule');
+                           this.index += 1;
+                         });           
+                         
+          
         }
+        // let eventData = this.eventz;
+        
+       
+        // eventData.startTime = new Date();     
+        // eventData.endTime = new Date();
+ 
+        // let events = this.eventSource;
+        // events.push(eventData);
+        // this.eventSource = [];
+        // setTimeout(() => {
+        //   this.eventSource = events;
+        //   console.log('EVa: ', this.eventSource);
+        // });
+    });
+
+    setTimeout(() => {this.refreshData();}, 2000);
+   // this.refreshData();
+}
+    refreshData(){
         let eventData = this.eventz;
         
-       // console.log('data dari didimis',data.startTime);
-        eventData.startTime = new Date();
-      //  console.log('data setelah didmis ',data.startDay);
+       
+        eventData.startTime = new Date();     
         eventData.endTime = new Date();
  
         let events = this.eventSource;
@@ -188,10 +236,7 @@ export class CalendarPage {
           this.eventSource = events;
           console.log('EVa: ', this.eventSource);
         });
-    });
-    
-}
-
+    }
     // ionViewDidLeave(){
     //     this.eventSource = [];
     // }

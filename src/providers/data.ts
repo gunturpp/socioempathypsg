@@ -171,7 +171,7 @@ export class DataProvider {
     return this.angularfireDatabase.object('/scheduling/' + psychologstId);
   }
 
-  // Get conversations of the current logged in user.
+  // Get date.
   getScheduleByUser() {
     this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/scheduling/').snapshotChanges();
     return this.items;
@@ -183,9 +183,11 @@ export class DataProvider {
     return this.items;
   }
 
-  getSchedules(){
-    this.items = this.angularfireDatabase.list('/psg/' + firebase.auth().currentUser.uid + '/scheduling/').snapshotChanges();
-    return this.items;
+  //get all booking that book psg with idBooking
+  getListBooking(){
+   // this.items = this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid') + '/booking/' ).valueChanges();
+   this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/booking/' ).snapshotChanges();
+   return this.items;
   }
 
 

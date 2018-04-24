@@ -6,6 +6,7 @@ import { DataProvider } from "../../providers/data";
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import * as firebase from 'firebase';
 import { count } from 'rxjs/operator/count';
+import { Observable } from 'rxjs/Observable';
 
 @IonicPage()
 @Component({
@@ -14,6 +15,11 @@ import { count } from 'rxjs/operator/count';
 })
 export class CalendarPage {
   
+    cek: number;
+    sumSchedules: number;
+    lenKey2: any;
+    lenKey1: any;
+    count: number;
     index: number;
     datedate: void;
   //make a calendar
@@ -152,7 +158,9 @@ export class CalendarPage {
   }
 
   ionViewDidLoad() {
-    this.createRandomEvents();
+    this.cek = 0;
+    this.count = 0;
+    this.sumSchedules = 0;
     console.log('ionViewDidLoad CalendarPage');
     console.log('tes uid ', localStorage.getItem('uid'));
     console.log('auth2 ', firebase.auth());
@@ -160,7 +168,8 @@ export class CalendarPage {
         console.log('hasil 2 return ', schedules);
         //first for get date
         for (var i=0; i < schedules.length; i++){
-
+                this.lenKey1 = schedules.length;
+                console.log('lenkey1',this.lenKey1);
                 this.schedules[i] = schedules[i];
                 this.index = 0;
                 //get Key date to localstorage
@@ -168,21 +177,13 @@ export class CalendarPage {
                 
                 
                 console.log('dalem i', this.schedules)
-                
-            //    this.eventSource.push({
-            //        //  title: listSchedules[j].key,
-            //          title: 'listSchedules[j].key',
-            //          startTime: new Date(localStorage.getItem('schedule')),
-            //          endTime: new Date(localStorage.getItem('schedule')),
-            //          allDay: false
-            //      });
-            //      let events = this.eventSource;
-            //      console.log('EVAAAAAAAAAAAA: ', events); 
                   
                         this.dataProvider.getListSchedule(this.schedules[i].key).subscribe(listSchedules=>{
+                            this.lenKey2 = listSchedules.length;
+                            console.log('lenkey2',this.lenKey2);
                         //second get session
                           for(var j=0; j < listSchedules.length; j++){
-                            //var i = localStorage.getItem('schedule');
+                            this.count += 1;
                             var k = this.schedules[this.index].key;
                              console.log('dalem j ', k);
                             
@@ -197,37 +198,29 @@ export class CalendarPage {
                                 });
                             
                              }
-                             //end of for
-                           // localStorage.removeItem('schedule');
-                           this.index += 1;
-                         });           
-                         
-          
-        }
-        // let eventData = this.eventz;
-        
-       
-        // eventData.startTime = new Date();     
-        // eventData.endTime = new Date();
- 
-        // let events = this.eventSource;
-        // events.push(eventData);
-        // this.eventSource = [];
-        // setTimeout(() => {
-        //   this.eventSource = events;
-        //   console.log('EVa: ', this.eventSource);
-        // });
-    });
+                             //end of second for
+                             this.index += 1;
+                             console.log('count ', this.count);
+                             console.log('index ', this.index);
+                             console.log('cek', this.cek);
 
-    setTimeout(() => {this.refreshData();}, 2000);
-   // this.refreshData();
+                            this.cek += 1;
+                            if(this.cek == this.lenKey1) {this.refreshData();}
+                         });                        
+        }
+        //end of first for
+    });
+    //end of subscribe
 }
+//end of ionViewDidLoad
+
+    //function for refresh array of schedule data
     refreshData(){
         let eventData = this.eventz;
         
        
-        eventData.startTime = new Date();     
-        eventData.endTime = new Date();
+        eventData.startTime = new Date(12-2-1997);     
+        eventData.endTime = new Date(12-2-1997);
  
         let events = this.eventSource;
         events.push(eventData);
@@ -237,8 +230,6 @@ export class CalendarPage {
           console.log('EVa: ', this.eventSource);
         });
     }
-    // ionViewDidLeave(){
-    //     this.eventSource = [];
-    // }
+    
 
 }

@@ -45,6 +45,12 @@ export class DataProvider {
     this.items = this.angularfireDatabase.object('/psg/' + userId).valueChanges();
     return this.items;
   }
+  //get user client
+  getClient(Id){
+    this.items = this.angularfireDatabase.object('/users/' + Id).valueChanges();
+    return this.items;
+  }
+
   // Set user by their userId
   setUser(userId) {
     return this.angularfireDatabase.object('/psg/' + userId);
@@ -190,5 +196,10 @@ export class DataProvider {
    return this.items;
   }
 
+  //get detail booking for list
+  getDetailBooking(bookId){
+    this.items = this.angularfireDatabase.object('/booking/' + bookId).valueChanges();
+    return this.items;
+  }
 
 }

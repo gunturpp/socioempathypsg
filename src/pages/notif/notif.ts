@@ -27,6 +27,7 @@ export class NotifPage {
   }
 
   ionViewDidLoad() {
+    //get list of idBooking in PsgTable
     this.dataProvider.getListBooking().subscribe(data=>{
       this.index = 0;
       this.index2 = 0;
@@ -34,11 +35,13 @@ export class NotifPage {
         this.booking[i] = data[i];
         console.log('booking', data);
         console.log('key ',this.booking[i].key);
+        //get Detailbooking in booking table
         this.dataProvider.getDetailBooking(this.booking[i].key).subscribe(data2=>{
             console.log('data2',data2);
             this.bookings[this.index] = data2;
             this.index += 1;  
             console.log('bookings ',this.bookings);
+            //get client data from users table
             this.dataProvider.getClient(data2.userId).subscribe(data=>{
               console.log('data3',data);
               this.user[this.index2] = data;

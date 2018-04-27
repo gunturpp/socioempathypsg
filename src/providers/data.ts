@@ -202,4 +202,11 @@ export class DataProvider {
     return this.items;
   }
 
+  //update booking
+   accBooking(idBooking){
+    return this.angularfireDatabase.object('/booking/' + idBooking).update({
+      confirmation: 'accepted'
+    });
+  }
+
 }

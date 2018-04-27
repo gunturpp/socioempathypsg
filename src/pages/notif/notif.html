@@ -9,7 +9,7 @@
 
 <ion-content>
     
-          <ion-item *ngFor="let booking of bookings; let i = index;" (click)="request()">
+          <ion-item *ngFor="let booking of bookings; let i = index;" (click)="request(booking,user[i])">
               <ion-avatar class="profile" item-start>
                   <img src="https://pbs.twimg.com/media/C3SKswgWcAAQYdE.jpg">
               </ion-avatar>
@@ -17,7 +17,7 @@
                 <ion-col>
                   <h3>
                     <!-- <ion-input type="text" [(ngModel)]="user[i].name"></ion-input> -->
-                    {{user[i].name}}
+                    {{user[i]}}
                   </h3>
                 </ion-col>
                 <ion-col>

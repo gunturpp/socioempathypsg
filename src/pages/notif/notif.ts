@@ -18,6 +18,7 @@ import { ConsultationRequestPage } from '../consultation-request/consultation-re
 })
 export class NotifPage {
 
+  name: any;
   index2: number;
   bookings= [];
   index: number;
@@ -26,7 +27,10 @@ export class NotifPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public dataProvider: DataProvider) {
   }
 
-  ionViewDidLoad() {
+  ionViewDidEnter() {
+    this.bookings= [];
+    this.user = [];
+    this.booking= [];
     //get list of idBooking in PsgTable
     this.dataProvider.getListBooking().subscribe(data=>{
       this.index = 0;
@@ -44,7 +48,9 @@ export class NotifPage {
             //get client data from users table
             this.dataProvider.getClient(data2.userId).subscribe(data=>{
               console.log('data3',data);
-              this.user[this.index2] = data;
+              this.name = data.name;
+              console.log('name', this.name);
+              this.user[this.index2] = this.name;
               this.index2 += 1;
               console.log('user',this.user);
             });
@@ -58,8 +64,8 @@ export class NotifPage {
     console.log('ionViewDidLoad NotifPage');
   }
 
-  request(){
-    this.navCtrl.push(ConsultationRequestPage);
+  request(booking,user){
+    this.navCtrl.push(ConsultationRequestPage,{booking: booking, user:user});
   }
 
 }

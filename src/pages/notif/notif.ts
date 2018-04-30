@@ -18,12 +18,15 @@ import { ConsultationRequestPage } from '../consultation-request/consultation-re
 })
 export class NotifPage {
 
+  foto=[];
   name: any;
   index2: number;
   bookings= [];
   index: number;
   booking= [];
   user = [];
+  //empty = 1;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public dataProvider: DataProvider) {
   }
 
@@ -51,8 +54,11 @@ export class NotifPage {
               this.name = data.name;
               console.log('name', this.name);
               this.user[this.index2] = this.name;
+              this.foto[this.index2] = data.img;
+              console.log('foto ',this.foto);
               this.index2 += 1;
               console.log('user',this.user);
+              //this.empty = 0;
             });
 
         });
@@ -64,8 +70,8 @@ export class NotifPage {
     console.log('ionViewDidLoad NotifPage');
   }
 
-  request(booking,user){
-    this.navCtrl.push(ConsultationRequestPage,{booking: booking, user:user});
+  request(booking,user,foto){
+    this.navCtrl.push(ConsultationRequestPage,{booking: booking, user:user,foto:foto});
   }
 
 }

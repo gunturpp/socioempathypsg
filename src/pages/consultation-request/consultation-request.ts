@@ -24,7 +24,7 @@ export class ConsultationRequestPage {
   session: any;
   userId: any;
   problem:any;
-
+  foto:any;
   constructor(public navCtrl: NavController, public navParams: NavParams, public dataProvider: DataProvider) {
   }
 
@@ -34,6 +34,8 @@ export class ConsultationRequestPage {
     console.log('booking ', this.booking);
     this.name = this.navParams.get('user');
     console.log('name ', this.name);
+    this.foto = this.navParams.get('foto');
+    console.log('foto ', this.foto);
     this.confirmation = this.booking.confirmation;
     this.schedule = this.booking.scheduleId;
     this.session = this.booking.sessionke;

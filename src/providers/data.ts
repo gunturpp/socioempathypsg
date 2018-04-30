@@ -202,7 +202,7 @@ export class DataProvider {
     return this.items;
   }
 
-  //update booking
+  //update booking to be accepted by psg
    accBooking(idBooking){
     return this.angularfireDatabase.object('/booking/' + idBooking).update({
       confirmation: 'accepted'

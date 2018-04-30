@@ -48,24 +48,24 @@ export class CalendarPage {
   addEvent() {
     let modal = this.modalCtrl.create('EventModalPage', {selectedDay: this.selectedDay });
     modal.present();
-    modal.onDidDismiss(data => {
-      if (data) {
-        let eventData = data;
+    // modal.onDidDismiss(data => {
+    //   if (data) {
+    //     let eventData = data;
         
-        console.log('data dari didimis',data.startTime);
-        eventData.startTime = new Date(data.startTime);
-        console.log('data setelah didmis ',data.startDay);
-        eventData.endTime = new Date(data.endTime);
+    //     console.log('data dari didimis',data.startTime);
+    //     eventData.startTime = new Date(data.startTime);
+    //     console.log('data setelah didmis ',data.startDay);
+    //     eventData.endTime = new Date(data.endTime);
  
-        let events = this.eventSource;
-        events.push(eventData);
-        this.eventSource = [];
-        setTimeout(() => {
-          this.eventSource = events;
-          console.log('EVa: ', this.eventSource);
-        });
-      }
-    });
+    //     let events = this.eventSource;
+    //     events.push(eventData);
+    //     this.eventSource = [];
+    //     setTimeout(() => {
+    //       this.eventSource = events;
+    //       console.log('EVa: ', this.eventSource);
+    //     });
+    //   }
+    // });
   }
 
   // create random events.
@@ -152,12 +152,12 @@ export class CalendarPage {
       return date < current;
   };
 
-  ionViewDidEnter(){
-      console.log(this.schedules);
+  //ionViewDidEnter(){
+    //  console.log(this.schedules);
       
-  }
+  //}
 
-  ionViewDidLoad() {
+  ionViewDidEnter() {
     this.cek = 0;
     this.count = 0;
     this.sumSchedules = 0;

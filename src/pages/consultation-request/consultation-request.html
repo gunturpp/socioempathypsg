@@ -16,23 +16,32 @@
 <ion-content padding>
   <ion-item>
     <ion-avatar class="profile" item-start>
-        <img src="https://pbs.twimg.com/media/C3SKswgWcAAQYdE.jpg">
+        <img src="{{foto}}">
     </ion-avatar>
       <ion-col>
         <h3>
           <!-- <ion-input type="text" [(ngModel)]="user[i].name"></ion-input> -->
-         ontoh
          {{name}}
         </h3>
       </ion-col>
       
 </ion-item>
 <ion-item>
-  <p>{{problem}}</p>
+  tanggal konsultasi
+  <p>{{schedule}}</p>
 </ion-item>
 <ion-item>
+  waktu konsultasi
   <P>{{session}}</P>
 </ion-item>
+<ion-item>
+    Reward
+    <P>200</P>
+  </ion-item>
+  <ion-item>
+     keluhan
+      <P>{{problem}}</P>
+    </ion-item> 
 <ion-item>
     <P>{{confirmation}}</P>
   </ion-item>

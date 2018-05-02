@@ -45,6 +45,13 @@ export class DataProvider {
     this.items = this.angularfireDatabase.object('/psg/' + userId).valueChanges();
     return this.items;
   }
+
+  //get user in users
+  getUserss(userId) {
+    this.items = this.angularfireDatabase.object('/users/' + userId).valueChanges();
+    return this.items;
+  }
+
   //get user client
   getClient(Id){
     this.items = this.angularfireDatabase.object('/users/' + Id).valueChanges();
@@ -100,16 +107,17 @@ export class DataProvider {
     return this.items;
   }
   getConversationbyCurrentUser(userId){
-    this.items = this.angularfireDatabase.object('/psg/' + firebase.auth().currentUser.uid + '/conversations/' + userId).valueChanges();
+    this.items = this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid') + '/conversations/' + userId).valueChanges();
     return this.items;
   }
   // Get conversations of the current logged in user.
   getConversations() {
-    this.items = this.angularfireDatabase.list('/psg/' + firebase.auth().currentUser.uid + '/conversations/').snapshotChanges();
+    this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/conversations/').snapshotChanges();
+    //this.items = this.angularfireDatabase.objet('/psg/' + localStorage.getItem('uid') + '/conversations/').valueChanges();
     return this.items;
   }
   deleteConversations() {
-    return this.angularfireDatabase.list('/psg/' + firebase.auth().currentUser.uid + '/conversations/');
+    return this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/conversations/');
   }
 
   // Get messages of the conversation given the Id.

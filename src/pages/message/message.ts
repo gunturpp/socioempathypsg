@@ -37,15 +37,15 @@ export class MessagePage {
 
   ionViewDidLoad() {
     this.userId = this.navParams.get('userId');
-
+    console.log('userId', this.userId);
     // Get friend details.
-    this.dataProvider.getUser(this.userId).subscribe((user) => {
+    this.dataProvider.getUserss(this.userId).subscribe((user) => {
       this.title = user.name;
     });
 
     // Get conversationInfo with friend.
     this.dataProvider.getConversationbyCurrentUser(this.userId).subscribe((conversation) => {
-      if (conversation.$exists()) {
+    //  if (conversation.$exists()) {
         // User already have conversation with this friend, get conversation
         this.conversationId = conversation.conversationId;
 
@@ -57,9 +57,17 @@ export class MessagePage {
             // Just append newly added messages to the bottom of the view.
             if (messages.length > this.messages.length) {
               let message = messages[messages.length - 1];
-              this.dataProvider.getUser(message.sender).subscribe((user) => {
-                message.avatar = user.img;
-              });
+
+              if(localStorage.getItem('uid') == message.sender){
+                this.dataProvider.getUser(message.sender).subscribe((user) => {
+                  message.avatar = user.img;
+                });
+              } else {
+                this.dataProvider.getUserss(message.sender).subscribe((user) => {
+                  message.avatar = user.img;
+                });
+              }
+
               this.messages.push(message);
               // Also append to messagesToShow.
               this.messagesToShow.push(message);
@@ -70,9 +78,15 @@ export class MessagePage {
             // Get all messages, this will be used as reference object for messagesToShow.
             this.messages = [];
             messages.forEach((message) => {
-              this.dataProvider.getUser(message.sender).subscribe((user) => {
-                message.avatar = user.img;
-              });
+              if(localStorage.getItem('uid') == message.sender){
+                this.dataProvider.getUser(message.sender).subscribe((user) => {
+                  message.avatar = user.img;
+                });
+              } else {
+                this.dataProvider.getUserss(message.sender).subscribe((user) => {
+                  message.avatar = user.img;
+                });
+              }
               this.messages.push(message);
             });
             // Load messages in relation to numOfMessages.
@@ -94,7 +108,7 @@ export class MessagePage {
             this.loadingProvider.hide();
           }
         });
-      }
+  //    }
     });
 
     // Update messages' date time elapsed every minute based on Moment.js.
@@ -110,6 +124,7 @@ export class MessagePage {
       }, 60000);
     }
   }
+  //end of ionViewDidLoad
 
   // Load previous messages in relation to numberOfMessages.
   loadPreviousMessages() {
@@ -149,7 +164,7 @@ export class MessagePage {
       this.dataProvider.getConversationMessages(this.conversationId).subscribe((messages) => {
         totalMessagesCount = messages.length;
       });
-      this.angularfireDatabase.object('/psg/' + firebase.auth().currentUser.uid + '/conversations/' + this.userId).update({
+      this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid') + '/conversations/' + this.userId).update({
         messagesRead: totalMessagesCount
       });
     }
@@ -190,7 +205,7 @@ export class MessagePage {
 
   // Check if the user is the sender of the message.
   isSender(message) {
-    if (message.sender == firebase.auth().currentUser.uid) {
+    if (message.sender == localStorage.getItem('uid')) {
       return true;
     } else {
       return false;
@@ -213,7 +228,7 @@ export class MessagePage {
         let messages = JSON.parse(JSON.stringify(this.messages));
         messages.push({
           date: new Date().toString(),
-          sender: firebase.auth().currentUser.uid,
+          sender: localStorage.getItem('uid'),
           type: 'text',
           message: this.message
         });
@@ -229,12 +244,12 @@ export class MessagePage {
         var messages = [];
         messages.push({
           date: new Date().toString(),
-          sender: firebase.auth().currentUser.uid,
+          sender: localStorage.getItem('uid'),
           type: 'text',
           message: this.message
         });
         var users = [];
-        users.push(firebase.auth().currentUser.uid);
+        users.push(localStorage.getItem('uid'));
         users.push(this.userId);
         // Add conversation.
         this.angularfireDatabase.list('conversations').push({
@@ -245,11 +260,11 @@ export class MessagePage {
           let conversationId = success.key;
           this.message = '';
           // Add conversation reference to the users.
-          this.angularfireDatabase.object('/psg/' + firebase.auth().currentUser.uid + '/conversations/' + this.userId).update({
+          this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid') + '/conversations/' + this.userId).update({
             conversationId: conversationId,
             messagesRead: 1
           });
-          this.angularfireDatabase.object('/accounts/users/' + this.userId + '/conversations/' + firebase.auth().currentUser.uid).update({
+          this.angularfireDatabase.object('/users/' + this.userId + '/conversations/' + firebase.auth().currentUser.uid).update({
             conversationId: conversationId,
             messagesRead: 0
           });
@@ -304,7 +319,7 @@ export class MessagePage {
       let messages = JSON.parse(JSON.stringify(this.messages));
       messages.push({
         date: new Date().toString(),
-        sender: firebase.auth().currentUser.uid,
+        sender: localStorage.getItem('uid'),
         type: 'image',
         url: url
       });
@@ -317,7 +332,7 @@ export class MessagePage {
       var messages = [];
       messages.push({
         date: new Date().toString(),
-        sender: firebase.auth().currentUser.uid,
+        sender: localStorage.getItem('uid'),
         type: 'image',
         url: url
       });
@@ -332,11 +347,11 @@ export class MessagePage {
       }).then((success) => {
         let conversationId = success.key;
         // Add conversation references to users.
-        this.angularfireDatabase.object('/psg/' + firebase.auth().currentUser.uid + '/conversations/' + this.userId).update({
+        this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid') + '/conversations/' + this.userId).update({
           conversationId: conversationId,
           messagesRead: 1
         });
-        this.angularfireDatabase.object('/accounts/users/' + this.userId + '/conversations/' + firebase.auth().currentUser.uid).update({
+        this.angularfireDatabase.object('/users/' + this.userId + '/conversations/' + localStorage.getItem('uid')).update({
           conversationId: conversationId,
           messagesRead: 0
         });

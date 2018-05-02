@@ -52,51 +52,60 @@ export class MessagesPage {
   //console.log('uid gue ' , firebase.auth().currentUser.uid);
     if(localStorage.getItem('uid') == null){
       localStorage.setItem('uid',firebase.auth().currentUser.uid);
+      console.log('');
     }
     console.log('uid dari local', localStorage.getItem('uid'));
     // Create userData on the database if it doesn't exist yet.
     //this.createUserData();
     this.searchFriend = "";
-    this.loadingProvider.show();
+    //this.loadingProvider.show();
 
     // Get info of conversations of current logged in user.
     this.dataProvider.getConversations().subscribe(conversations => {
       if (conversations.length > 0) {
         conversations.forEach(conversation => {
-          if (conversation.$exists()) {
+          console.log('con ',conversation.key);
+         // if (conversation.$exists()) {
             // Get conversation partner info.
-            this.dataProvider.getUser(conversation.$key).subscribe(user => {
+            this.dataProvider.getUser(conversation.key).subscribe(user => {
               conversation.friend = user;
+              console.log('con 2',conversation.key);
+              console.log('idcon ', conversation.conversationId);
               // Get conversation info.
-              this.dataProvider
-                .getConversation(conversation.conversationId)
-                .subscribe(obj => {
-                  // Get last message of conversation.
-                  let lastMessage = obj.messages[obj.messages.length - 1];
-                  conversation.date = lastMessage.date;
-                  conversation.sender = lastMessage.sender;
-                  // Set unreadMessagesCount
-                  conversation.unreadMessagesCount =
-                    obj.messages.length - conversation.messagesRead;
-                  // Process last message depending on messageType.
-                  if (lastMessage.type == "text") {
-                    if (lastMessage.sender == firebase.auth().currentUser.uid) {
-                      conversation.message = "You: " + lastMessage.message;
+              this.dataProvider.getConversationbyCurrentUser(conversation.key).subscribe(user2 => {  
+                console.log('user2 ',user2);
+                this.dataProvider
+                  .getConversation(user2.conversationId)
+                  .subscribe(obj => {
+                    console.log('obj ', obj);
+                    // Get last message of conversation.
+                    let lastMessage = obj.messages[obj.messages.length - 1];
+                    conversation.date = lastMessage.date;
+                    conversation.sender = lastMessage.sender;
+                    // Set unreadMessagesCount
+                    conversation.unreadMessagesCount =
+                      obj.messages.length - conversation.messagesRead;
+                    // Process last message depending on messageType.
+                    if (lastMessage.type == "text") {
+                      if (lastMessage.sender == localStorage.getItem('uid')) {
+                        conversation.message = "You: " + lastMessage.message;
+                      } else {
+                        conversation.message = lastMessage.message;
+                      }
                     } else {
-                      conversation.message = lastMessage.message;
+                      if (lastMessage.sender == localStorage.getItem('uid')) {
+                        conversation.message = "You sent a photo message.";
+                      } else {
+                        conversation.message = "has sent you a photo message.";
+                      }
                     }
-                  } else {
-                    if (lastMessage.sender == firebase.auth().currentUser.uid) {
-                      conversation.message = "You sent a photo message.";
-                    } else {
-                      conversation.message = "has sent you a photo message.";
-                    }
-                  }
-                  // Add or update conversation.
-                  this.addOrUpdateConversation(conversation);
+                    // Add or update conversation.
+                    this.addOrUpdateConversation(conversation);
+                  });
+
                 });
             });
-          }
+        //  }
         });
         this.loadingProvider.hide();
       } else {
@@ -124,7 +133,7 @@ export class MessagesPage {
   deleteConversation(conversation) {
     // realtime load data
     this.navCtrl.setRoot(this.navCtrl.getActive().component);
-    this.angularfireDatabase.list('/psg/' + firebase.auth().currentUser.uid + '/conversations/').remove(conversation);
+    this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/conversations/').remove(conversation);
   }
 
   // Add or update conversation for real-time sync based on our observer, sort by active date.
@@ -162,7 +171,7 @@ export class MessagesPage {
   createUserData() {
     firebase
       .database()
-      .ref("psg/" + firebase.auth().currentUser.uid)
+      .ref("psg/" + localStorage.getItem('uid'))
       .once("value")
       .then(account => {
         //console.log(account.val());
@@ -181,7 +190,7 @@ export class MessagesPage {
             name = user.displayName;
             name = providerData.displayName;
           } else {
-            name = "SocioEmpathy User";
+            name = "SocioEmpathy PSG";
           }
 
           // Set default username based on name and userId.
@@ -208,7 +217,7 @@ export class MessagesPage {
           email = user.email;
 
           // Set default description.
-          let description = "Hello! I am a new SocioEmpathy user.";
+          let description = "Hello! I am a new SocioEmpathy PSG.";
           // set default displayName to Firebase
 
           // Insert data on our database using AngularFire.

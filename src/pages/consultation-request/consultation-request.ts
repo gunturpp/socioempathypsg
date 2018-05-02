@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { DataProvider } from "../../providers/data";
+import { AngularFireDatabase } from 'angularfire2/database';
+
 
 /**
  * Generated class for the ConsultationRequestPage page.
@@ -16,6 +18,7 @@ import { DataProvider } from "../../providers/data";
 })
 export class ConsultationRequestPage {
 
+  message: string;
   name: any;
   booking: any;
   confirmation: any;
@@ -25,7 +28,7 @@ export class ConsultationRequestPage {
   userId: any;
   problem:any;
   foto:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public dataProvider: DataProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public dataProvider: DataProvider,public angularfireDatabase: AngularFireDatabase,) {
   }
 
   ionViewDidLoad() {
@@ -50,11 +53,46 @@ export class ConsultationRequestPage {
   accept(){
       this.dataProvider.accBooking(this.createdAt).then(() => {
         //  this.loadingProvider.hide();
+        //make a conversation to users
+        this.send();
         this.confirmation = 'accepted';
           console.log("sukses update booking");
-        //  this.viewCtrl.dismiss(this.event);
+        //this.viewCtrl.dismiss(this.event);
         });
-
   }
+
+  send() {
+        var messages = [];
+        messages.push({
+          date: new Date().toString(),
+          sender: localStorage.getItem('uid'),
+          type: 'text',
+          message: 'Selamat Request anda telah diterima oleh PSG'
+        });
+        var users = [];
+        users.push(localStorage.getItem('uid'));
+        users.push(this.userId);
+        // Add conversation.
+        this.angularfireDatabase.list('conversations').push({
+          dateCreated: new Date().toString(),
+          messages: messages,
+          users: users
+        }).then((success) => {
+          console.log('sukses buat conversation');
+          let conversationId = success.key;
+          this.message = '';
+          // Add conversation reference to the users.
+          this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid') + '/conversations/' + this.userId).update({
+            conversationId: conversationId,
+            messagesRead: 1
+          });
+          this.angularfireDatabase.object('/users/' + this.userId + '/conversations/' + localStorage.getItem('uid')).update({
+            conversationId: conversationId,
+            messagesRead: 0
+          });
+        });
+  }
+
+  //end of send()
 
 }

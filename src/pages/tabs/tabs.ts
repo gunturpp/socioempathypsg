@@ -20,7 +20,7 @@ export class TabsPage {
   calendar: any = CalendarPage;
   // timeLine: any = TimeLinePage;
   // achievement: any = AchievementPage;
-  private unreadMessagesCount: any;
+  public unreadMessagesCount: any;
   private friendRequestCount: any;
   private conversationList: any;
   private conversationsInfo: any;
@@ -30,27 +30,29 @@ export class TabsPage {
   }
 
   ionViewDidLoad() {
+    console.log('asalllll');
+    //this.getUnreadMessagesCount();
     // Get friend requests count.
-    this.dataProvider.getRequests(firebase.auth().currentUser.uid).subscribe((requests) => {
-      if (requests.friendRequests) {
-        this.friendRequestCount = requests.friendRequests.length;
-      } else {
-        this.friendRequestCount = null;
-      }
-    });
+    // this.dataProvider.getRequests(firebase.auth().currentUser.uid).subscribe((requests) => {
+    //   if (requests.friendRequests) {
+    //     this.friendRequestCount = requests.friendRequests.length;
+    //   } else {
+    //     this.friendRequestCount = null;
+    //   }
+    // });
 
     // Get conversations and add/update if the conversation exists, otherwise delete from list.
-    this.dataProvider.getConversations().subscribe((conversationsInfo) => {
+    this.dataProvider.getListConversations().subscribe((conversationsInfo) => {
       //console.log("conversationsInfo : "+JSON.stringify(conversationsInfo));
       this.unreadMessagesCount = null;
       this.conversationsInfo = null;
       this.conversationList = null;
       if (conversationsInfo.length > 0) {
         this.conversationsInfo = conversationsInfo;
-        //console.log(this.conversationsInfo);
+        console.log('info',this.conversationsInfo);
         conversationsInfo.forEach((conversationInfo) => {
           this.dataProvider.getConversation(conversationInfo.conversationId).subscribe((conversation) => {
-            if (conversation.$exists()) {
+            if (conversation) {
               //console.log(conversation);
               this.addOrUpdateConversation(conversation);
             }
@@ -72,7 +74,7 @@ export class TabsPage {
     } else {
       var index = -1;
       for (var i = 0; i < this.conversationList.length; i++) {
-        if (this.conversationList[i].$key == conversation.$key) {
+        if (this.conversationList[i].key == conversation.key) {
           index = i;
         }
       }
@@ -82,8 +84,9 @@ export class TabsPage {
         this.conversationList.push(conversation);
       }
     }
-    //console.log(this.conversationList);
+    console.log('conversationList ', this.conversationList);
     this.computeUnreadMessagesCount();
+    console.log('total ga dibaca ', this.unreadMessagesCount);
   }
 
   // Compute all conversation's unreadMessages.
@@ -92,6 +95,7 @@ export class TabsPage {
     if (this.conversationList) {
       for (var i = 0; i < this.conversationList.length; i++) {
         this.unreadMessagesCount += this.conversationList[i].messages.length - this.conversationsInfo[i].messagesRead;
+        console.log('unread tabs ',this.unreadMessagesCount);
         if (this.unreadMessagesCount == 0) {
           this.unreadMessagesCount = null;
         }
@@ -103,6 +107,7 @@ export class TabsPage {
     if (this.unreadMessagesCount) {
       if (this.unreadMessagesCount > 0) {
         return this.unreadMessagesCount;
+       // console.log('get unread', this.unreadMessagesCount);
       }
     }
     return null;

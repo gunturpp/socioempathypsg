@@ -116,6 +116,14 @@ export class DataProvider {
     //this.items = this.angularfireDatabase.objet('/psg/' + localStorage.getItem('uid') + '/conversations/').valueChanges();
     return this.items;
   }
+
+  //Get List Conversation
+  getListConversations() {
+    //this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/conversations/').snapshotChanges();
+    this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/conversations/').valueChanges();
+    return this.items;
+  }
+
   deleteConversations() {
     return this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/conversations/');
   }
@@ -123,6 +131,12 @@ export class DataProvider {
   // Get messages of the conversation given the Id.
   getConversationMessages(conversationId) {
     this.items = this.angularfireDatabase.object('/conversations/' + conversationId + '/messages').valueChanges();
+    return this.items;
+  }
+
+  //getList Conversation
+  getListConversationMessages(conversationId) {
+    this.items = this.angularfireDatabase.list('/conversations/' + conversationId + '/messages').valueChanges();
     return this.items;
   }
 

@@ -84,7 +84,10 @@ export class MessagesPage {
                     conversation.sender = lastMessage.sender;
                     // Set unreadMessagesCount
                     conversation.unreadMessagesCount =
-                      obj.messages.length - conversation.messagesRead;
+                      obj.messages.length - user2.messagesRead;
+                    console.log('unread',conversation.unreadMessagesCount);
+                    console.log('messages.length', obj.messages.length);
+                    console.log('conversation.messageRead',user2.messagesRead);
                     // Process last message depending on messageType.
                     if (lastMessage.type == "text") {
                       if (lastMessage.sender == localStorage.getItem('uid')) {

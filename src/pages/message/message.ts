@@ -51,6 +51,7 @@ export class MessagePage {
 
         // Get conversation
         this.dataProvider.getConversationMessages(this.conversationId).subscribe((messages) => {
+          
           if (this.messages) {
             //console.log("messages.length :"+messages.length);
             //console.log("this.messages.length :"+this.messages.length);
@@ -107,6 +108,9 @@ export class MessagePage {
             }
             this.loadingProvider.hide();
           }
+          console.log('this.message', this.messages.length);
+          console.log('this.conversationId ', this.conversationId);
+          //this.setMessagesRead(this.messages.length);
         });
   //    }
     });
@@ -125,6 +129,11 @@ export class MessagePage {
     }
   }
   //end of ionViewDidLoad
+
+  ionViewDidEnter(){
+   // this.setMessagesRead(this.messages);  
+   
+  }
 
   // Load previous messages in relation to numberOfMessages.
   loadPreviousMessages() {
@@ -153,21 +162,21 @@ export class MessagePage {
   // Update messagesRead when user lefts this page.
   ionViewWillLeave() {
     if (this.messages)
-      this.setMessagesRead(this.messages);
+      this.setMessagesRead(this.messages.length);
   }
 
   // Check if currentPage is active, then update user's messagesRead.
-  setMessagesRead(messages) {
-    if (this.navCtrl.getActive().instance instanceof MessagePage) {
+  setMessagesRead(message) {
+    //if (this.navCtrl.getActive().instance instanceof MessagePage) {
       // Update user's messagesRead on database.
       var totalMessagesCount;
-      this.dataProvider.getConversationMessages(this.conversationId).subscribe((messages) => {
-        totalMessagesCount = messages.length;
-      });
+     // this.dataProvider.getListConversationMessages(this.conversationId).subscribe((messages) => {
+        totalMessagesCount = message;
+     // });
       this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid') + '/conversations/' + this.userId).update({
         messagesRead: totalMessagesCount
       });
-    }
+   // }
   }
 
   // Check if 'return' button is pressed and send the message.

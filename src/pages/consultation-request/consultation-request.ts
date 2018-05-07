@@ -76,17 +76,18 @@ export class ConsultationRequestPage {
         this.angularfireDatabase.list('conversations').push({
           dateCreated: new Date().toString(),
           messages: messages,
-          users: users
+          users: users,
+          scheduleId: this.schedule
         }).then((success) => {
           console.log('sukses buat conversation');
           let conversationId = success.key;
           this.message = '';
           // Add conversation reference to the users.
-          this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid') + '/conversations/' + this.userId).update({
+          this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid') + '/conversations/' + this.userId + '/' + conversationId).update({
             conversationId: conversationId,
             messagesRead: 1
           });
-          this.angularfireDatabase.object('/users/' + this.userId + '/conversations/' + localStorage.getItem('uid')).update({
+          this.angularfireDatabase.object('/users/' + this.userId + '/conversations/' + localStorage.getItem('uid') + '/' + conversationId).update({
             conversationId: conversationId,
             messagesRead: 0
           });

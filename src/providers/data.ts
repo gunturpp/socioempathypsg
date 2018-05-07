@@ -107,9 +107,10 @@ export class DataProvider {
     return this.items;
   }
   getConversationbyCurrentUser(userId){
-    this.items = this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid') + '/conversations/' + userId).valueChanges();
+    this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/conversations/' + userId).valueChanges();
     return this.items;
   }
+
   // Get conversations of the current logged in user.
   getConversations() {
     this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/conversations/').snapshotChanges();

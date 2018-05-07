@@ -9,8 +9,8 @@
 
 <ion-content>
     
-          <ion-item *ngFor="let booking of bookings; let i = index;" (click)="request(booking,user[i],foto[i])">
-
+          <ion-item *ngFor="let booking of bookings; let i = index;"  (click)="request(booking,user[i],foto[i])">
+            <!-- *ngif="booking.confirmation == 'waiting'" -->
               <ion-avatar class="profile" item-start>
                   <img src="{{foto[i]}}">
               </ion-avatar>
@@ -42,10 +42,12 @@
               </ion-row>
           </ion-item>  
         
+
           <ion-grid *ngIf="user.length <= 0" style="height: 100%">
               <ion-row justify-content-center align-items-center style="height: 100%">
                   <h1><ion-icon  name="notifications"></ion-icon></h1>
                   <h4>You have no notifications</h4>
               </ion-row>
             </ion-grid>
+          
 </ion-content>

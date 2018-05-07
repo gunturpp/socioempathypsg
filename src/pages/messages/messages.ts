@@ -27,7 +27,7 @@ export class MessagesPage {
     throw new Error("Method not implemented.");
   }
   conversation: any;
-  private conversations: any;
+  public conversations = [];
   private conversationsById: any;
   private updateDateTime: any;
   private searchFriend: any;
@@ -46,7 +46,8 @@ export class MessagesPage {
     public alertCtrl: AlertController
   ) {}
 
-  ionViewDidLoad() {
+  ionViewDidEnter() {
+    this.conversations = [];
     /// post new data
     this.createUserData();
   //console.log('uid gue ' , firebase.auth().currentUser.uid);
@@ -62,9 +63,11 @@ export class MessagesPage {
 
     // Get info of conversations of current logged in user.
     this.dataProvider.getConversations().subscribe(conversations => {
+      console.log('list cet', conversations);
       if (conversations.length > 0) {
         conversations.forEach(conversation => {
           console.log('con ',conversation.key);
+
          // if (conversation.$exists()) {
             // Get conversation partner info.
             this.dataProvider.getUser(conversation.key).subscribe(user => {
@@ -72,41 +75,64 @@ export class MessagesPage {
               console.log('con 2',conversation.key);
               console.log('idcon ', conversation.conversationId);
               // Get conversation info.
-              this.dataProvider.getConversationbyCurrentUser(conversation.key).subscribe(user2 => {  
-                console.log('user2 ',user2);
-                this.dataProvider
-                  .getConversation(user2.conversationId)
-                  .subscribe(obj => {
-                    console.log('obj ', obj);
-                    // Get last message of conversation.
-                    let lastMessage = obj.messages[obj.messages.length - 1];
-                    conversation.date = lastMessage.date;
-                    conversation.sender = lastMessage.sender;
-                    // Set unreadMessagesCount
-                    conversation.unreadMessagesCount =
-                      obj.messages.length - user2.messagesRead;
-                    console.log('unread',conversation.unreadMessagesCount);
-                    console.log('messages.length', obj.messages.length);
-                    console.log('conversation.messageRead',user2.messagesRead);
-                    // Process last message depending on messageType.
-                    if (lastMessage.type == "text") {
-                      if (lastMessage.sender == localStorage.getItem('uid')) {
-                        conversation.message = "You: " + lastMessage.message;
-                      } else {
-                        conversation.message = lastMessage.message;
-                      }
-                    } else {
-                      if (lastMessage.sender == localStorage.getItem('uid')) {
-                        conversation.message = "You sent a photo message.";
-                      } else {
-                        conversation.message = "has sent you a photo message.";
-                      }
+              this.dataProvider.getConversationbyCurrentUser(conversation.key).subscribe(user3 => {  
+                console.log('user3 ',user3);
+                user3.forEach(user2 => {
+                  if(user2.conversationId != null) {
+                    this.dataProvider
+                      .getConversation(user2.conversationId)
+                      .subscribe(obj => {
+                        console.log('obj ', obj);
+                        console.log('conId', user2.conversationId);
+                        // Get last message of conversation.
+                        let lastMessage = obj.messages[obj.messages.length - 1];
+                        user2.date = lastMessage.date;
+                        user2.sender = lastMessage.sender;
+                        user2.idConv = user2.conversationId;
+                        console.log('conv id', user2);  
+                        // Set unreadMessagesCount
+                        user2.unreadMessagesCount =
+                          obj.messages.length - user2.messagesRead;
+                        console.log('unread',conversation.unreadMessagesCount);
+                        console.log('messages.length', obj.messages.length);
+                        console.log('conversation.messageRead',user2.messagesRead);
+                        // Process last message depending on messageType.
+                        if (lastMessage.type == "text") {
+                          if (lastMessage.sender == localStorage.getItem('uid')) {
+                            user2.message = "You: " + lastMessage.message;
+                          } else {
+                            user2.message = lastMessage.message;
+                          }
+                        } else {
+                          if (lastMessage.sender == localStorage.getItem('uid')) {
+                            conversation.message = "You sent a photo message.";
+                          } else {
+                            conversation.message = "has sent you a photo message.";
+                          }
+                        }
+                        // Add or update conversation.
+                        
+                          //this.addOrUpdateConversation(user2);
+                          this.conversations.push(user2);
+                          this.conversations.sort((a: any, b: any) => {
+                            let date1 = new Date(a.date);
+                            let date2 = new Date(b.date);
+                            if (date1 > date2) {
+                              return -1;
+                            } else if (date1 < date2) {
+                              return 1;
+                            } else {
+                              return 0;
+                            }
+                          });
+                          console.log('print this.conversations', this.conversations);
+                        
+                      });
                     }
-                    // Add or update conversation.
-                    this.addOrUpdateConversation(conversation);
-                  });
 
-                });
+                }); //end of for each
+              }); // end of user3
+                
             });
         //  }
         });
@@ -146,7 +172,7 @@ export class MessagesPage {
     } else {
       var index = -1;
       for (var i = 0; i < this.conversations.length; i++) {
-        if (this.conversations[i].$key == conversation.$key) {
+        if (this.conversations[i].key == conversation.key) {
           index = i;
         }
       }
@@ -170,6 +196,9 @@ export class MessagesPage {
     }
   }
 
+  ionViewDidLeave(){
+    this.conversations = [];
+  }
   // Create userData on the database if it doesn't exist yet.
   createUserData() {
     firebase
@@ -260,9 +289,9 @@ export class MessagesPage {
   }
 
   // Open chat with friend.
-  message(userId) {
+  message(userId, idConv) {
     console.log(userId);
-    this.app.getRootNav().push(MessagePage, { userId: userId });
+    this.app.getRootNav().push(MessagePage, { userId: userId, idConv:idConv });
   }
 
   // Return class based if conversation has unreadMessages or not.

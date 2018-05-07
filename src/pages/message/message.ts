@@ -16,6 +16,7 @@ import { Keyboard } from '@ionic-native/keyboard';
   templateUrl: 'message.html'
 })
 export class MessagePage {
+  idConv: any;
   @ViewChild(Content) content: Content;
   private userId: any;
   private title: any;
@@ -37,6 +38,7 @@ export class MessagePage {
 
   ionViewDidLoad() {
     this.userId = this.navParams.get('userId');
+    this.idConv = this.navParams.get('idConv');
     console.log('userId', this.userId);
     // Get friend details.
     this.dataProvider.getUserss(this.userId).subscribe((user) => {
@@ -44,10 +46,10 @@ export class MessagePage {
     });
 
     // Get conversationInfo with friend.
-    this.dataProvider.getConversationbyCurrentUser(this.userId).subscribe((conversation) => {
+    //this.dataProvider.getConversationbyCurrentUserId(this.userId,this.keyChat).subscribe((conversation) => {
     //  if (conversation.$exists()) {
         // User already have conversation with this friend, get conversation
-        this.conversationId = conversation.conversationId;
+        this.conversationId = this.idConv;
 
         // Get conversation
         this.dataProvider.getConversationMessages(this.conversationId).subscribe((messages) => {
@@ -113,7 +115,7 @@ export class MessagePage {
           //this.setMessagesRead(this.messages.length);
         });
   //    }
-    });
+  //  });
 
     // Update messages' date time elapsed every minute based on Moment.js.
     var that = this;

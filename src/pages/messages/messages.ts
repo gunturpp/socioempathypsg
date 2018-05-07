@@ -112,19 +112,19 @@ export class MessagesPage {
                         }
                         // Add or update conversation.
                         
-                          //this.addOrUpdateConversation(user2);
-                          this.conversations.push(user2);
-                          this.conversations.sort((a: any, b: any) => {
-                            let date1 = new Date(a.date);
-                            let date2 = new Date(b.date);
-                            if (date1 > date2) {
-                              return -1;
-                            } else if (date1 < date2) {
-                              return 1;
-                            } else {
-                              return 0;
-                            }
-                          });
+                          this.addOrUpdateConversation(user2);
+                          // this.conversations.push(user2);
+                          // this.conversations.sort((a: any, b: any) => {
+                          //   let date1 = new Date(a.date);
+                          //   let date2 = new Date(b.date);
+                          //   if (date1 > date2) {
+                          //     return -1;
+                          //   } else if (date1 < date2) {
+                          //     return 1;
+                          //   } else {
+                          //     return 0;
+                          //   }
+                          // });
                           console.log('print this.conversations', this.conversations);
                         
                       });
@@ -172,7 +172,7 @@ export class MessagesPage {
     } else {
       var index = -1;
       for (var i = 0; i < this.conversations.length; i++) {
-        if (this.conversations[i].key == conversation.key) {
+        if (this.conversations[i].conversationId == conversation.conversationId) {
           index = i;
         }
       }

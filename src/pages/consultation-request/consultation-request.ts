@@ -77,7 +77,8 @@ export class ConsultationRequestPage {
           dateCreated: new Date().toString(),
           messages: messages,
           users: users,
-          scheduleId: this.schedule
+          scheduleId: this.schedule,
+          sessionke: this.session
         }).then((success) => {
           console.log('sukses buat conversation');
           let conversationId = success.key;

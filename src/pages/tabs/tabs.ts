@@ -23,7 +23,8 @@ export class TabsPage {
   public unreadMessagesCount: any;
   private friendRequestCount: any;
   private conversationList: any;
-  private conversationsInfo: any;
+  public conversationsInfo: any;
+
   // TabsPage
   // This is the page where we set our tabs.
   constructor(public navCtrl: NavController, public navParams: NavParams, public dataProvider: DataProvider) {
@@ -31,6 +32,7 @@ export class TabsPage {
 
   ionViewDidLoad() {
     console.log('asalllll');
+    this.conversationsInfo = 0;
     //this.getUnreadMessagesCount();
     // Get friend requests count.
     // this.dataProvider.getRequests(firebase.auth().currentUser.uid).subscribe((requests) => {
@@ -42,20 +44,32 @@ export class TabsPage {
     // });
 
     // Get conversations and add/update if the conversation exists, otherwise delete from list.
-    this.dataProvider.getListConversations().subscribe((conversationsInfo) => {
+    //this.dataProvider.getListConversations().subscribe((conversationsInfo) => {
+      this.dataProvider.getConversations().subscribe(conversationsInfo => {
       //console.log("conversationsInfo : "+JSON.stringify(conversationsInfo));
       this.unreadMessagesCount = null;
       this.conversationsInfo = null;
       this.conversationList = null;
       if (conversationsInfo.length > 0) {
-        this.conversationsInfo = conversationsInfo;
-        console.log('info',this.conversationsInfo);
+        //this.conversationsInfo = conversationsInfo;
+        
         conversationsInfo.forEach((conversationInfo) => {
-          this.dataProvider.getConversation(conversationInfo.conversationId).subscribe((conversation) => {
-            if (conversation) {
-              //console.log(conversation);
-              this.addOrUpdateConversation(conversation);
-            }
+         // this.dataProvider.getConversation(conversationInfo.conversationId).subscribe((conversation) => {
+            this.dataProvider.getConversationbyCurrentUser(conversationInfo.key).subscribe(user3 => { 
+              console.log('user3 ',user3);
+                user3.forEach(conversation => {
+                  this.conversationsInfo += conversation.messagesRead;
+                  console.log('info',this.conversationsInfo);
+                  this.dataProvider
+                      .getConversation(conversation.conversationId)
+                      .subscribe(obj => {
+                        obj.idConv = conversation.conversationId;
+                        if (obj) {
+                        console.log('objekkk',obj);
+                        this.addOrUpdateConversation(obj);
+                    }
+              });
+            });
           });
         });
       }
@@ -74,7 +88,7 @@ export class TabsPage {
     } else {
       var index = -1;
       for (var i = 0; i < this.conversationList.length; i++) {
-        if (this.conversationList[i].key == conversation.key) {
+        if (this.conversationList[i].idConv == conversation.idConv) {
           index = i;
         }
       }
@@ -94,11 +108,12 @@ export class TabsPage {
     this.unreadMessagesCount = 0;
     if (this.conversationList) {
       for (var i = 0; i < this.conversationList.length; i++) {
-        this.unreadMessagesCount += this.conversationList[i].messages.length - this.conversationsInfo[i].messagesRead;
+        this.unreadMessagesCount += this.conversationList[i].messages.length;
         console.log('unread tabs ',this.unreadMessagesCount);
-        if (this.unreadMessagesCount == 0) {
-          this.unreadMessagesCount = null;
-        }
+      }
+      this.unreadMessagesCount -= this.conversationsInfo;
+      if (this.unreadMessagesCount == 0) {
+        this.unreadMessagesCount = null;
       }
     }
   }

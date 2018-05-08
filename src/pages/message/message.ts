@@ -133,8 +133,8 @@ export class MessagePage {
   //end of ionViewDidLoad
 
   ionViewDidEnter(){
-   // this.setMessagesRead(this.messages);  
-   
+    this.setMessagesRead(this.messages.length);  
+   console.log('read',this.messages);
   }
 
   // Load previous messages in relation to numberOfMessages.
@@ -175,7 +175,7 @@ export class MessagePage {
      // this.dataProvider.getListConversationMessages(this.conversationId).subscribe((messages) => {
         totalMessagesCount = message;
      // });
-      this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid') + '/conversations/' + this.userId).update({
+      this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid') + '/conversations/' + this.userId + '/' + this.idConv).update({
         messagesRead: totalMessagesCount
       });
    // }

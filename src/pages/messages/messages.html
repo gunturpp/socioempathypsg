@@ -8,9 +8,9 @@
       </button>
     </ion-buttons>
     <ion-buttons end>
-      <button ion-button icon-only tappable (click)="notif()">
+      <button ion-button ion-button icon-only tappable (click)="notif()">
         <ion-icon name="notifications">
-          <ion-badge class="notif" color="danger">1</ion-badge>
+          <ion-badge id="notifications-badge" color="danger">{{countOrders}}</ion-badge>
         </ion-icon>
       </button>
     </ion-buttons>

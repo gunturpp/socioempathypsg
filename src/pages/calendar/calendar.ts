@@ -186,14 +186,33 @@ export class CalendarPage {
                             this.count += 1;
                             var k = this.schedules[this.index].key;
                              console.log('dalem j ', k);
-                            
+                            if(listSchedules[j].key == "session1"){
+                                var x = k+"T08:00:00";
+                                var y = k+"T10:00:00";
+                                }
+                            else if(listSchedules[j].key == "session2"){
+                                var x = k+"T10:00:00";
+                                var y = k+"T12:00:00";
+                                }
+                            else if(listSchedules[j].key == "session3"){
+                                var x = k+"T12:00:00";
+                                var y = k+"T14:00:00";
+                                }
+                            else if(listSchedules[j].key == "session4"){
+                                var x = k+"T14:00:00";
+                                var y = k+"T16:00:00";
+                                }
+                            else if(listSchedules[j].key == "session5"){
+                                var x = k+"T16:00:00";
+                                var y = k+"T18:00:00";
+                                }
                              console.log('list arr', listSchedules[j].key);
                             
                               this.eventSource.push({
                                    //  title: listSchedules[j].key,
                                     title: listSchedules[j].key,
-                                    startTime: new Date(k),
-                                    endTime: new Date(k),
+                                    startTime: new Date(x),
+                                    endTime: new Date(y),
                                     allDay: false
                                 });
                             

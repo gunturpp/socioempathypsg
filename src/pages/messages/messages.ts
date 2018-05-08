@@ -23,6 +23,7 @@ import { LovestorePage } from "../lovestore/lovestore";
   templateUrl: "messages.html"
 })
 export class MessagesPage {
+  countOrders: any;
   i(arg0: any): any {
     throw new Error("Method not implemented.");
   }
@@ -47,6 +48,7 @@ export class MessagesPage {
   ) {}
 
   ionViewDidEnter() {
+    this.countOrder();
     this.conversations = [];
     /// post new data
     this.createUserData();
@@ -70,8 +72,9 @@ export class MessagesPage {
 
          // if (conversation.$exists()) {
             // Get conversation partner info.
-            this.dataProvider.getUser(conversation.key).subscribe(user => {
+            this.dataProvider.getUserss(conversation.key).subscribe(user => {
               conversation.friend = user;
+              console.log('temen',conversation.friend);
               console.log('con 2',conversation.key);
               console.log('idcon ', conversation.conversationId);
               // Get conversation info.
@@ -89,6 +92,8 @@ export class MessagesPage {
                         user2.date = lastMessage.date;
                         user2.sender = lastMessage.sender;
                         user2.idConv = user2.conversationId;
+                        user2.key = conversation.key;
+                        user2.friend = conversation.friend;
                         console.log('conv id', user2);  
                         // Set unreadMessagesCount
                         user2.unreadMessagesCount =
@@ -113,18 +118,6 @@ export class MessagesPage {
                         // Add or update conversation.
                         
                           this.addOrUpdateConversation(user2);
-                          // this.conversations.push(user2);
-                          // this.conversations.sort((a: any, b: any) => {
-                          //   let date1 = new Date(a.date);
-                          //   let date2 = new Date(b.date);
-                          //   if (date1 > date2) {
-                          //     return -1;
-                          //   } else if (date1 < date2) {
-                          //     return 1;
-                          //   } else {
-                          //     return 0;
-                          //   }
-                          // });
                           console.log('print this.conversations', this.conversations);
                         
                       });
@@ -364,5 +357,23 @@ export class MessagesPage {
   store(){
     this.navCtrl.push(LovestorePage);
   }
+
+  //untuk count order
+  countOrder(){
+    this.countOrders = 0;
+    this.dataProvider.getListBooking().subscribe(data=>{
+        data.forEach(book => {
+          this.dataProvider.getDetailBooking(book.key).subscribe(data2=>{
+                 
+                      if(data2.confirmation == "waiting"){
+                          this.countOrders += 1; 
+                      }
+                  
+              });
+          });
+    });
+
+  }
+
   //this is the last
 }

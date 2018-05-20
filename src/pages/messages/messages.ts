@@ -13,16 +13,28 @@ import { DataProvider } from "../../providers/data";
 import { NewMessagePage } from "../new-message/new-message";
 import { MessagePage } from "../message/message";
 import * as firebase from "firebase";
-import { Message2Page } from "../message2/message2";
+//import { Message2Page } from "../message2/message2";
 import { concat } from "rxjs/observable/concat";
 import { NotifPage } from "../notif/notif";
 import { LovestorePage } from "../lovestore/lovestore";
+import * as moment from "moment";
 
 @Component({
   selector: "page-messages",
   templateUrl: "messages.html"
 })
 export class MessagesPage {
+  bookingDay: any;
+  bookSession: any;
+  inputSeconds = [];
+  iterate = 0;
+  timeInSeconds: any;
+  time: any;
+  runTimer: boolean;
+  hasStarted: boolean;
+  hasFinished: boolean;
+  remainingTime = [];
+  displayTime = [];
   countOrders: any;
   i(arg0: any): any {
     throw new Error("Method not implemented.");
@@ -47,11 +59,167 @@ export class MessagesPage {
     public alertCtrl: AlertController
   ) {}
 
-  ionViewDidEnter() {
-    this.countOrder();
+  countdown() {
+    let bookDay, bookMonth, bookYear, bookSec, bookMin, bookHour;
+    bookDay = this.bookingDay.substring(9, 11);
+    bookMonth = this.bookingDay.substring(6, 8);
+    bookYear = this.bookingDay.substring(1, 5);
+    this.bookSession;
+    console.log('booksess',this.bookSession);
+    switch (this.bookSession) {
+      case "session1":
+        bookHour = 8;
+        break;
+      case "session2":
+        bookHour = 10;
+        break;
+      case "session3":
+        bookHour = 12;
+        break;
+      case "session4":
+        bookHour = 14;
+        break;
+      case "session5":
+        bookHour = 16;
+        break;
+      default:
+        return 0;
+    }
+    console.log("sesi", bookHour);
+    // bookYear = moment(this.bookingDay).year();
+    // bookMonth = moment(this.bookingDay).month() + 1;
+    // bookDay = moment(this.bookingDay).days();
+    // bookHour = moment(this.bookingDay).hours() * 3600;
+    // bookMin = moment(this.bookingDay).minutes() * 60;
+    // bookSec = moment(this.bookingDay).seconds();
+    // current date
+    let sec, min, hour, day, days, today, month, year, spareDay, now, later;
+    today = moment(new Date())
+      .local()
+      .format();
+    year = moment(today).year();
+    month = moment(today).month() + 1;
+    days = moment(today).days();
+    hour = moment(today).hours() * 3600 - bookHour * 3600;
+    min = moment(today).minutes() * 60;
+    sec = moment(today).seconds();
+
+    // booking date
+    later = moment([bookYear, bookMonth, bookDay]);
+    now = moment([year, month, days]);
+    spareDay = later.diff(now, "days");
+    console.log("booking day later", bookDay, bookMonth, bookYear);
+    console.log("booking day now", days, month, year);
+    console.log("spare day", spareDay);
+
+    // waktunya countdownnya masih sama tiap list
+
+    day = spareDay * 86400;
+    console.log("times", day, hour, min, sec);
+    this.inputSeconds[this.iterate] = day + hour + min + sec;
+    console.log("inputseconds", this.inputSeconds);
+    localStorage.setItem("inputSec", JSON.stringify(this.inputSeconds));
+    this.iterate++;
+  }
+  /* Initialize and setup the time for question */
+  //  ngOnInit() {
+  //    this.initTimer();
+  //    this.startTimer();
+  //  }
+
+  initTimer() {
+    // Pomodoro is usually for 25 minutes
+    if (!this.timeInSeconds) {
+      // this.timeInSeconds = this.inputSeconds;
+      this.timeInSeconds = JSON.parse(localStorage.getItem("inputSec"));
+      console.log("init timer", this.timeInSeconds);
+    }
+    for (var i = 0; i < this.timeInSeconds.length; i++) {
+      console.log("increment", i);
+      this.time = this.timeInSeconds[i];
+      this.runTimer = false;
+      this.hasStarted = false;
+      this.hasFinished = false;
+      this.remainingTime[i] = this.timeInSeconds[i];
+      console.log("remain", this.remainingTime[i]);
+      this.displayTime[i] = this.getSecondsAsDigitalClock(
+        this.remainingTime[i]
+      );
+      console.log("display", this.displayTime[i]);
+    }
+  }
+  // timer countdown
+  startTimer() {
+    this.runTimer = true;
+    this.hasStarted = true;
+    this.timerTick();
+  }
+
+  pauseTimer() {
+    this.runTimer = false;
+  }
+
+  resumeTimer() {
+    this.startTimer();
+  }
+
+  timerTick() {
+    setTimeout(() => {
+      var length = JSON.parse(localStorage.getItem("inputSec")).length;
+      for (var i = 0; i < length; i++) {
+        if (!this.runTimer) {
+          return;
+        }
+        this.remainingTime[i]--;
+        this.displayTime[i] = this.getSecondsAsDigitalClock(
+          this.remainingTime[i]
+        );
+      }
+      // masi statis di array 0 doang
+      if (this.remainingTime[0] > 0) {
+        this.timerTick();
+      } else {
+        this.hasFinished = true;
+      }
+    }, 1000);
+  }
+
+  getSecondsAsDigitalClock(inputSeconds: number) {
+    if (inputSeconds != null) {
+      var sec_num = parseInt(inputSeconds.toString(), 10); // don't forget the second param
+      //console.log("sec sum", sec_num); //just uncoment to show countdown in console
+    }
+    var days = Math.floor(sec_num / 3600 / 24);
+    var hours = Math.floor(sec_num / 3600) - days * 24;
+    var temphours = Math.floor(sec_num / 3600);
+    var minutes = Math.floor((sec_num - temphours * 3600) / 60);
+    var seconds = sec_num - temphours * 3600 - minutes * 60;
+    var hoursString = "";
+    var minutesString = "";
+    var secondsString = "";
+    var daysString = "";
+    hoursString = hours < 10 ? "0" + hours : hours.toString();
+    minutesString = minutes < 10 ? "0" + minutes : minutes.toString();
+    secondsString = seconds < 10 ? "0" + seconds : seconds.toString();
+    daysString = days.toString();
+    return (
+      daysString +
+      "day " +
+      hoursString +
+      ":" +
+      minutesString +
+      ":" +
+      secondsString
+    );
+  }
+  // close timer countdown
+
+
+ // ionViewDidEnter() {
+    ionViewDidLoad(){
     this.conversations = [];
-    /// post new data
-    this.createUserData();
+    //untuk psg baru
+    //this.createUserData();
   //console.log('uid gue ' , firebase.auth().currentUser.uid);
     if(localStorage.getItem('uid') == null){
       localStorage.setItem('uid',firebase.auth().currentUser.uid);
@@ -67,6 +235,9 @@ export class MessagesPage {
     this.dataProvider.getConversations().subscribe(conversations => {
       console.log('list cet', conversations);
       if (conversations.length > 0) {
+        this.initTimer();
+        this.startTimer();
+        this.countOrder();
         conversations.forEach(conversation => {
           console.log('con ',conversation.key);
 
@@ -88,6 +259,11 @@ export class MessagesPage {
                         console.log('obj ', obj);
                         console.log('conId', user2.conversationId);
                         // Get last message of conversation.
+                        console.log("scheduleeyid", obj.scheduleId);
+                        this.bookingDay = JSON.stringify(obj.scheduleId);
+                        this.bookSession = obj.sessionke;
+                        this.countdown();
+                        
                         let lastMessage = obj.messages[obj.messages.length - 1];
                         user2.date = lastMessage.date;
                         user2.sender = lastMessage.sender;
@@ -151,6 +327,11 @@ export class MessagesPage {
     }
   }
   
+  //ngOnInit() {
+  //  this.initTimer();
+  //  this.startTimer();
+  //}
+
   // delete personal message
   deleteConversation(conversation) {
     // realtime load data

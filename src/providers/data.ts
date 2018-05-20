@@ -232,4 +232,10 @@ export class DataProvider {
     });
   }
 
+  //get scheduling
+  getScheduling(){
+    this.items = this.angularfireDatabase.list('/scheduling/').snapshotChanges();
+    return this.items;
+  }
+
 }

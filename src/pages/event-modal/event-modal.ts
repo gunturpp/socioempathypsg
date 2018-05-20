@@ -96,9 +96,9 @@ export class EventModalPage {
                   session1: true,
                 })
                 .then(() => {
-                //  this.loadingProvider.hide();
+                 // this.loadingProvider.hide();
                   console.log("sukses buat schedule1s");
-                //  this.viewCtrl.dismiss(this.event);
+                 // this.viewCtrl.dismiss(this.event);
                 });
             } 
              if (this.session2){
@@ -119,9 +119,9 @@ export class EventModalPage {
                   session2: true,
                 })
                 .then(() => {
-                //  this.loadingProvider.hide();
+                // this.loadingProvider.hide();
                   console.log("sukses buat schedule2s");
-                //  this.viewCtrl.dismiss(this.event);
+                 // this.viewCtrl.dismiss(this.event);
                 });
             } 
              if (this.session3) {
@@ -167,7 +167,7 @@ export class EventModalPage {
                 .then(() => {
                 //  this.loadingProvider.hide();
                   console.log("sukses buat schedule4s");
-                //  this.viewCtrl.dismiss(this.event);
+               //   this.viewCtrl.dismiss(this.event);
                 });
             } 
              if (this.session5){
@@ -188,15 +188,15 @@ export class EventModalPage {
                   session5: true,
                 })
                 .then(() => {
-                //  this.loadingProvider.hide();
+                 // this.loadingProvider.hide();
                   console.log("sukses buat schedule5s");
                 //  this.viewCtrl.dismiss(this.event);
                 });
              }
       ///  }
      // });
-     this.loadingProvider.hide();
      this.viewCtrl.dismiss(this.event);
+     this.loadingProvider.hide();
   }
 
 }

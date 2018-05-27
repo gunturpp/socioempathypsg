@@ -57,7 +57,7 @@ export class MessagesPage {
     public dataProvider: DataProvider,
     public firebaseProvider: FirebaseProvider,
     public alertCtrl: AlertController
-  ) {}
+  ) { }
 
   countdown() {
     let bookDay, bookMonth, bookYear, bookSec, bookMin, bookHour;
@@ -65,7 +65,7 @@ export class MessagesPage {
     bookMonth = this.bookingDay.substring(6, 8);
     bookYear = this.bookingDay.substring(1, 5);
     this.bookSession;
-    console.log('booksess',this.bookSession);
+    console.log('booksess', this.bookSession);
     switch (this.bookSession) {
       case "session1":
         bookHour = 8;
@@ -122,10 +122,10 @@ export class MessagesPage {
     this.iterate++;
   }
   /* Initialize and setup the time for question */
-  //  ngOnInit() {
-  //    this.initTimer();
-  //    this.startTimer();
-  //  }
+  ngOnInit() {
+    this.initTimer();
+    this.startTimer();
+  }
 
   initTimer() {
     // Pomodoro is usually for 25 minutes
@@ -215,14 +215,15 @@ export class MessagesPage {
   // close timer countdown
 
 
- // ionViewDidEnter() {
-    ionViewDidLoad(){
+   ionViewDidEnter() {
+  //ionViewDidLoad() {
+    this.countOrder();
     this.conversations = [];
     //untuk psg baru
     //this.createUserData();
-  //console.log('uid gue ' , firebase.auth().currentUser.uid);
-    if(localStorage.getItem('uid') == null){
-      localStorage.setItem('uid',firebase.auth().currentUser.uid);
+    //console.log('uid gue ' , firebase.auth().currentUser.uid);
+    if (localStorage.getItem('uid') == null) {
+      localStorage.setItem('uid', firebase.auth().currentUser.uid);
       console.log('');
     }
     console.log('uid dari local', localStorage.getItem('uid'));
@@ -235,75 +236,74 @@ export class MessagesPage {
     this.dataProvider.getConversations().subscribe(conversations => {
       console.log('list cet', conversations);
       if (conversations.length > 0) {
-        this.initTimer();
-        this.startTimer();
-        this.countOrder();
+        // this.initTimer();
+        // this.startTimer();
         conversations.forEach(conversation => {
-          console.log('con ',conversation.key);
+          console.log('con ', conversation.key);
 
-         // if (conversation.$exists()) {
-            // Get conversation partner info.
-            this.dataProvider.getUserss(conversation.key).subscribe(user => {
-              conversation.friend = user;
-              console.log('temen',conversation.friend);
-              console.log('con 2',conversation.key);
-              console.log('idcon ', conversation.conversationId);
-              // Get conversation info.
-              this.dataProvider.getConversationbyCurrentUser(conversation.key).subscribe(user3 => {  
-                console.log('user3 ',user3);
-                user3.forEach(user2 => {
-                  if(user2.conversationId != null) {
-                    this.dataProvider
-                      .getConversation(user2.conversationId)
-                      .subscribe(obj => {
-                        console.log('obj ', obj);
-                        console.log('conId', user2.conversationId);
-                        // Get last message of conversation.
-                        console.log("scheduleeyid", obj.scheduleId);
-                        this.bookingDay = JSON.stringify(obj.scheduleId);
-                        this.bookSession = obj.sessionke;
-                        this.countdown();
-                        
-                        let lastMessage = obj.messages[obj.messages.length - 1];
-                        user2.date = lastMessage.date;
-                        user2.sender = lastMessage.sender;
-                        user2.idConv = user2.conversationId;
-                        user2.key = conversation.key;
-                        user2.friend = conversation.friend;
-                        console.log('conv id', user2);  
-                        // Set unreadMessagesCount
-                        user2.unreadMessagesCount =
-                          obj.messages.length - user2.messagesRead;
-                        console.log('unread',conversation.unreadMessagesCount);
-                        console.log('messages.length', obj.messages.length);
-                        console.log('conversation.messageRead',user2.messagesRead);
-                        // Process last message depending on messageType.
-                        if (lastMessage.type == "text") {
-                          if (lastMessage.sender == localStorage.getItem('uid')) {
-                            user2.message = "You: " + lastMessage.message;
-                          } else {
-                            user2.message = lastMessage.message;
-                          }
+          // if (conversation.$exists()) {
+          // Get conversation partner info.
+          this.dataProvider.getUserss(conversation.key).subscribe(user => {
+            conversation.friend = user;
+            console.log('temen', conversation.friend);
+            console.log('con 2', conversation.key);
+            console.log('idcon ', conversation.conversationId);
+            // Get conversation info.
+            this.dataProvider.getConversationbyCurrentUser(conversation.key).subscribe(user3 => {
+              console.log('user3 ', user3);
+              user3.forEach(user2 => {
+                if (user2.conversationId != null) {
+                  this.dataProvider
+                    .getConversation(user2.conversationId)
+                    .subscribe(obj => {
+                      console.log('obj ', obj);
+                      console.log('conId', user2.conversationId);
+                      // Get last message of conversation.
+                      console.log("scheduleeyid", obj.scheduleId);
+                      this.bookingDay = JSON.stringify(obj.scheduleId);
+                      this.bookSession = obj.sessionke;
+                      this.countdown();
+
+                      let lastMessage = obj.messages[obj.messages.length - 1];
+                      user2.date = lastMessage.date;
+                      user2.sender = lastMessage.sender;
+                      user2.idConv = user2.conversationId;
+                      user2.key = conversation.key;
+                      user2.friend = conversation.friend;
+                      console.log('conv id', user2);
+                      // Set unreadMessagesCount
+                      user2.unreadMessagesCount =
+                        obj.messages.length - user2.messagesRead;
+                      console.log('unread', conversation.unreadMessagesCount);
+                      console.log('messages.length', obj.messages.length);
+                      console.log('conversation.messageRead', user2.messagesRead);
+                      // Process last message depending on messageType.
+                      if (lastMessage.type == "text") {
+                        if (lastMessage.sender == localStorage.getItem('uid')) {
+                          user2.message = "You: " + lastMessage.message;
                         } else {
-                          if (lastMessage.sender == localStorage.getItem('uid')) {
-                            conversation.message = "You sent a photo message.";
-                          } else {
-                            conversation.message = "has sent you a photo message.";
-                          }
+                          user2.message = lastMessage.message;
                         }
-                        // Add or update conversation.
-                        
-                          this.addOrUpdateConversation(user2);
-                          console.log('print this.conversations', this.conversations);
-                        
-                      });
-                    }
+                      } else {
+                        if (lastMessage.sender == localStorage.getItem('uid')) {
+                          conversation.message = "You sent a photo message.";
+                        } else {
+                          conversation.message = "has sent you a photo message.";
+                        }
+                      }
+                      // Add or update conversation.
 
-                }); //end of for each
-              }); // end of user3
-                
-            });
-        //  }
+                      this.addOrUpdateConversation(user2);
+                      console.log('print this.conversations', this.conversations);
+
+                    });
+                }
+
+              }); //end of for each
+            }); // end of user3
+
+          });
+          //  }
         });
         this.loadingProvider.hide();
       } else {
@@ -315,7 +315,7 @@ export class MessagesPage {
     // Update conversations' last active date time elapsed every minute based on Moment.js.
     var that = this;
     if (!that.updateDateTime) {
-      that.updateDateTime = setInterval(function() {
+      that.updateDateTime = setInterval(function () {
         if (that.conversations) {
           that.conversations.forEach(conversation => {
             let date = conversation.date;
@@ -326,7 +326,7 @@ export class MessagesPage {
       }, 60000);
     }
   }
-  
+
   //ngOnInit() {
   //  this.initTimer();
   //  this.startTimer();
@@ -370,7 +370,7 @@ export class MessagesPage {
     }
   }
 
-  ionViewDidLeave(){
+  ionViewDidLeave() {
     this.conversations = [];
   }
   // Create userData on the database if it doesn't exist yet.
@@ -465,7 +465,7 @@ export class MessagesPage {
   // Open chat with friend.
   message(userId, idConv) {
     console.log(userId);
-    this.app.getRootNav().push(MessagePage, { userId: userId, idConv:idConv });
+    this.app.getRootNav().push(MessagePage, { userId: userId, idConv: idConv });
   }
 
   // Return class based if conversation has unreadMessages or not.
@@ -531,27 +531,27 @@ export class MessagesPage {
     actionSheet.present();
   }
 
-  notif(){
+  notif() {
     this.navCtrl.push(NotifPage);
   }
 
-  store(){
+  store() {
     this.navCtrl.push(LovestorePage);
   }
 
   //untuk count order
-  countOrder(){
+  countOrder() {
     this.countOrders = 0;
-    this.dataProvider.getListBooking().subscribe(data=>{
-        data.forEach(book => {
-          this.dataProvider.getDetailBooking(book.key).subscribe(data2=>{
-                 
-                      if(data2.confirmation == "waiting"){
-                          this.countOrders += 1; 
-                      }
-                  
-              });
-          });
+    this.dataProvider.getListBooking().subscribe(data => {
+      data.forEach(book => {
+        this.dataProvider.getDetailBooking(book.key).subscribe(data2 => {
+
+          if (data2.confirmation == "waiting") {
+            this.countOrders += 1;
+          }
+
+        });
+      });
     });
 
   }

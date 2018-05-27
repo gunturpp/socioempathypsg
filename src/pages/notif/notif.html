@@ -23,7 +23,7 @@
                   </h3>
                 </ion-col>
                 <ion-col>
-                  <div class="time">12.59</div>
+                  <div class="time">{{bookingz[i].key | DateFormat}}</div>
                 </ion-col>
               </ion-row>
               <p class="kecil">Consultant request to you</p>
@@ -37,7 +37,7 @@
                   <ion-col>
                    <button ion-button icon-left clear small>
                       <ion-icon name="time"></ion-icon>
-                      <p class="kecil2">00.00 - 02.00</p>
+                      <p class="kecil2">{{sessions[i]}}</p>
                     </button>
                   </ion-col>
               </ion-row>

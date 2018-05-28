@@ -14,6 +14,35 @@
 
 
 <ion-content padding>
- <p start> Saldo Lovepoints <p>
-  <p end> 250 </p>
+
+  <ion-item>
+    <ion-row>
+      <ion-col class="name" col-10>
+        <p class="blue" start> Saldo Lovepoints
+          <p>
+      </ion-col>
+      <ion-col col>
+        <p end> {{lp}} </p>
+      </ion-col>
+    </ion-row>
+  </ion-item>
+
+
+ 
+    <button class="butt" (click)="transaction()" full color="primary" ion-button>
+      <ion-row> 
+        <ion-col col-2><h1 class="iconz"><ion-icon name="paper"></ion-icon></h1></ion-col>
+        <ion-col col-10><div class="fontz">Transactions</div></ion-col>
+      </ion-row>
+    </button>
+    <br>
+
+    <button class="butt" (click)="withdraw()" full color="secondary" ion-button>
+        <ion-row> 
+          <ion-col col-2><h1 class="iconz"><ion-icon name="cash"></ion-icon></h1></ion-col>
+          <ion-col col-10><div class="fontz">Withdraw</div></ion-col>
+        </ion-row>
+      </button>
+
+
 </ion-content>

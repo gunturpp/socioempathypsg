@@ -36,6 +36,12 @@ export class DataProvider {
     this.items = this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid')).valueChanges();
     return this.items;
   }
+
+  getCurrentUser2() {
+    this.items = this.angularfireDatabase.object('/psg/' + firebase.auth().currentUser.uid).valueChanges();
+    return this.items;
+  }
+
   updateCurrentUser() {
     return this.angularfireDatabase.object('/psg/' + firebase.auth().currentUser.uid);
   }
@@ -229,6 +235,12 @@ export class DataProvider {
    accBooking(idBooking){
     return this.angularfireDatabase.object('/booking/' + idBooking).update({
       confirmation: 'accepted'
+    });
+  }
+
+  rejectBooking(idBooking){
+    return this.angularfireDatabase.object('/booking/' + idBooking).update({
+      confirmation: 'rejected'
     });
   }
 

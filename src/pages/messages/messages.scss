@@ -13,16 +13,20 @@ page-messages {
     float: right;
   }
 
-  div.bold {
-    h2 {
-      font-weight: bold !important;
-    }
-    font-weight: bold;
+  .date {
+    color: #272626;
   }
 
-  .date {
-    color: #ffffff;
-  }
+  .countdown{
+    top: 40px;
+    color: #272626;
+    font-size: 75%;
+   }
+
+   .badges {
+     margin-top: -20px;
+   }
+
   .socioCss {
     height: 45%;
     width: 45%;
@@ -54,4 +58,9 @@ page-messages {
     right: -3px;
     border-radius: 100%;
 }
+
+.blue{
+    background-color: white;
+}
+
 }

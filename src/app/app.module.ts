@@ -40,6 +40,13 @@ import { LovestorePage } from '../pages/lovestore/lovestore';
 import { LovestorePageModule } from '../pages/lovestore/lovestore.module.ts';
 import { ConsultationRequestPage } from '../pages/consultation-request/consultation-request';
 import { ConsultationRequestPageModule } from '../pages/consultation-request/consultation-request.module.ts';
+import { DetailUserPage } from '../pages/detail-user/detail-user';
+import { DetailUserPageModule } from '../pages/detail-user/detail-user.module.ts';
+import { FormWithdrawPage } from '../pages/form-withdraw/form-withdraw';
+import { FormWithdrawPageModule } from '../pages/form-withdraw/form-withdraw.module.ts';
+import { DetailWithdrawPage } from '../pages/detail-withdraw/detail-withdraw';
+import { DetailWithdrawPageModule } from '../pages/detail-withdraw/detail-withdraw.module.ts';
+
 //import calendar plugin
 import { NgCalendarModule } from 'ionic2-calendar';
 
@@ -101,7 +108,7 @@ firebase.initializeApp(Login.firebaseConfig);
     ProfilePage,
     CalendarPage,
     NotifPage,
-    LovestorePage,
+   // FormWithdrawPage
    // ConsultationRequestPage
    // EventModalPage
   ],
@@ -118,8 +125,11 @@ firebase.initializeApp(Login.firebaseConfig);
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     EventModalPageModule,
-    ConsultationRequestPageModule
-   // LovestorePageModule
+    ConsultationRequestPageModule,
+    DetailUserPageModule,
+    FormWithdrawPageModule,
+    DetailWithdrawPageModule,
+    LovestorePageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -151,7 +161,10 @@ firebase.initializeApp(Login.firebaseConfig);
     EventModalPage,
     NotifPage,
     LovestorePage,
-    ConsultationRequestPage
+    ConsultationRequestPage,
+    DetailUserPage,
+    FormWithdrawPage,
+    DetailWithdrawPage
   ],
   providers: [
     StatusBar, SplashScreen, Camera, GooglePlus, Keyboard, { provide: ErrorHandler, useClass: IonicErrorHandler }, LoginProvider, LogoutProvider, LoadingProvider, AlertProvider, ImageProvider, DataProvider, FirebaseProvider]

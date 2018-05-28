@@ -47,20 +47,21 @@ export class ProfilePage {
     this.dataProvider.getCurrentUser().subscribe((user) => {
       this.loadingProvider.hide();
       this.user = user;
+      console.log('uzer',this.user);
     });
 
     //set anonymouse flag
 
-   this.dataProvider.getUser(this.user.userId).subscribe(userData=>{
-      if(userData != null){
-        console.log(userData.anonymouse);
-        if(userData.anonymouse == "true"){
-          this.anonymouseFlag = true;
-        } else{
-          this.anonymouseFlag = false;
-        }
-      }
-    });
+  //  this.dataProvider.getUser(this.user.userId).subscribe(userData=>{
+  //     if(userData != null){
+  //       console.log(userData.anonymouse);
+  //       if(userData.anonymouse == "true"){
+  //         this.anonymouseFlag = true;
+  //       } else{
+  //         this.anonymouseFlag = false;
+  //       }
+  //     }
+  //   });
 
   }
   underconstruction() {

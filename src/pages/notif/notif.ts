@@ -55,19 +55,19 @@ export class NotifPage {
           this.bookings[this.index] = data2;
           this.index += 1;
           if(data2.sessionke == "session1"){
-              var sesi = "06.00 - 08.00";
-          }
-          else if(data2.sessionke == "session2"){
               var sesi = "08.00 - 10.00";
           }
-          else if(data2.sessionke == "session3"){
+          else if(data2.sessionke == "session2"){
               var sesi = "10.00 - 12.00";
           }
-          else if(data2.sessionke == "session4"){
+          else if(data2.sessionke == "session3"){
               var sesi = "12.00 - 14.00";
           }
-          else if(data2.sessionke == "session5"){
+          else if(data2.sessionke == "session4"){
               var sesi = "14.00 - 16.00";
+          }
+          else if(data2.sessionke == "session5"){
+              var sesi = "16.00 - 18.00";
           }
           this.sessions[this.index-1] = sesi;
           console.log('seseses',this.sessions);

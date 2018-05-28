@@ -250,7 +250,7 @@ export class ImageProvider {
         firebase.auth().currentUser.updateProfile(profile)
           .then((success) => {
             // Update User Data on Database.
-            this.angularfireDatabase.object('/accounts/' + user.userId).update({
+            this.angularfireDatabase.object('/psg/' + user.userId).update({
               img: url
             }).then((success) => {
               this.loadingProvider.hide();

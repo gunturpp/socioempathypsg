@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { FormWithdrawPage } from '../form-withdraw/form-withdraw';
+import { DataProvider } from '../../providers/data';
 
 /**
  * Generated class for the LovestorePage page.
@@ -15,11 +17,25 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class LovestorePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  lp: any;
+  user: any;
+  constructor(public navCtrl: NavController, public navParams: NavParams,public dataProvider: DataProvider) {
   }
 
-  ionViewDidLoad() {
+  ionViewDidEnter() {
+
     console.log('ionViewDidLoad LovestorePage');
+    this.dataProvider.getCurrentUser().subscribe((user) => {
+      this.user = user;
+      console.log('uu',this.user);
+      this.lp = user.lovePoint;
+      console.log('uzer',this.lp);
+    });
+
+  }
+
+  withdraw(){
+    this.navCtrl.push(FormWithdrawPage);
   }
 
 }

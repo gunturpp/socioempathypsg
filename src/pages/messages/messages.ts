@@ -122,10 +122,10 @@ export class MessagesPage {
     this.iterate++;
   }
   /* Initialize and setup the time for question */
-  ngOnInit() {
-    this.initTimer();
-    this.startTimer();
-  }
+  // ngOnInit() {
+  //   this.initTimer();
+  //   this.startTimer();
+  // }
 
   initTimer() {
     // Pomodoro is usually for 25 minutes

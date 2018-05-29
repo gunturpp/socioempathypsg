@@ -7,6 +7,7 @@ import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import * as firebase from 'firebase';
 import { count } from 'rxjs/operator/count';
 import { Observable } from 'rxjs/Observable';
+import { LoadingProvider } from '../../providers/loading';
 
 @IonicPage()
 @Component({
@@ -38,7 +39,7 @@ export class CalendarPage {
     };
 
     constructor(public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private alertCtrl: AlertController,
-        public dataProvider: DataProvider, public angularfireDatabase: AngularFireDatabase
+        public dataProvider: DataProvider, public angularfireDatabase: AngularFireDatabase,public loadingProvider: LoadingProvider
     ) {
         console.log(this.schedules);
 
@@ -150,6 +151,7 @@ export class CalendarPage {
         console.log('tes uid ', localStorage.getItem('uid'));
         console.log('auth2 ', firebase.auth());
         this.dataProvider.getScheduleByUser().subscribe(schedules => {
+            this.loadingProvider.show();
             console.log('hasil 2 return ', schedules);
             //first for get date
             //for (var i=0; i < schedules.length; i++){
@@ -211,7 +213,10 @@ export class CalendarPage {
                     console.log('cek', this.cek);
                     console.log('evenett', this.eventSource);
                     this.cek += 1;
-                    if (this.cek == this.lenKey1) { this.refreshData(); }
+                    if (this.cek == this.lenKey1) {
+                         this.refreshData(); 
+                         this.loadingProvider.hide();
+                        }
 
                 });
             });

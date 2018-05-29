@@ -15,6 +15,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class DetailWithdrawPage {
 
+  status: any;
   lovepoint: any;
   namaPenerima: any;
   rek: any;
@@ -28,6 +29,7 @@ export class DetailWithdrawPage {
     this.namaPenerima = this.navParams.get('namaPenerima');
     this.rek = this.navParams.get('rek');
     this.bank = this.navParams.get('bank');
+    this.status = this.navParams.get('status');
     console.log('ionViewDidLoad DetailWithdrawPage');
     console.log('lp',this.lovepoint);
   }

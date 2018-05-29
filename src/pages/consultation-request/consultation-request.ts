@@ -79,6 +79,7 @@ export class ConsultationRequestPage {
       //make a conversation to users
       this.send();
       this.confirmation = 'accepted';
+      this.navCtrl.pop();
       console.log("sukses update booking");
       //this.viewCtrl.dismiss(this.event);
     });
@@ -87,6 +88,7 @@ export class ConsultationRequestPage {
   declinez(){
     this.dataProvider.rejectBooking(this.createdAt).then(() => {
       this.confirmation = 'rejected';
+      this.navCtrl.pop();
       console.log("sukses reject booking");
     });
   }

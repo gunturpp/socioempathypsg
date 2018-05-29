@@ -1,0 +1,47 @@
+<!--
+  Generated template for the DetailTransactionPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>detail-transaction</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <p>{{date}}</p>
+    <h2>
+      <b>Withdraw</b>
+    </h2>
+    <ion-item>
+      <span item-left>Nominal Lovepoints</span>
+      <span class="blue" item-right>{{lovepoint}}</span>
+    </ion-item>
+    <ion-item>
+      <span item-left>Nilai Uang</span>
+      <span class="blue" item-right>{{lovepoint*1000}}</span>
+    </ion-item>
+    <ion-item>
+      <span item-left>Nama</span>
+      <span class="blue" item-right>{{namaPenerima}}</span>
+    </ion-item>
+    <ion-item>
+      <span item-left>No. Rek </span>
+      <span class="blue" item-right>{{rek}}</span>
+    </ion-item>
+    <ion-item>
+      <span item-left>Bank</span>
+      <span class="blue" item-right>{{bank}}</span>
+    </ion-item>
+    <br>
+    <h2>Status</h2>
+    <ion-item>
+      <span item-left>Transfer</span>
+      <span class="blue" item-right>{{status}}</span>
+    </ion-item>
+</ion-content>

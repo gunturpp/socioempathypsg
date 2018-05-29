@@ -20,6 +20,24 @@ export class DataProvider {
     this.getbyquery = new BehaviorSubject(null);
     console.log("Initializing Data Provider");
   }
+
+  //get transaction in waiting
+  getTransactionsPsg(){
+    this.items = this.angularfireDatabase.list( 'psg/' + localStorage.getItem('uid') + '/transactions',
+    ref => ref.orderByChild('status').equalTo('waiting')).valueChanges();
+    return this.items;
+  }
+
+  getTransactionAll(){
+    this.items = this.angularfireDatabase.list('psg/' + localStorage.getItem('uid') + '/transactions').valueChanges();
+    return this.items;
+  }
+
+  getTransactions(trId){
+    this.items = this.angularfireDatabase.object('transactionPSG/' + trId).valueChanges();
+    return this.items;
+  }
+
   // Get all psg
   getUsers() {
     return this.angularfireDatabase.list('/psg/', 

@@ -24,6 +24,8 @@ import * as moment from "moment";
   templateUrl: "messages.html"
 })
 export class MessagesPage {
+  panjang: any;
+  count: number;
   bookingDay: any;
   bookSession: any;
   inputSeconds = [];
@@ -219,6 +221,7 @@ export class MessagesPage {
   //ionViewDidLoad() {
     this.countOrder();
     this.conversations = [];
+    this.count=0;
     //untuk psg baru
     //this.createUserData();
     //console.log('uid gue ' , firebase.auth().currentUser.uid);
@@ -233,12 +236,14 @@ export class MessagesPage {
     //this.loadingProvider.show();
 
     // Get info of conversations of current logged in user.
+    this.loadingProvider.show();
     this.dataProvider.getConversations().subscribe(conversations => {
       console.log('list cet', conversations);
       if (conversations.length > 0) {
         // this.initTimer();
         // this.startTimer();
         conversations.forEach(conversation => {
+          //this.panjang = user3.length;
           console.log('con ', conversation.key);
 
           // if (conversation.$exists()) {
@@ -250,8 +255,10 @@ export class MessagesPage {
             console.log('idcon ', conversation.conversationId);
             // Get conversation info.
             this.dataProvider.getConversationbyCurrentUser(conversation.key).subscribe(user3 => {
+             
               console.log('user3 ', user3);
               user3.forEach(user2 => {
+                this.count +=1;
                 if (user2.conversationId != null) {
                   this.dataProvider
                     .getConversation(user2.conversationId)
@@ -299,11 +306,17 @@ export class MessagesPage {
                     });
                 }
 
+                console.log('count',this.count);
+                console.log('panjang',this.panjang);
+                if(this.count == this.panjang)
+                    this.loadingProvider.hide();
+
               }); //end of for each
             }); // end of user3
 
           });
           //  }
+         
         });
         this.loadingProvider.hide();
       } else {

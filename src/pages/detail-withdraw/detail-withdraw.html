@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar hideBackButton="true">
     <ion-title>detail-withdraw</ion-title>
   </ion-navbar>
 
@@ -14,8 +14,35 @@
 
 
 <ion-content padding>
-  <p>{{namaPenerima}}</p>
-  <p>{{lovepoint}}</p>
-  <p>{{rek}}</p>
-  <p>{{bank}}</p>
+  <p>Sedang diproses</p>
+  <h2>
+    <b>Withdraw</b>
+  </h2>
+  <ion-item>
+    <span item-left>Nominal Lovepoints</span>
+    <span class="blue" item-right>{{lovepoint}}</span>
+  </ion-item>
+  <ion-item>
+    <span item-left>Nilai Uang</span>
+    <span class="blue" item-right>{{lovepoint*1000}}</span>
+  </ion-item>
+  <ion-item>
+    <span item-left>Nama</span>
+    <span class="blue" item-right>{{namaPenerima}}</span>
+  </ion-item>
+  <ion-item>
+    <span item-left>No. Rek </span>
+    <span class="blue" item-right>{{rek}}</span>
+  </ion-item>
+  <ion-item>
+    <span item-left>Bank</span>
+    <span class="blue" item-right>{{bank}}</span>
+  </ion-item>
+  <br>
+  <h2>Status</h2>
+  <ion-item>
+    <span item-left>Transfer</span>
+    <span class="blue" item-right>{{status}}</span>
+  </ion-item>
+
 </ion-content>

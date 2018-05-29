@@ -46,6 +46,10 @@ import { FormWithdrawPage } from '../pages/form-withdraw/form-withdraw';
 import { FormWithdrawPageModule } from '../pages/form-withdraw/form-withdraw.module.ts';
 import { DetailWithdrawPage } from '../pages/detail-withdraw/detail-withdraw';
 import { DetailWithdrawPageModule } from '../pages/detail-withdraw/detail-withdraw.module.ts';
+import { TransactionsPage } from '../pages/transactions/transactions';
+import { TransactionsPageModule } from '../pages/transactions/transactions.module.ts';
+import { DetailTransactionPage } from '../pages/detail-transaction/detail-transaction';
+import { DetailTransactionPageModule } from '../pages/detail-transaction/detail-transaction.module.ts';
 
 //import calendar plugin
 import { NgCalendarModule } from 'ionic2-calendar';
@@ -108,6 +112,7 @@ firebase.initializeApp(Login.firebaseConfig);
     ProfilePage,
     CalendarPage,
     NotifPage,
+    DetailTransactionPage
    // FormWithdrawPage
    // ConsultationRequestPage
    // EventModalPage
@@ -129,7 +134,9 @@ firebase.initializeApp(Login.firebaseConfig);
     DetailUserPageModule,
     FormWithdrawPageModule,
     DetailWithdrawPageModule,
-    LovestorePageModule
+    LovestorePageModule,
+    TransactionsPageModule,
+    //DetailTransactionPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -164,7 +171,9 @@ firebase.initializeApp(Login.firebaseConfig);
     ConsultationRequestPage,
     DetailUserPage,
     FormWithdrawPage,
-    DetailWithdrawPage
+    DetailWithdrawPage,
+    TransactionsPage,
+    DetailTransactionPage
   ],
   providers: [
     StatusBar, SplashScreen, Camera, GooglePlus, Keyboard, { provide: ErrorHandler, useClass: IonicErrorHandler }, LoginProvider, LogoutProvider, LoadingProvider, AlertProvider, ImageProvider, DataProvider, FirebaseProvider]

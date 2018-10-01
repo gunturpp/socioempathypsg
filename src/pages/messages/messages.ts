@@ -24,6 +24,7 @@ import * as moment from "moment";
   templateUrl: "messages.html"
 })
 export class MessagesPage {
+  profileUser: any;
   panjang: any;
   count: number;
   bookingDay: any;
@@ -217,13 +218,13 @@ export class MessagesPage {
   // close timer countdown
 
 
-   ionViewDidEnter() {
-  //ionViewDidLoad() {
-    this.countOrder();
+  //  ionViewDidEnter() {
+  ionViewDidLoad() {
+    // this.countOrder();
+    this.createUserData();
     this.conversations = [];
-    this.count=0;
+    // this.count=0;
     //untuk psg baru
-    //this.createUserData();
     //console.log('uid gue ' , firebase.auth().currentUser.uid);
     if (localStorage.getItem('uid') == null) {
       localStorage.setItem('uid', firebase.auth().currentUser.uid);
@@ -231,65 +232,52 @@ export class MessagesPage {
     }
     console.log('uid dari local', localStorage.getItem('uid'));
     // Create userData on the database if it doesn't exist yet.
-    //this.createUserData();
     this.searchFriend = "";
-    //this.loadingProvider.show();
+    this.loadingProvider.show();
 
     // Get info of conversations of current logged in user.
-    this.loadingProvider.show();
+    console.log('list cet');
     this.dataProvider.getConversations().subscribe(conversations => {
-      console.log('list cet', conversations);
       if (conversations.length > 0) {
-        // this.initTimer();
-        // this.startTimer();
+        // this.initTimer(); // this.startTimer();
         conversations.forEach(conversation => {
-          //this.panjang = user3.length;
-          console.log('con ', conversation.key);
-
-          // if (conversation.$exists()) {
           // Get conversation partner info.
           this.dataProvider.getUserss(conversation.key).subscribe(user => {
-            conversation.friend = user;
-            console.log('temen', conversation.friend);
-            console.log('con 2', conversation.key);
-            console.log('idcon ', conversation.conversationId);
+            this.profileUser = user;
+          });
+          if (conversation.key) {
             // Get conversation info.
-            this.dataProvider.getConversationbyCurrentUser(conversation.key).subscribe(user3 => {
-             
-              console.log('user3 ', user3);
-              user3.forEach(user2 => {
-                this.count +=1;
-                if (user2.conversationId != null) {
-                  this.dataProvider
-                    .getConversation(user2.conversationId)
-                    .subscribe(obj => {
+            this.dataProvider.getConversationbyCurrentUser(conversation.key).subscribe(listConv => {
+              listConv.forEach(listConversations => { this.count +=1;
+                if (listConversations.conversationId != null) {
+                  this.dataProvider.getConversation(listConversations.conversationId).subscribe(obj => {
                       console.log('obj ', obj);
-                      console.log('conId', user2.conversationId);
+                      console.log('conId', listConversations.conversationId);
                       // Get last message of conversation.
                       console.log("scheduleeyid", obj.scheduleId);
                       this.bookingDay = JSON.stringify(obj.scheduleId);
                       this.bookSession = obj.sessionke;
-                      this.countdown();
+                      // this.countdown();
 
                       let lastMessage = obj.messages[obj.messages.length - 1];
-                      user2.date = lastMessage.date;
-                      user2.sender = lastMessage.sender;
-                      user2.idConv = user2.conversationId;
-                      user2.key = conversation.key;
-                      user2.friend = conversation.friend;
-                      console.log('conv id', user2);
+                      listConversations.date = lastMessage.date;
+                      listConversations.sender = lastMessage.sender;
+                      listConversations.idConv = listConversations.conversationId;
+                      listConversations.key = conversation.key;
+                      listConversations.friend = conversation.friend;
+                      console.log('conv id', listConversations);
                       // Set unreadMessagesCount
-                      user2.unreadMessagesCount =
-                        obj.messages.length - user2.messagesRead;
+                      listConversations.unreadMessagesCount =
+                        obj.messages.length - listConversations.messagesRead;
                       console.log('unread', conversation.unreadMessagesCount);
                       console.log('messages.length', obj.messages.length);
-                      console.log('conversation.messageRead', user2.messagesRead);
+                      console.log('conversation.messageRead', listConversations.messagesRead);
                       // Process last message depending on messageType.
                       if (lastMessage.type == "text") {
                         if (lastMessage.sender == localStorage.getItem('uid')) {
-                          user2.message = "You: " + lastMessage.message;
+                          listConversations.message = "You: " + lastMessage.message;
                         } else {
-                          user2.message = lastMessage.message;
+                          listConversations.message = lastMessage.message;
                         }
                       } else {
                         if (lastMessage.sender == localStorage.getItem('uid')) {
@@ -300,7 +288,7 @@ export class MessagesPage {
                       }
                       // Add or update conversation.
 
-                      this.addOrUpdateConversation(user2);
+                      this.addOrUpdateConversation(listConversations);
                       console.log('print this.conversations', this.conversations);
 
                     });
@@ -313,9 +301,7 @@ export class MessagesPage {
 
               }); //end of for each
             }); // end of user3
-
-          });
-          //  }
+          }
          
         });
         this.loadingProvider.hide();
@@ -381,10 +367,6 @@ export class MessagesPage {
         }
       });
     }
-  }
-
-  ionViewDidLeave() {
-    this.conversations = [];
   }
   // Create userData on the database if it doesn't exist yet.
   createUserData() {

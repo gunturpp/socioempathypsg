@@ -2,22 +2,17 @@ import { Injectable } from '@angular/core';
 import { AngularFireAction, AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
 import * as firebase from 'firebase';
 import { Observable } from 'rxjs/Observable';
-import { retry } from 'rxjs/operator/retry';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/switchMap';
 @Injectable()
 export class DataProvider {
   // Data Provider
   // This is the provider class for most of the Firebase observables in the app.
   public getusers: AngularFireList<any>;
-  public getbyquery : BehaviorSubject<string|null>;
   public listbyquery: Observable<AngularFireAction<firebase.database.DataSnapshot>[]>;
   public Objects: AngularFireObject<any>;
   public items: Observable<any>;
 
   constructor(public angularfireDatabase: AngularFireDatabase) {
-    this.getbyquery = new BehaviorSubject(null);
     console.log("Initializing Data Provider");
   }
 
@@ -137,15 +132,8 @@ export class DataProvider {
 
   // Get conversations of the current logged in user.
   getConversations() {
-    this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/conversations/').snapshotChanges();
-    //this.items = this.angularfireDatabase.objet('/psg/' + localStorage.getItem('uid') + '/conversations/').valueChanges();
-    return this.items;
-  }
-
-  //Get List Conversation
-  getListConversations() {
-    //this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/conversations/').snapshotChanges();
-    this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/conversations/').valueChanges();
+    this.items = this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid') + '/conversations/').snapshotChanges();
+    // this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/conversations/').valueChanges();
     return this.items;
   }
 
@@ -226,13 +214,13 @@ export class DataProvider {
 
   // Get date.
   getScheduleByUser() {
-    this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/scheduling/').snapshotChanges();
+    this.items = this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid') + '/scheduling/').snapshotChanges();
     return this.items;
   }
 
   //get list of schedule per session in speific date
   getListSchedule(date){
-    this.items = this.angularfireDatabase.list('psg/' + localStorage.getItem('uid') + '/scheduling/'+date ).snapshotChanges();
+    this.items = this.angularfireDatabase.object('psg/' + localStorage.getItem('uid') + '/scheduling/'+date ).snapshotChanges();
     return this.items;
   }
 
@@ -264,7 +252,7 @@ export class DataProvider {
 
   //get scheduling
   getScheduling(){
-    this.items = this.angularfireDatabase.list('/scheduling/').snapshotChanges();
+    this.items = this.angularfireDatabase.object('/scheduling/').snapshotChanges();
     return this.items;
   }
 

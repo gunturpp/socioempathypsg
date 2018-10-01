@@ -15,13 +15,13 @@ import * as firebase from 'firebase';
 })
 export class TabsPage {
   messages: any = MessagesPage;
-  friends: any = FriendsPage;
+  // friends: any = FriendsPage;
   profile: any = HomePage;
   calendar: any = CalendarPage;
   // timeLine: any = TimeLinePage;
   // achievement: any = AchievementPage;
   public unreadMessagesCount: any;
-  private friendRequestCount: any;
+  // private friendRequestCount: any;
   private conversationList: any;
   public conversationsInfo: any;
 
@@ -31,7 +31,7 @@ export class TabsPage {
   }
 
   ionViewDidLoad() {
-    console.log('asalllll');
+    console.log('tabs folder');
     this.conversationsInfo = 0;
     //this.getUnreadMessagesCount();
     // Get friend requests count.
@@ -45,36 +45,29 @@ export class TabsPage {
 
     // Get conversations and add/update if the conversation exists, otherwise delete from list.
     //this.dataProvider.getListConversations().subscribe((conversationsInfo) => {
-      this.dataProvider.getConversations().subscribe(conversationsInfo => {
-      //console.log("conversationsInfo : "+JSON.stringify(conversationsInfo));
+    this.dataProvider.getConversations().subscribe(conversationsInfo => {
+      console.log("conversationsInfo : ",conversationsInfo);
       this.unreadMessagesCount = null;
       this.conversationsInfo = null;
       this.conversationList = null;
       if (conversationsInfo.length > 0) {
-        //this.conversationsInfo = conversationsInfo;
-        
+        this.conversationsInfo = conversationsInfo;
         conversationsInfo.forEach((conversationInfo) => {
          // this.dataProvider.getConversation(conversationInfo.conversationId).subscribe((conversation) => {
-            this.dataProvider.getConversationbyCurrentUser(conversationInfo.key).subscribe(user3 => { 
-              console.log('user3 ',user3);
-                user3.forEach(conversation => {
-                  this.conversationsInfo += conversation.messagesRead;
-                  console.log('info',this.conversationsInfo);
-                  this.dataProvider
-                      .getConversation(conversation.conversationId)
-                      .subscribe(obj => {
-                        obj.idConv = conversation.conversationId;
-                        if (obj) {
-                        console.log('objekkk',obj);
-                        this.addOrUpdateConversation(obj);
-                    }
-              });
-            });
+            // this.dataProvider.getConversationbyCurrentUser(conversationInfo.key).subscribe(user3 => { 
+            //   console.log('user3 ',user3);
+                // user3.forEach(conversation => {
+                //   this.conversationsInfo += conversation.messagesRead;
+                //   console.log('info',this.conversationsInfo);
+          this.dataProvider.getConversation(conversationInfo.conversationId).subscribe(obj => {
+            obj.idConv = conversationInfo.conversationId;
+            if (obj) {this.addOrUpdateConversation(obj);}
           });
+            // });
         });
+        // });
       }
     });
-
   }
 
   // Add or update conversaion for real-time sync of unreadMessagesCount.
@@ -122,7 +115,7 @@ export class TabsPage {
     if (this.unreadMessagesCount) {
       if (this.unreadMessagesCount > 0) {
         return this.unreadMessagesCount;
-       // console.log('get unread', this.unreadMessagesCount);
+       console.log('get unread', this.unreadMessagesCount);
       }
     }
     return null;

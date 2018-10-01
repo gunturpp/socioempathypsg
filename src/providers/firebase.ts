@@ -4,7 +4,6 @@ import { LoadingProvider } from './loading';
 import { AlertProvider } from './alert';
 import { DataProvider } from './data';
 import * as firebase from 'firebase';
-import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/take';
 
 @Injectable()

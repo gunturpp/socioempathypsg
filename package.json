@@ -33,7 +33,7 @@
         "ajv": "6.5.3",
         "ajv-keywords": "3.2.0",
         "angular2-text-mask": "9.0.0",
-        "angularfire2": "^5.0.2",
+        "angularfire2": "^5.0.0-rc.6.0",
         "chart.js": "2.7.2",
         "com.telerik.plugins.nativepagetransitions": "0.6.5",
         "cordova": "^8.1.1",
@@ -74,7 +74,7 @@
         "zone.js": "0.8.26"
     },
     "devDependencies": {
-        "@ionic/app-scripts": "^3.2.0",
+        "@ionic/app-scripts": "3.2.0",
         "typescript": "3.0.3"
     },
     "description": "An Ionic project",

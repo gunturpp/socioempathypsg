@@ -6,6 +6,7 @@ import { Validator } from '../../validator';
 import { Validators } from '@angular/forms';
 import { SignupPage } from '../signup/signup';
 import { TabsPage } from '../tabs/tabs';
+
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
@@ -48,7 +49,7 @@ export class LoginPage {
     if (localStorage.getItem('uid') != null && localStorage.getItem('uid')) {
      //  if (Login.emailVerification) {
        this.navCtrl.setRoot(TabsPage);
-         console.log('sese3333333', localStorage.getItem('token'));
+         console.log('logged in', localStorage.getItem('token'));
        }
       
   }

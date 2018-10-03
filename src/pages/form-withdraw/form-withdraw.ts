@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validator } from '../../validator';
 import { Validators } from '@angular/forms';
@@ -7,15 +7,6 @@ import { DetailWithdrawPage } from '../detail-withdraw/detail-withdraw';
 import { LoadingProvider } from '../../providers/loading';
 import { AngularFireDatabase } from 'angularfire2/database';
 
-
-/**
- * Generated class for the FormWithdrawPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
-@IonicPage()
 @Component({
   selector: 'page-form-withdraw',
   templateUrl: 'form-withdraw.html',

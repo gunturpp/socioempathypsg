@@ -83,6 +83,7 @@ firebase.initializeApp(Login.firebaseConfig);
 @NgModule({
   declarations: [
     MyApp,
+    SignupPage,
     LoginPage,
     HomePage,
     VerificationPage,
@@ -95,10 +96,6 @@ firebase.initializeApp(Login.firebaseConfig);
     NewMessagePage,
     MessagePage,
     ImageModalPage,
-    FriendPipe,
-    ConversationPipe,
-    SearchPipe,
-    DateFormatPipe,
     DuplicateMessagePage,
     AchievementPage,
     BoardingPage,
@@ -108,14 +105,23 @@ firebase.initializeApp(Login.firebaseConfig);
     PayDetailPage,
     PaySuccessPage,
     BuyPremiumPage,
-    SignupPage,
     ProfilePage,
     CalendarPage,
+    EventModalPage,
     NotifPage,
-    DetailTransactionPage
-   // FormWithdrawPage
-   // ConsultationRequestPage
-   // EventModalPage
+    LovestorePage,
+    ConsultationRequestPage,
+    DetailUserPage,
+    FormWithdrawPage,
+    DetailWithdrawPage,
+    TransactionsPage,
+    DetailTransactionPage,
+
+    
+    FriendPipe,
+    SearchPipe, 
+    DateFormatPipe,
+    ConversationPipe
   ],
   imports: [
     NgCalendarModule,
@@ -129,13 +135,13 @@ firebase.initializeApp(Login.firebaseConfig);
     AngularFireModule.initializeApp(Login.firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    EventModalPageModule,
-    ConsultationRequestPageModule,
-    DetailUserPageModule,
-    FormWithdrawPageModule,
-    DetailWithdrawPageModule,
-    LovestorePageModule,
-    TransactionsPageModule,
+    // EventModalPageModule,
+    // ConsultationRequestPageModule,
+    // DetailUserPageModule,
+    // FormWithdrawPageModule,
+    // DetailWithdrawPageModule,
+    // LovestorePageModule,
+    // TransactionsPageModule,
     //DetailTransactionPageModule
   ],
   bootstrap: [IonicApp],

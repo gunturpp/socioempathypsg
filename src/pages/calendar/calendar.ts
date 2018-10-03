@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import * as moment from 'moment';
 import { EventModalPage } from '../event-modal/event-modal';
 import { DataProvider } from "../../providers/data";
@@ -9,7 +9,6 @@ import { count } from 'rxjs/operator/count';
 import { Observable } from 'rxjs/Observable';
 import { LoadingProvider } from '../../providers/loading';
 
-@IonicPage()
 @Component({
     selector: 'page-calendar',
     templateUrl: 'calendar.html',

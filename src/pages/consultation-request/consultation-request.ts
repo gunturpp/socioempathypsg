@@ -1,19 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,AlertController } from 'ionic-angular';
+import { NavController, NavParams,AlertController } from 'ionic-angular';
 import { DataProvider } from "../../providers/data";
 import { AngularFireDatabase } from 'angularfire2/database';
 import { DetailUserPage } from '../detail-user/detail-user';
 import { AlertProvider } from '../../providers/alert';
 
-
-/**
- * Generated class for the ConsultationRequestPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
-@IonicPage()
 @Component({
   selector: 'page-consultation-request',
   templateUrl: 'consultation-request.html',

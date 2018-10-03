@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { NavController, NavParams, ViewController } from 'ionic-angular';
 import * as moment from 'moment';
 import { DataProvider } from '../../providers/data';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -9,7 +9,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validator } from '../../validator';
 import { Validators } from '@angular/forms';
 
-@IonicPage()
 @Component({
   selector: 'page-event-modal',
   templateUrl: 'event-modal.html',

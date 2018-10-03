@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { FormWithdrawPage } from '../form-withdraw/form-withdraw';
 import { DataProvider } from '../../providers/data';
 import { DetailUserPage } from '../detail-user/detail-user';
@@ -7,15 +7,6 @@ import { DetailWithdrawPage } from '../detail-withdraw/detail-withdraw';
 import { LoadingProvider } from '../../providers/loading';
 import { TransactionsPage } from '../transactions/transactions';
 
-
-/**
- * Generated class for the LovestorePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
-@IonicPage()
 @Component({
   selector: 'page-lovestore',
   templateUrl: 'lovestore.html',

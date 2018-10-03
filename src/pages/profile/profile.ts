@@ -1,4 +1,3 @@
-import { IonicPage } from 'ionic-angular';
 import { Component } from '@angular/core';
 import { NavController, AlertController, NavParams, App } from 'ionic-angular';
 import { LogoutProvider } from '../../providers/logout';
@@ -12,14 +11,7 @@ import { Login } from '../../login';
 import * as firebase from 'firebase';
 import { Camera } from '@ionic-native/camera';
 import { ModalController, ViewController } from 'ionic-angular';
-/**
- * Generated class for the ProfilePage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 
-@IonicPage()
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html',

@@ -8,48 +8,44 @@
 
 
 <ion-content>
-    <ng-container *ngFor="let booking of bookings; let i = index;">
-          <!-- <ion-item *ngFor="let booking of bookings; let i = index;"  (click)="request(booking,user[i],foto[i])"> -->
-            <ion-item *ngIf="booking.confirmation == 'waiting'" (click)="request(booking,user[i],foto[i])">
-            <!-- <ion-row *ngif="booking.confirmation == 'waiting'"> -->
+    <ng-container *ngFor="let detail of detailBooking; let i = index;">
+            <ion-item *ngIf="detail.confirmation == 'waiting'" (click)="request(detail)">
               <ion-avatar class="profile" item-start>
-                  <img src="{{foto[i]}}">
+                  <img src="{{clients.img}}">
               </ion-avatar>
               <ion-row class="left">
                 <ion-col>
                   <h3>
-                    <!-- <ion-input type="text" [(ngModel)]="user[i].name"></ion-input> -->
-                    {{user[i]}}
+                    {{clients.displayName}}
                   </h3>
                 </ion-col>
-                <!-- <ion-col>
-                  <div class="time">{{bookingz[i].key | DateFormat}}</div>
-                </ion-col> -->
+                <ion-col>
+                  <div class="time">{{bookings[i].key | DateFormat}}</div>
+                </ion-col>
               </ion-row>
               <p class="kecil">Consultant request to you</p>
               <ion-row class="icon">
                   <ion-col>
                     <button ion-button icon-left clear small>
                       <ion-icon name="calendar"></ion-icon>
-                      <p class="kecil2">{{booking.scheduleId}}</p>
+                      <p class="kecil2">{{detail.scheduleId}}</p>
                     </button>
                   </ion-col>
                   <ion-col>
                    <button ion-button icon-left clear small>
                       <ion-icon name="time"></ion-icon>
-                      <p class="kecil2">{{sessions[i]}}</p>
+                      <p class="kecil2">{{detail.sessionke}}</p>
                     </button>
                   </ion-col>
               </ion-row>
           </ion-item>  
         <!-- </ion-row> -->
     </ng-container>
-
-          <ion-grid *ngIf="user.length <= 0" style="height: 100%">
-              <ion-row justify-content-center align-items-center style="height: 100%">
-                  <h1><ion-icon  name="notifications"></ion-icon></h1>
-                  <h4>You have no notifications</h4>
-              </ion-row>
-            </ion-grid>
+    <ion-grid *ngIf="clients.length <= 0" style="height: 100%">
+      <ion-row justify-content-center align-items-center style="height: 100%">
+          <h1><ion-icon  name="notifications"></ion-icon></h1>
+          <h4>You have no notifications</h4>
+      </ion-row>
+    </ion-grid>
           
 </ion-content>

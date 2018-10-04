@@ -14,31 +14,39 @@ export class NotifPage {
   index2: number;
   bookings = [];
   index: number;
-  booking = [];
+  detailBooking = [];
   user = [];
   sessions = [];
-  bookingz = [];
+  clients = [];
   //empty = 1;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public dataProvider: DataProvider) {
   }
 
   ionViewDidEnter() {
-    this.bookings = [];
-    this.user = [];
-    this.booking = [];
-    this.sessions = [];
 
     //get list of booking in psg table
+    this.dataProvider.getListBooking().subscribe(listBooking => {
+      this.bookings = listBooking;
+      listBooking.forEach(booking => {
+        this.dataProvider.getDetailBooking(booking.key).subscribe(detailBooking =>{
+          this.detailBooking.push(detailBooking);
+          console.log("detail_booking", this.detailBooking);
+  
+          //get client profile in booking psg
+          this.dataProvider.getClient(detailBooking.userId).subscribe(clients => {
+            this.clients = clients;
+            console.log("client_detail", this.clients);
+          })
+        })
+      });
+    });
 
-
-    //get list of idBooking in PsgTable
-
+  
     console.log('ionViewDidLoad NotifPage');
   }
-
-  request(booking, user, foto) {
-    this.navCtrl.push(ConsultationRequestPage, { booking: booking, user: user, foto: foto });
+  request(booking) {
+    this.navCtrl.push(ConsultationRequestPage, { booking: booking});
   }
 
 }

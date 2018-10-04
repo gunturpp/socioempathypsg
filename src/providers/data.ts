@@ -65,13 +65,7 @@ export class DataProvider {
     return this.items;
   }
 
-  //get user in users
-  getUserss(userId) {
-    this.items = this.angularfireDatabase.object('/users/' + userId).valueChanges();
-    return this.items;
-  }
-
-  //get user client
+  //get profile user_client
   getClient(Id){
     this.items = this.angularfireDatabase.object('/users/' + Id).valueChanges();
     return this.items;

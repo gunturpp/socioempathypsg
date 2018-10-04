@@ -38,7 +38,7 @@ export class MessagesPage {
   hasFinished: boolean;
   remainingTime = [];
   displayTime = [];
-  countOrders: any;
+  countOrders:any;
   i(arg0: any): any {
     throw new Error("Method not implemented.");
   }
@@ -220,7 +220,7 @@ export class MessagesPage {
 
   //  ionViewDidEnter() {
   ionViewDidLoad() {
-    // this.countOrder();
+    this.countOrder();
     this.createUserData();
     this.conversations = [];
     // this.count=0;
@@ -242,7 +242,7 @@ export class MessagesPage {
         // this.initTimer(); // this.startTimer();
         conversations.forEach(conversation => {
           // Get conversation partner info.
-          this.dataProvider.getUserss(conversation.key).subscribe(user => {
+          this.dataProvider.getClient(conversation.key).subscribe(user => {
             this.profileUser = user;
           });
           if (conversation.key) {
@@ -540,11 +540,9 @@ export class MessagesPage {
     this.dataProvider.getListBooking().subscribe(data => {
       data.forEach(book => {
         this.dataProvider.getDetailBooking(book.key).subscribe(data2 => {
-
           if (data2.confirmation == "waiting") {
             this.countOrders += 1;
           }
-
         });
       });
     });

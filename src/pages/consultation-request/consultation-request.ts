@@ -1,67 +1,65 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams,AlertController } from 'ionic-angular';
+import { Component } from "@angular/core";
+import { NavController, NavParams, AlertController } from "ionic-angular";
 import { DataProvider } from "../../providers/data";
-import { AngularFireDatabase } from 'angularfire2/database';
-import { DetailUserPage } from '../detail-user/detail-user';
-import { AlertProvider } from '../../providers/alert';
+import { AngularFireDatabase } from "angularfire2/database";
+import { DetailUserPage } from "../detail-user/detail-user";
+import { AlertProvider } from "../../providers/alert";
 
 @Component({
-  selector: 'page-consultation-request',
-  templateUrl: 'consultation-request.html',
+  selector: "page-consultation-request",
+  templateUrl: "consultation-request.html"
 })
 export class ConsultationRequestPage {
-
   alert: Promise<any>;
   message: string;
-  name: any;
-  booking: any;
-  confirmation: any;
-  schedule: any;
+  client:any;
+  booking:any;
   createdAt: any;
   session: any;
   userId: any;
   problem: any;
-  foto: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public dataProvider: DataProvider, public angularfireDatabase: AngularFireDatabase, 
+  displayName:any;
+  img:any;
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public dataProvider: DataProvider,
+    public angularfireDatabase: AngularFireDatabase,
     public alertCtrl: AlertController
-  ) {
-  }
+  ) {}
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ConsultationRequestPage');
-    this.booking = this.navParams.get('booking');
-    console.log('booking ', this.booking);
-    this.name = this.navParams.get('user');
-    console.log('name ', this.name);
-    this.foto = this.navParams.get('foto');
-    console.log('foto ', this.foto);
-    this.confirmation = this.booking.confirmation;
-    this.schedule = this.booking.scheduleId;
+    console.log("ionViewDidLoad ConsultationRequestPage");
+    this.booking = this.navParams.get("booking");
+    this.client = this.navParams.get("client");
+    this.displayName = this.client.displayName;
+    this.img = this.client.img;
+    console.log("booking", this.booking);
+    console.log("client", this.client);
 
-    if (this.booking.sessionke == "session1") {
-      var sesi = "08.00 - 10.00";
+    switch (this.booking.sessionke) {
+      case "session1":
+        this.session = "08.00 - 10.00";
+        break;
+      case "session2":
+        this.session = "10.00 - 12.00";
+        break;
+      case "session3":
+        this.session = "12.00 - 14.00";
+        break;
+      case "session4":
+        this.session = "14.00 - 16.00";
+        break;
+      case "session5":
+        this.session = "16.00 - 18.00";
+        break;
+      default:
+        return 0;
     }
-    else if (this.booking.sessionke == "session2") {
-      var sesi = "10.00 - 12.00";
-    }
-    else if (this.booking.sessionke == "session3") {
-      var sesi = "12.00 - 14.00";
-    }
-    else if (this.booking.sessionke == "session4") {
-      var sesi = "14.00 - 16.00";
-    }
-    else if (this.booking.sessionke == "session5") {
-      var sesi = "16.00 - 18.00";
-    }
-
-    this.session = sesi;
 
     this.createdAt = this.booking.createdAt;
     this.userId = this.booking.userId;
     this.problem = this.booking.problem;
-
-
-
   }
 
   accept() {
@@ -69,16 +67,16 @@ export class ConsultationRequestPage {
       //  this.loadingProvider.hide();
       //make a conversation to users
       this.send();
-      this.confirmation = 'accepted';
+      this.booking.confirmation = "accepted";
       this.navCtrl.pop();
       console.log("sukses update booking");
       //this.viewCtrl.dismiss(this.event);
     });
   }
 
-  declinez(){
+  declinez() {
     this.dataProvider.rejectBooking(this.createdAt).then(() => {
-      this.confirmation = 'rejected';
+      this.booking.confirmation = "rejected";
       this.navCtrl.pop();
       console.log("sukses reject booking");
     });
@@ -88,57 +86,79 @@ export class ConsultationRequestPage {
     var messages = [];
     messages.push({
       date: new Date().toString(),
-      sender: localStorage.getItem('uid'),
-      type: 'text',
-      message: 'Selamat Request anda telah diterima oleh PSG'
+      sender: localStorage.getItem("uid"),
+      type: "text",
+      message: "Selamat Request anda telah diterima oleh PSG"
     });
     var users = [];
-    users.push(localStorage.getItem('uid'));
+    users.push(localStorage.getItem("uid"));
     users.push(this.userId);
     // Add conversation.
-    this.angularfireDatabase.list('conversations').push({
-      dateCreated: new Date().toString(),
-      messages: messages,
-      users: users,
-      scheduleId: this.schedule,
-      sessionke: this.session
-    }).then((success) => {
-      console.log('sukses buat conversation');
-      let conversationId = success.key;
-      this.message = '';
-      // Add conversation reference to the users.
-      this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid') + '/conversations/' + this.userId + '/' + conversationId).update({
-        conversationId: conversationId,
-        messagesRead: 1
+    this.angularfireDatabase
+      .list("conversations")
+      .push({
+        dateCreated: new Date().toString(),
+        messages: messages,
+        users: users,
+        scheduleId: this.booking.schedule,
+        sessionke: this.session
+      })
+      .then(success => {
+        console.log("sukses buat conversation");
+        let conversationId = success.key;
+        this.message = "";
+        // Add conversation reference to the users.
+        this.angularfireDatabase
+          .object(
+            "/psg/" +
+              localStorage.getItem("uid") +
+              "/conversations/" +
+              this.userId +
+              "/" +
+              conversationId
+          )
+          .update({
+            conversationId: conversationId,
+            messagesRead: 1
+          });
+        this.angularfireDatabase
+          .object(
+            "/users/" +
+              this.userId +
+              "/conversations/" +
+              localStorage.getItem("uid") +
+              "/" +
+              conversationId
+          )
+          .update({
+            conversationId: conversationId,
+            messagesRead: 0
+          });
       });
-      this.angularfireDatabase.object('/users/' + this.userId + '/conversations/' + localStorage.getItem('uid') + '/' + conversationId).update({
-        conversationId: conversationId,
-        messagesRead: 0
-      });
-    });
   }
 
   decline() {
-    this.alert = this.alertCtrl.create({
-      title: 'Confirm Reject',
-      message: 'Are you sure you want to reject this request?',
-      buttons: [
-        {
-          text: 'Cancel'
-        },
-        {
-          text: 'Confirm',
-          handler: data => { this.declinez(); }
-        }
-      ]
-    }).present();
+    this.alert = this.alertCtrl
+      .create({
+        title: "Confirm Reject",
+        message: "Are you sure you want to reject this request?",
+        buttons: [
+          {
+            text: "Cancel"
+          },
+          {
+            text: "Confirm",
+            handler: data => {
+              this.declinez();
+            }
+          }
+        ]
+      })
+      .present();
   }
-
-  
 
   detail() {
     this.navCtrl.push(DetailUserPage, { uid: this.userId });
   }
   //end of send()
-
 }

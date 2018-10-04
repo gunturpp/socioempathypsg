@@ -9,7 +9,7 @@
 
 <ion-content>
     <ng-container *ngFor="let detail of detailBooking; let i = index;">
-            <ion-item *ngIf="detail.confirmation == 'waiting'" (click)="request(detail)">
+            <ion-item *ngIf="detail.confirmation == 'waiting'" (click)="request(detail,clients)">
               <ion-avatar class="profile" item-start>
                   <img src="{{clients.img}}">
               </ion-avatar>

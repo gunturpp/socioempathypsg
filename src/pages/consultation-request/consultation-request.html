@@ -17,13 +17,13 @@
   <ion-item>
     
     <ion-avatar class="profile" item-start>
-        <img src="{{foto}}">
+        <img src="{{img}}">
         
     </ion-avatar>
     <ion-row >
         <ion-col class="name" col-8 >
             <h3>
-                <b>{{name}}</b> 
+                <b>{{displayName}}</b> 
              </h3>
       </ion-col>
       <ion-col col-4 >
@@ -36,7 +36,7 @@
 </ion-item>
 <ion-item>
   tanggal konsultasi
-  <p>{{schedule}}</p>
+  <p>{{booking.schedule}}</p>
 </ion-item>
 <ion-item>
   waktu konsultasi
@@ -48,11 +48,11 @@
   </ion-item>
   <ion-item>
      keluhan
-      <P>{{problem}}</P>
+      <P>{{booking.problem}}</P>
     </ion-item> 
 <ion-item>
     Status
-    <P>{{confirmation}}</P>
+    <P>{{booking.confirmation}}</P>
   </ion-item>
 
 

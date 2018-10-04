@@ -22,6 +22,8 @@ export class CalendarPage {
     count: number;
     index: number;
     datedate: void;
+    sessionStart:string;
+    sessionEnd:string;
     //make a calendar
     eventSource = [];
     viewTitle: string;
@@ -174,33 +176,37 @@ export class CalendarPage {
                                 this.count += 1;
                                 var k = schedule.key;
                                 console.log('dalem j ', k);
-                                if (listSchedule.key == "session1") {
-                                    var x = k + "T08:00:00";
-                                    var y = k + "T10:00:00";
-                                }
-                                else if (listSchedule.key == "session2") {
-                                    var x = k + "T10:00:00";
-                                    var y = k + "T12:00:00";
-                                }
-                                else if (listSchedule.key == "session3") {
-                                    var x = k + "T12:00:00";
-                                    var y = k + "T14:00:00";
-                                }
-                                else if (listSchedule.key == "session4") {
-                                    var x = k + "T14:00:00";
-                                    var y = k + "T16:00:00";
-                                }
-                                else if (listSchedule.key == "session5") {
-                                    var x = k + "T16:00:00";
-                                    var y = k + "T18:00:00";
-                                }
+                                switch (listSchedule.key) {
+                                    case "session1":
+                                      this.sessionStart = k + "T08:00:00";
+                                      this.sessionEnd = k + "T10:00:00";
+                                      break;
+                                    case "session2":
+                                      this.sessionStart =  k + "T10:00:00";
+                                      this.sessionEnd =  k + "T12:00:00";
+                                      break;
+                                    case "session3":
+                                      this.sessionStart =  k + "T12:00:00";
+                                      this.sessionEnd =  k + "T14:00:00";
+                                      break;
+                                    case "session4":
+                                      this.sessionStart =  k + "T14:00:00";
+                                      this.sessionEnd =  k + "T16:00:00";
+                                      break;
+                                    case "session5":
+                                      this.sessionStart =  k + "T16:00:00";
+                                      this.sessionEnd =  k + "T18:00:00";
+                                      break;
+                                    default:
+                                      return 0;
+                                  }
                                 console.log('list arr', listSchedule.key);
 
                                 this.eventSource.push({
                                     //  title: listSchedules[j].key,
                                     title: listSchedule.key,
-                                    startTime: new Date(x),
-                                    endTime: new Date(y),
+                                    startTime: new Date(this.sessionStart),
+                                    endTime: new Date(this.sessionEnd),
                                     allDay: false
                                 });
                                 //this.refreshData();

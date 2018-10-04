@@ -9,16 +9,12 @@ import { ConsultationRequestPage } from '../consultation-request/consultation-re
 })
 export class NotifPage {
 
-  foto = [];
   name: any;
-  index2: number;
   bookings = [];
-  index: number;
   detailBooking = [];
   user = [];
   sessions = [];
-  clients = [];
-  //empty = 1;
+  clients=[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public dataProvider: DataProvider) {
   }
@@ -45,8 +41,8 @@ export class NotifPage {
   
     console.log('ionViewDidLoad NotifPage');
   }
-  request(booking) {
-    this.navCtrl.push(ConsultationRequestPage, { booking: booking});
+  request(booking,client) {
+    this.navCtrl.push(ConsultationRequestPage, { booking: booking, client:client});
   }
 
 }

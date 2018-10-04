@@ -19,7 +19,7 @@ export class NotifPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public dataProvider: DataProvider) {
   }
 
-  ionViewDidEnter() {
+  ionViewDidLoad() {
 
     //get list of booking in psg table
     this.dataProvider.getListBooking().subscribe(listBooking => {
@@ -28,6 +28,7 @@ export class NotifPage {
         this.dataProvider.getDetailBooking(booking.key).subscribe(detailBooking =>{
           this.detailBooking.push(detailBooking);
           console.log("detail_booking", this.detailBooking);
+          console.log('ionViewDidLoad NotifPage');
   
           //get client profile in booking psg
           this.dataProvider.getClient(detailBooking.userId).subscribe(clients => {
@@ -39,7 +40,6 @@ export class NotifPage {
     });
 
   
-    console.log('ionViewDidLoad NotifPage');
   }
   request(booking,client) {
     this.navCtrl.push(ConsultationRequestPage, { booking: booking, client:client});

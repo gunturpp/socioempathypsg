@@ -16,7 +16,7 @@ export class DetailUserPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad DetailUserPage');
     this.uid = this.navParams.get('uid');
-    this.dataProvider.getUserss(this.uid).subscribe((user) => {
+    this.dataProvider.getClient(this.uid).subscribe((user) => {
       this.user = user;
       console.log('uzer',this.user);
     });

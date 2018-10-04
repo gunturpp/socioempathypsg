@@ -41,7 +41,7 @@ export class MessagePage {
     this.idConv = this.navParams.get('idConv');
     console.log('userId', this.userId);
     // Get friend details.
-    this.dataProvider.getUserss(this.userId).subscribe((user) => {
+    this.dataProvider.getClient(this.userId).subscribe((user) => {
       this.title = user.name;
     });
 
@@ -66,7 +66,7 @@ export class MessagePage {
                   message.avatar = user.img;
                 });
               } else {
-                this.dataProvider.getUserss(message.sender).subscribe((user) => {
+                this.dataProvider.getClient(message.sender).subscribe((user) => {
                   message.avatar = user.img;
                 });
               }
@@ -86,7 +86,7 @@ export class MessagePage {
                   message.avatar = user.img;
                 });
               } else {
-                this.dataProvider.getUserss(message.sender).subscribe((user) => {
+                this.dataProvider.getClient(message.sender).subscribe((user) => {
                   message.avatar = user.img;
                 });
               }

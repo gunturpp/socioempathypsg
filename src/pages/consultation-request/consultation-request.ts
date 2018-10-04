@@ -16,6 +16,8 @@ export class ConsultationRequestPage {
   booking:any;
   createdAt: any;
   session: any;
+  confirmation:any;
+  schedule:any;
   userId: any;
   problem: any;
   displayName:any;
@@ -32,10 +34,16 @@ export class ConsultationRequestPage {
     console.log("ionViewDidLoad ConsultationRequestPage");
     this.booking = this.navParams.get("booking");
     this.client = this.navParams.get("client");
+    // console.log("booking", this.booking);
+    // console.log("client", this.client);
+
+    this.createdAt = this.booking.createdAt;
+    this.userId = this.booking.userId;
+    this.problem = this.booking.problem;
+    this.confirmation = this.booking.confirmation;
+    this.schedule = this.booking.scheduleId;
     this.displayName = this.client.displayName;
     this.img = this.client.img;
-    console.log("booking", this.booking);
-    console.log("client", this.client);
 
     switch (this.booking.sessionke) {
       case "session1":
@@ -57,9 +65,6 @@ export class ConsultationRequestPage {
         return 0;
     }
 
-    this.createdAt = this.booking.createdAt;
-    this.userId = this.booking.userId;
-    this.problem = this.booking.problem;
   }
 
   accept() {
@@ -94,42 +99,25 @@ export class ConsultationRequestPage {
     users.push(localStorage.getItem("uid"));
     users.push(this.userId);
     // Add conversation.
-    this.angularfireDatabase
-      .list("conversations")
-      .push({
+    this.angularfireDatabase.list("conversations").push({
         dateCreated: new Date().toString(),
         messages: messages,
         users: users,
-        scheduleId: this.booking.schedule,
+        scheduleId: this.schedule,
         sessionke: this.session
       })
       .then(success => {
-        console.log("sukses buat conversation");
+        console.log("sukses buat conversation", success);
         let conversationId = success.key;
         this.message = "";
         // Add conversation reference to the users.
-        this.angularfireDatabase
-          .object(
-            "/psg/" +
-              localStorage.getItem("uid") +
-              "/conversations/" +
-              this.userId +
-              "/" +
-              conversationId
-          )
+        this.angularfireDatabase.object("/psg/" + localStorage.getItem("uid") + "/conversations/" + this.userId + "/" + conversationId)
           .update({
             conversationId: conversationId,
             messagesRead: 1
           });
         this.angularfireDatabase
-          .object(
-            "/users/" +
-              this.userId +
-              "/conversations/" +
-              localStorage.getItem("uid") +
-              "/" +
-              conversationId
-          )
+          .object("/users/" + this.userId + "/conversations/" + localStorage.getItem("uid") + "/" + conversationId)
           .update({
             conversationId: conversationId,
             messagesRead: 0

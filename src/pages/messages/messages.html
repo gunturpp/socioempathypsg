@@ -10,7 +10,7 @@
     <ion-buttons end>
       <button ion-button ion-button icon-only tappable (click)="notif()">
         <ion-icon name="notifications">
-          <ion-badge id="notifications-badge" color="danger">{{countOrders}}</ion-badge>
+          <ion-badge *ngIf="countOrders > 0" id="notifications-badge" color="danger">{{countOrders}}</ion-badge>
         </ion-icon>
       </button>
     </ion-buttons>

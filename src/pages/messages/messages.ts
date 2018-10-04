@@ -228,7 +228,6 @@ export class MessagesPage {
     //console.log('uid gue ' , firebase.auth().currentUser.uid);
     if (localStorage.getItem('uid') == null) {
       localStorage.setItem('uid', firebase.auth().currentUser.uid);
-      console.log('');
     }
     console.log('uid dari local', localStorage.getItem('uid'));
     // Create userData on the database if it doesn't exist yet.
@@ -236,72 +235,75 @@ export class MessagesPage {
     this.loadingProvider.show();
 
     // Get info of conversations of current logged in user.
-    console.log('list cet');
     this.dataProvider.getConversations().subscribe(conversations => {
+      console.log('list cet', conversations);
       if (conversations.length > 0) {
         // this.initTimer(); // this.startTimer();
         conversations.forEach(conversation => {
           // Get conversation partner info.
           this.dataProvider.getClient(conversation.key).subscribe(user => {
             this.profileUser = user;
+            console.log("profile user : ",this.profileUser);
+            if (conversation.key) {
+              // Get conversation info.
+              this.dataProvider.getConversationbyCurrentUser(this.profileUser.userId).subscribe(listConv => {
+                console.log("listConv", listConv);
+                listConv.forEach(listConversations => { 
+                  this.count +=1;
+                  if (listConversations.conversationId != null) {
+                    this.dataProvider.getConversation(listConversations.conversationId).subscribe(obj => {
+                        console.log('obj ', obj);
+                        console.log('conId', listConversations.conversationId);
+                        // Get last message of conversation.
+                        console.log("scheduleeyid", obj.scheduleId);
+                        this.bookingDay = JSON.stringify(obj.scheduleId);
+                        this.bookSession = obj.sessionke;
+                        // this.countdown();
+
+                        let lastMessage = obj.messages[obj.messages.length - 1];
+                        listConversations.date = lastMessage.date;
+                        listConversations.sender = lastMessage.sender;
+                        listConversations.idConv = listConversations.conversationId;
+                        listConversations.key = conversation.key;
+                        listConversations.friend = conversation.friend;
+                        console.log('conv id', listConversations);
+                        // Set unreadMessagesCount
+                        listConversations.unreadMessagesCount =
+                          obj.messages.length - listConversations.messagesRead;
+                        console.log('unread', conversation.unreadMessagesCount);
+                        console.log('messages.length', obj.messages.length);
+                        console.log('conversation.messageRead', listConversations.messagesRead);
+                        // Process last message depending on messageType.
+                        if (lastMessage.type == "text") {
+                          if (lastMessage.sender == localStorage.getItem('uid')) {
+                            listConversations.message = "You: " + lastMessage.message;
+                          } else {
+                            listConversations.message = lastMessage.message;
+                          }
+                        } else {
+                          if (lastMessage.sender == localStorage.getItem('uid')) {
+                            conversation.message = "You sent a photo message.";
+                          } else {
+                            conversation.message = "has sent you a photo message.";
+                          }
+                        }
+                        // Add or update conversation.
+
+                        this.addOrUpdateConversation(listConversations);
+                        console.log('print this.conversations', this.conversations);
+
+                      });
+                  }
+
+                  console.log('count',this.count);
+                  console.log('panjang',this.panjang);
+                  if(this.count == this.panjang)
+                      this.loadingProvider.hide();
+
+                }); //end of for each
+              }); // end of user3
+            }
           });
-          if (conversation.key) {
-            // Get conversation info.
-            this.dataProvider.getConversationbyCurrentUser(conversation.key).subscribe(listConv => {
-              listConv.forEach(listConversations => { this.count +=1;
-                if (listConversations.conversationId != null) {
-                  this.dataProvider.getConversation(listConversations.conversationId).subscribe(obj => {
-                      console.log('obj ', obj);
-                      console.log('conId', listConversations.conversationId);
-                      // Get last message of conversation.
-                      console.log("scheduleeyid", obj.scheduleId);
-                      this.bookingDay = JSON.stringify(obj.scheduleId);
-                      this.bookSession = obj.sessionke;
-                      // this.countdown();
-
-                      let lastMessage = obj.messages[obj.messages.length - 1];
-                      listConversations.date = lastMessage.date;
-                      listConversations.sender = lastMessage.sender;
-                      listConversations.idConv = listConversations.conversationId;
-                      listConversations.key = conversation.key;
-                      listConversations.friend = conversation.friend;
-                      console.log('conv id', listConversations);
-                      // Set unreadMessagesCount
-                      listConversations.unreadMessagesCount =
-                        obj.messages.length - listConversations.messagesRead;
-                      console.log('unread', conversation.unreadMessagesCount);
-                      console.log('messages.length', obj.messages.length);
-                      console.log('conversation.messageRead', listConversations.messagesRead);
-                      // Process last message depending on messageType.
-                      if (lastMessage.type == "text") {
-                        if (lastMessage.sender == localStorage.getItem('uid')) {
-                          listConversations.message = "You: " + lastMessage.message;
-                        } else {
-                          listConversations.message = lastMessage.message;
-                        }
-                      } else {
-                        if (lastMessage.sender == localStorage.getItem('uid')) {
-                          conversation.message = "You sent a photo message.";
-                        } else {
-                          conversation.message = "has sent you a photo message.";
-                        }
-                      }
-                      // Add or update conversation.
-
-                      this.addOrUpdateConversation(listConversations);
-                      console.log('print this.conversations', this.conversations);
-
-                    });
-                }
-
-                console.log('count',this.count);
-                console.log('panjang',this.panjang);
-                if(this.count == this.panjang)
-                    this.loadingProvider.hide();
-
-              }); //end of for each
-            }); // end of user3
-          }
          
         });
         this.loadingProvider.hide();
@@ -540,8 +542,9 @@ export class MessagesPage {
     this.dataProvider.getListBooking().subscribe(data => {
       data.forEach(book => {
         this.dataProvider.getDetailBooking(book.key).subscribe(data2 => {
+          console.log("data2", data2);
           if (data2.confirmation == "waiting") {
-            this.countOrders += 1;
+            this.countOrders++;
           }
         });
       });

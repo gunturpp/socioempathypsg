@@ -214,13 +214,13 @@ export class DataProvider {
 
   // Get date.
   getScheduleByUser() {
-    this.items = this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid') + '/scheduling/').snapshotChanges();
+    this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/scheduling/').snapshotChanges();
     return this.items;
   }
 
   //get list of schedule per session in speific date
   getListSchedule(date){
-    this.items = this.angularfireDatabase.object('psg/' + localStorage.getItem('uid') + '/scheduling/'+date ).snapshotChanges();
+    this.items = this.angularfireDatabase.list('psg/' + localStorage.getItem('uid') + '/scheduling/'+date ).snapshotChanges();
     return this.items;
   }
 

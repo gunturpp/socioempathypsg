@@ -58,11 +58,12 @@ export class EventModalPage {
   ionViewDidLoad() {
     /// this.createScheduling();
     this.loadingProvider.show();
+    console.log("uid,",localStorage.getItem('uid'));
     this.dataProvider.getUser(localStorage.getItem('uid')).subscribe(user => {
-      this.loadingProvider.hide();
       this.user = user;
+      console.log("userScheduling", user);
       this.userId = this.user.userId;
-      console.log("userScheduling", this.user);
+      this.loadingProvider.hide();
     });
   }
 

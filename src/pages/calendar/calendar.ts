@@ -46,7 +46,7 @@ export class CalendarPage {
 
     //add event in Calendar function
     addEvent() {
-        let modal = this.modalCtrl.create('EventModalPage', { selectedDay: this.selectedDay });
+        let modal = this.modalCtrl.create(EventModalPage, { selectedDay: this.selectedDay });
         modal.present();
         modal.onDidDismiss(data => {
 
@@ -82,11 +82,11 @@ export class CalendarPage {
         this.calendar.currentDate = new Date();
     }
     onTimeSelected(ev) {
-        // console.log(ev);
-        // console.log('Selected time: ' + ev.selectedTime + ', hasEvents: ' +
-        //     (ev.events !== undefined && ev.events.length !== 0) + ', disabled: ' + ev.disabled);
+        console.log(ev);
+        console.log('Selected time: ' + ev.selectedTime + ', hasEvents: ' +
+            (ev.events !== undefined && ev.events.length !== 0) + ', disabled: ' + ev.disabled);
         this.selectedDay = ev.selectedTime;
-        // console.log('ini waktu sekarang: ' + this.selectedDay);
+        console.log('ini waktu sekarang: ' + this.selectedDay);
 
     }
     // onCurrentDateChanged(event:Date) {
@@ -152,82 +152,76 @@ export class CalendarPage {
         
         this.dataProvider.getScheduleByUser().subscribe(schedules => {
             this.loadingProvider.show();
-            console.log('hasil 2 return ', schedules);
+            console.log('list schedule by currentUser ', schedules);
             //first for get date
-            //for (var i=0; i < schedules.length; i++){
-        if (schedules.length > 0) {
-            schedules.forEach(schedule => {
-            this.loadingProvider.hide();
-                
-                    this.lenKey1 = schedules.length;
-                    console.log('lenkey1', this.lenKey1);
-                    //this.schedule[i] = schedules[i];
-                    this.index = 0;
-                    //get Key date to localstorage
-                    // localStorage.setItem('schedule', this.schedules[i].key);
+            if (schedules.length > 0) {
+                // for (var i=0; i < schedules.length; i++){
+                    schedules.forEach(schedule => {
+                    this.loadingProvider.hide();
+                        this.lenKey1 = schedules.length;
+                        console.log('lenkey1', this.lenKey1);
+                        //this.schedule[i] = schedules[i];
+                        this.index = 0;
+                        //get Key date to localstorage
+                        // localStorage.setItem('schedule', this.schedules[i].key);
+                        console.log('dalem i', schedule)
+                        this.dataProvider.getListSchedule(schedule.key).subscribe(listSchedules => {
+                            //  this.lenKey2 = listSchedules.length;
+                            //  console.log('lenkey2',this.lenKey2);
+                            //second get session
+                            listSchedules.forEach(listSchedule => {
+                                //   for(var j=0; j < listSchedules.length; j++){
+                                this.count += 1;
+                                var k = schedule.key;
+                                console.log('dalem j ', k);
+                                if (listSchedule.key == "session1") {
+                                    var x = k + "T08:00:00";
+                                    var y = k + "T10:00:00";
+                                }
+                                else if (listSchedule.key == "session2") {
+                                    var x = k + "T10:00:00";
+                                    var y = k + "T12:00:00";
+                                }
+                                else if (listSchedule.key == "session3") {
+                                    var x = k + "T12:00:00";
+                                    var y = k + "T14:00:00";
+                                }
+                                else if (listSchedule.key == "session4") {
+                                    var x = k + "T14:00:00";
+                                    var y = k + "T16:00:00";
+                                }
+                                else if (listSchedule.key == "session5") {
+                                    var x = k + "T16:00:00";
+                                    var y = k + "T18:00:00";
+                                }
+                                console.log('list arr', listSchedule.key);
 
-
-                    console.log('dalem i', schedule)
-
-                    this.dataProvider.getListSchedule(schedule.key).subscribe(listSchedules => {
-                        //  this.lenKey2 = listSchedules.length;
-                        //  console.log('lenkey2',this.lenKey2);
-                        //second get session
-                        listSchedules.forEach(listSchedule => {
-                            //   for(var j=0; j < listSchedules.length; j++){
-                            this.count += 1;
-                            var k = schedule.key;
-                            console.log('dalem j ', k);
-                            if (listSchedule.key == "session1") {
-                                var x = k + "T08:00:00";
-                                var y = k + "T10:00:00";
-                            }
-                            else if (listSchedule.key == "session2") {
-                                var x = k + "T10:00:00";
-                                var y = k + "T12:00:00";
-                            }
-                            else if (listSchedule.key == "session3") {
-                                var x = k + "T12:00:00";
-                                var y = k + "T14:00:00";
-                            }
-                            else if (listSchedule.key == "session4") {
-                                var x = k + "T14:00:00";
-                                var y = k + "T16:00:00";
-                            }
-                            else if (listSchedule.key == "session5") {
-                                var x = k + "T16:00:00";
-                                var y = k + "T18:00:00";
-                            }
-                            console.log('list arr', listSchedule.key);
-
-                            this.eventSource.push({
-                                //  title: listSchedules[j].key,
-                                title: listSchedule.key,
-                                startTime: new Date(x),
-                                endTime: new Date(y),
-                                allDay: false
+                                this.eventSource.push({
+                                    //  title: listSchedules[j].key,
+                                    title: listSchedule.key,
+                                    startTime: new Date(x),
+                                    endTime: new Date(y),
+                                    allDay: false
+                                });
+                                //this.refreshData();
                             });
-                            //this.refreshData();
+                            //end of second for
+                            //  this.index += 1;
+                            console.log('count ', this.count);
+                            console.log('index ', this.index);
+                            console.log('cek', this.cek);
+                            console.log('evenett', this.eventSource);
+                            this.cek += 1;
+                            if (this.cek == this.lenKey1) {
+                                this.refreshData(); 
+                                this.loadingProvider.hide();
+                                }
                         });
-                        //end of second for
-                        //  this.index += 1;
-                        console.log('count ', this.count);
-                        console.log('index ', this.index);
-                        console.log('cek', this.cek);
-                        console.log('evenett', this.eventSource);
-                        this.cek += 1;
-                        if (this.cek == this.lenKey1) {
-                            this.refreshData(); 
-                            this.loadingProvider.hide();
-                            }
-
                     });
-            });
-        }
-        else {
-            this.loadingProvider.hide();
-        }
-
+                // }
+            } else {
+                this.loadingProvider.hide();
+            }
             //end of first for
         });
         //end of subscribe
@@ -237,21 +231,21 @@ export class CalendarPage {
 
     // //get schedules client side
     ionViewDidEnter(){
-        // this.dataProvider.getScheduling().subscribe(schedules=>{
-        //         console.log('schedule', schedules);
-        //      if (schedules.length > 0) {
-        //         schedules.forEach(psg => {
-        //             console.log('arr',this.eventSource);
-        //             console.log('psgsc',psg.key);
-        //             this.eventSource.push({                                                  
-        //                 title: psg.key,
-        //                 startTime: new Date(psg.key),
-        //                 endTime: new Date(psg.key),
-        //                 allDay: false
-        //                 });
-        //         });
-        //      }
-        // });
+        this.dataProvider.getScheduling().subscribe(schedules=>{
+                console.log('schedule', schedules);
+             if (schedules.length > 0) {
+                schedules.forEach(psg => {
+                    console.log('arr',this.eventSource);
+                    console.log('psgsc',psg.key);
+                    this.eventSource.push({                                                  
+                        title: psg.key,
+                        startTime: new Date(psg.key),
+                        endTime: new Date(psg.key),
+                        allDay: false
+                        });
+                });
+             }
+        });
 
     }
 

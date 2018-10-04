@@ -45,8 +45,8 @@ export class LoginPage {
     // Set view mode to main.
     this.mode = 'main';
 
-    console.log('uid', localStorage.getItem('uid'));
-    if (localStorage.getItem('uid') != null && localStorage.getItem('uid')) {
+    console.log('uid', localStorage.getItem('uid_psg'));
+    if (localStorage.getItem('uid_psg') != null && localStorage.getItem('uid_psg')) {
      //  if (Login.emailVerification) {
        this.navCtrl.setRoot(TabsPage);
          console.log('logged in', localStorage.getItem('token'));

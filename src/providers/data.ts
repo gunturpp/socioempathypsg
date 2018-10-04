@@ -18,13 +18,13 @@ export class DataProvider {
 
   //get transaction in waiting
   getTransactionsPsg(){
-    this.items = this.angularfireDatabase.list( 'psg/' + localStorage.getItem('uid') + '/transactions',
+    this.items = this.angularfireDatabase.list( 'psg/' + localStorage.getItem('uid_psg') + '/transactions',
     ref => ref.orderByChild('status').equalTo('waiting')).valueChanges();
     return this.items;
   }
 
   getTransactionAll(){
-    this.items = this.angularfireDatabase.list('psg/' + localStorage.getItem('uid') + '/transactions').valueChanges();
+    this.items = this.angularfireDatabase.list('psg/' + localStorage.getItem('uid_psg') + '/transactions').valueChanges();
     return this.items;
   }
 
@@ -46,7 +46,7 @@ export class DataProvider {
   }
   // Get logged in user data
   getCurrentUser() {
-    this.items = this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid')).valueChanges();
+    this.items = this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid_psg')).valueChanges();
     return this.items;
   }
 
@@ -120,19 +120,22 @@ export class DataProvider {
     return this.items;
   }
   getConversationbyCurrentUser(userId){
-    this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/conversations/' + userId).valueChanges();
+    this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid_psg') + '/conversations/' + userId).valueChanges();
     return this.items;
   }
 
   // Get conversations of the current logged in user.
   getConversations() {
-    this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/conversations/').snapshotChanges();
-    // this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/conversations/').valueChanges();
+    this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid_psg') + '/conversations/').snapshotChanges();
+    return this.items;
+  }
+  getValueConversations() {
+    this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid_psg') + '/conversations/').valueChanges();
     return this.items;
   }
 
   deleteConversations() {
-    return this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/conversations/');
+    return this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid_psg') + '/conversations/');
   }
 
   // Get messages of the conversation given the Id.
@@ -208,20 +211,20 @@ export class DataProvider {
 
   // Get date.
   getScheduleByUser() {
-    this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/scheduling/').snapshotChanges();
+    this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid_psg') + '/scheduling/').snapshotChanges();
     return this.items;
   }
 
   //get list of schedule per session in speific date
   getListSchedule(date){
-    this.items = this.angularfireDatabase.list('psg/' + localStorage.getItem('uid') + '/scheduling/'+date ).snapshotChanges();
+    this.items = this.angularfireDatabase.list('psg/' + localStorage.getItem('uid_psg') + '/scheduling/'+date ).snapshotChanges();
     return this.items;
   }
 
   //get all booking that book psg with idBooking
   getListBooking(){
-   // this.items = this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid') + '/booking/' ).valueChanges();
-   this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/booking/' ).snapshotChanges();
+   // this.items = this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid_psg') + '/booking/' ).valueChanges();
+   this.items = this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid_psg') + '/booking/' ).snapshotChanges();
    return this.items;
   }
 

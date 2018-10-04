@@ -58,8 +58,8 @@ export class EventModalPage {
   ionViewDidLoad() {
     /// this.createScheduling();
     this.loadingProvider.show();
-    console.log("uid,",localStorage.getItem('uid'));
-    this.dataProvider.getUser(localStorage.getItem('uid')).subscribe(user => {
+    console.log("uid,",localStorage.getItem('uid_psg'));
+    this.dataProvider.getUser(localStorage.getItem('uid_psg')).subscribe(user => {
       this.user = user;
       console.log("userScheduling", user);
       this.userId = this.user.userId;
@@ -79,7 +79,7 @@ export class EventModalPage {
           this.loadingProvider.show();
           // Insert data on our database using AngularFire.
           if(this.session1){
-              this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session1/' + localStorage.getItem('uid') )
+              this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session1/' + localStorage.getItem('uid_psg') )
                 .update({
                   available: true,
                   date: this.dates
@@ -91,7 +91,7 @@ export class EventModalPage {
                 //  this.viewCtrl.dismiss(this.event);
                 });
 
-                this.angularfireDatabase.object('psg/' + localStorage.getItem('uid') + '/scheduling/' + this.dates2 )
+                this.angularfireDatabase.object('psg/' + localStorage.getItem('uid_psg') + '/scheduling/' + this.dates2 )
                 .update({
                   session1: true,
                 })
@@ -102,7 +102,7 @@ export class EventModalPage {
                 });
             } 
              if (this.session2){
-                this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session2/' + localStorage.getItem('uid') )
+                this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session2/' + localStorage.getItem('uid_psg') )
                 .update({
                   available: true,
                   date: this.dates
@@ -114,7 +114,7 @@ export class EventModalPage {
                 //  this.viewCtrl.dismiss(this.event);
                 });
 
-                this.angularfireDatabase.object('psg/' + localStorage.getItem('uid') + '/scheduling/' + this.dates2  )
+                this.angularfireDatabase.object('psg/' + localStorage.getItem('uid_psg') + '/scheduling/' + this.dates2  )
                 .update({
                   session2: true,
                 })
@@ -125,7 +125,7 @@ export class EventModalPage {
                 });
             } 
              if (this.session3) {
-                this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session3/' + localStorage.getItem('uid') )
+                this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session3/' + localStorage.getItem('uid_psg') )
                 .update({
                   available: true,
                   date: this.dates
@@ -137,7 +137,7 @@ export class EventModalPage {
                 //  this.viewCtrl.dismiss(this.event);
                 });
 
-                this.angularfireDatabase.object('psg/' + localStorage.getItem('uid') + '/scheduling/' + this.dates2 )
+                this.angularfireDatabase.object('psg/' + localStorage.getItem('uid_psg') + '/scheduling/' + this.dates2 )
                 .update({
                   session3: true
                 })
@@ -148,7 +148,7 @@ export class EventModalPage {
                 });
             } 
              if (this.session4){
-                this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session4/' + localStorage.getItem('uid') )
+                this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session4/' + localStorage.getItem('uid_psg') )
                 .update({
                   available: true,
                   date: this.dates
@@ -160,7 +160,7 @@ export class EventModalPage {
                 //  this.viewCtrl.dismiss(this.event);
                 });
 
-                this.angularfireDatabase.object('psg/' + localStorage.getItem('uid') + '/scheduling/' + this.dates2 )
+                this.angularfireDatabase.object('psg/' + localStorage.getItem('uid_psg') + '/scheduling/' + this.dates2 )
                 .update({
                   session4: true,
                 })
@@ -171,7 +171,7 @@ export class EventModalPage {
                 });
             } 
              if (this.session5){
-                this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session5/' + localStorage.getItem('uid') )
+                this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session5/' + localStorage.getItem('uid_psg') )
                 .update({
                   available: true,
                   date: this.dates
@@ -183,7 +183,7 @@ export class EventModalPage {
                 //  this.viewCtrl.dismiss(this.event);
                 });
 
-                this.angularfireDatabase.object('psg/' + localStorage.getItem('uid') + '/scheduling/' + this.dates2 )
+                this.angularfireDatabase.object('psg/' + localStorage.getItem('uid_psg') + '/scheduling/' + this.dates2 )
                 .update({
                   session5: true,
                 })

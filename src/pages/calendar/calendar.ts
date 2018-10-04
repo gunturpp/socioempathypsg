@@ -150,7 +150,7 @@ export class CalendarPage {
         this.count = 0;
         this.sumSchedules = 0;
         console.log('ionViewDidLoad CalendarPage');
-        console.log('tes uid ', localStorage.getItem('uid'));
+        console.log('tes uid ', localStorage.getItem('uid_psg'));
         
         this.dataProvider.getScheduleByUser().subscribe(schedules => {
             this.loadingProvider.show();

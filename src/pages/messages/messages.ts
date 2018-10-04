@@ -226,10 +226,10 @@ export class MessagesPage {
     // this.count=0;
     //untuk psg baru
     //console.log('uid gue ' , firebase.auth().currentUser.uid);
-    if (localStorage.getItem('uid') == null) {
-      localStorage.setItem('uid', firebase.auth().currentUser.uid);
+    if (localStorage.getItem('uid_psg') == null) {
+      localStorage.setItem('uid_psg', firebase.auth().currentUser.uid);
     }
-    console.log('uid dari local', localStorage.getItem('uid'));
+    console.log('uid dari local', localStorage.getItem('uid_psg'));
     // Create userData on the database if it doesn't exist yet.
     this.searchFriend = "";
     this.loadingProvider.show();
@@ -253,7 +253,7 @@ export class MessagesPage {
                   if (listConversations.conversationId != null) {
                     this.dataProvider.getConversation(listConversations.conversationId).subscribe(obj => {
                         console.log('obj ', obj);
-                        console.log('conId', listConversations.conversationId);
+                        console.log('conId', listConversations);
                         // Get last message of conversation.
                         console.log("scheduleeyid", obj.scheduleId);
                         this.bookingDay = JSON.stringify(obj.scheduleId);
@@ -275,13 +275,13 @@ export class MessagesPage {
                         console.log('conversation.messageRead', listConversations.messagesRead);
                         // Process last message depending on messageType.
                         if (lastMessage.type == "text") {
-                          if (lastMessage.sender == localStorage.getItem('uid')) {
+                          if (lastMessage.sender == localStorage.getItem('uid_psg')) {
                             listConversations.message = "You: " + lastMessage.message;
                           } else {
                             listConversations.message = lastMessage.message;
                           }
                         } else {
-                          if (lastMessage.sender == localStorage.getItem('uid')) {
+                          if (lastMessage.sender == localStorage.getItem('uid_psg')) {
                             conversation.message = "You sent a photo message.";
                           } else {
                             conversation.message = "has sent you a photo message.";
@@ -337,7 +337,7 @@ export class MessagesPage {
   deleteConversation(conversation) {
     // realtime load data
     this.navCtrl.setRoot(this.navCtrl.getActive().component);
-    this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid') + '/conversations/').remove(conversation);
+    this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid_psg') + '/conversations/').remove(conversation);
   }
 
   // Add or update conversation for real-time sync based on our observer, sort by active date.
@@ -374,7 +374,7 @@ export class MessagesPage {
   createUserData() {
     firebase
       .database()
-      .ref("psg/" + localStorage.getItem('uid'))
+      .ref("psg/" + localStorage.getItem('uid_psg'))
       .once("value")
       .then(account => {
         //console.log(account.val());

@@ -1,17 +1,17 @@
-import { AchievementPage } from './../achievement/achievement';
-import { TimeLinePage } from './../time-line/time-line';
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { HomePage } from '../home/home';
-import { MessagesPage } from '../messages/messages';
-import { FriendsPage } from '../friends/friends';
-import { DataProvider } from '../../providers/data';
-import { CalendarPage } from '../calendar/calendar';
-import * as firebase from 'firebase';
+import { AchievementPage } from "./../achievement/achievement";
+import { TimeLinePage } from "./../time-line/time-line";
+import { Component } from "@angular/core";
+import { NavController, NavParams } from "ionic-angular";
+import { HomePage } from "../home/home";
+import { MessagesPage } from "../messages/messages";
+import { FriendsPage } from "../friends/friends";
+import { DataProvider } from "../../providers/data";
+import { CalendarPage } from "../calendar/calendar";
+import * as firebase from "firebase";
 
 @Component({
-  selector: 'page-tabs',
-  templateUrl: 'tabs.html'
+  selector: "page-tabs",
+  templateUrl: "tabs.html"
 })
 export class TabsPage {
   messages: any = MessagesPage;
@@ -27,13 +27,16 @@ export class TabsPage {
 
   // TabsPage
   // This is the page where we set our tabs.
-  constructor(public navCtrl: NavController, public navParams: NavParams, public dataProvider: DataProvider) {
-  }
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public dataProvider: DataProvider
+  ) {}
 
   ionViewDidLoad() {
-    console.log('tabs folder');
+    console.log("tabs folder");
     this.conversationsInfo = 0;
-    //this.getUnreadMessagesCount();
+    this.getUnreadMessagesCount();
     // Get friend requests count.
     // this.dataProvider.getRequests(firebase.auth().currentUser.uid).subscribe((requests) => {
     //   if (requests.friendRequests) {
@@ -46,26 +49,32 @@ export class TabsPage {
     // Get conversations and add/update if the conversation exists, otherwise delete from list.
     //this.dataProvider.getListConversations().subscribe((conversationsInfo) => {
     this.dataProvider.getConversations().subscribe(conversationsInfo => {
-      console.log("conversationsInfo : ",conversationsInfo);
+      console.log("conversationsInfo : ", conversationsInfo);
       this.unreadMessagesCount = null;
       this.conversationsInfo = null;
       this.conversationList = null;
       if (conversationsInfo.length > 0) {
-        this.conversationsInfo = conversationsInfo;
-        conversationsInfo.forEach((conversationInfo) => {
-         // this.dataProvider.getConversation(conversationInfo.conversationId).subscribe((conversation) => {
-            // this.dataProvider.getConversationbyCurrentUser(conversationInfo.key).subscribe(user3 => { 
-            //   console.log('user3 ',user3);
-                // user3.forEach(conversation => {
-                //   this.conversationsInfo += conversation.messagesRead;
-                //   console.log('info',this.conversationsInfo);
-          this.dataProvider.getConversation(conversationInfo.conversationId).subscribe(obj => {
-            obj.idConv = conversationInfo.conversationId;
-            if (obj) {this.addOrUpdateConversation(obj);}
-          });
-            // });
+        console.log("infoconvv", conversationsInfo);
+        conversationsInfo.forEach(conversationInfo => {
+          // this.dataProvider.getConversation(conversationInfo.conversationId).subscribe((conversation) => {
+          this.dataProvider
+            .getConversationbyCurrentUser(conversationInfo.key)
+            .subscribe(user3 => {
+              console.log("user3 ", user3);
+              user3.forEach(conversation => {
+                this.conversationsInfo += conversation.messagesRead;
+                console.log("info", this.conversationsInfo);
+                this.dataProvider
+                  .getConversation(conversation.conversationId)
+                  .subscribe(obj => {
+                    console.log("objconv", obj);
+                    if (obj) {
+                      this.addOrUpdateConversation(obj);
+                    }
+                  });
+              });
+            });
         });
-        // });
       }
     });
   }
@@ -91,9 +100,9 @@ export class TabsPage {
         this.conversationList.push(conversation);
       }
     }
-    console.log('conversationList ', this.conversationList);
+    console.log("conversationList ", this.conversationList);
     this.computeUnreadMessagesCount();
-    console.log('total ga dibaca ', this.unreadMessagesCount);
+    console.log("total ga dibaca ", this.unreadMessagesCount);
   }
 
   // Compute all conversation's unreadMessages.
@@ -102,7 +111,7 @@ export class TabsPage {
     if (this.conversationList) {
       for (var i = 0; i < this.conversationList.length; i++) {
         this.unreadMessagesCount += this.conversationList[i].messages.length;
-        console.log('unread tabs ',this.unreadMessagesCount);
+        console.log("unread tabs ", this.unreadMessagesCount);
       }
       this.unreadMessagesCount -= this.conversationsInfo;
       if (this.unreadMessagesCount == 0) {
@@ -115,10 +124,9 @@ export class TabsPage {
     if (this.unreadMessagesCount) {
       if (this.unreadMessagesCount > 0) {
         return this.unreadMessagesCount;
-       console.log('get unread', this.unreadMessagesCount);
+        console.log("get unread", this.unreadMessagesCount);
       }
     }
     return null;
   }
-
 }

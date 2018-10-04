@@ -61,7 +61,7 @@ export class MessagePage {
             if (messages.length > this.messages.length) {
               let message = messages[messages.length - 1];
 
-              if(localStorage.getItem('uid') == message.sender){
+              if(localStorage.getItem('uid_psg') == message.sender){
                 this.dataProvider.getUser(message.sender).subscribe((user) => {
                   message.avatar = user.img;
                 });
@@ -81,7 +81,7 @@ export class MessagePage {
             // Get all messages, this will be used as reference object for messagesToShow.
             this.messages = [];
             messages.forEach((message) => {
-              if(localStorage.getItem('uid') == message.sender){
+              if(localStorage.getItem('uid_psg') == message.sender){
                 this.dataProvider.getUser(message.sender).subscribe((user) => {
                   message.avatar = user.img;
                 });
@@ -175,7 +175,7 @@ export class MessagePage {
      // this.dataProvider.getListConversationMessages(this.conversationId).subscribe((messages) => {
         totalMessagesCount = message;
      // });
-      this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid') + '/conversations/' + this.userId + '/' + this.idConv).update({
+      this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid_psg') + '/conversations/' + this.userId + '/' + this.idConv).update({
         messagesRead: totalMessagesCount
       });
    // }
@@ -216,7 +216,7 @@ export class MessagePage {
 
   // Check if the user is the sender of the message.
   isSender(message) {
-    if (message.sender == localStorage.getItem('uid')) {
+    if (message.sender == localStorage.getItem('uid_psg')) {
       return true;
     } else {
       return false;
@@ -239,7 +239,7 @@ export class MessagePage {
         let messages = JSON.parse(JSON.stringify(this.messages));
         messages.push({
           date: new Date().toString(),
-          sender: localStorage.getItem('uid'),
+          sender: localStorage.getItem('uid_psg'),
           type: 'text',
           message: this.message
         });
@@ -255,12 +255,12 @@ export class MessagePage {
         var messages = [];
         messages.push({
           date: new Date().toString(),
-          sender: localStorage.getItem('uid'),
+          sender: localStorage.getItem('uid_psg'),
           type: 'text',
           message: this.message
         });
         var users = [];
-        users.push(localStorage.getItem('uid'));
+        users.push(localStorage.getItem('uid_psg'));
         users.push(this.userId);
         // Add conversation.
         this.angularfireDatabase.list('conversations').push({
@@ -271,7 +271,7 @@ export class MessagePage {
           let conversationId = success.key;
           this.message = '';
           // Add conversation reference to the users.
-          this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid') + '/conversations/' + this.userId).update({
+          this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid_psg') + '/conversations/' + this.userId).update({
             conversationId: conversationId,
             messagesRead: 1
           });
@@ -330,7 +330,7 @@ export class MessagePage {
       let messages = JSON.parse(JSON.stringify(this.messages));
       messages.push({
         date: new Date().toString(),
-        sender: localStorage.getItem('uid'),
+        sender: localStorage.getItem('uid_psg'),
         type: 'image',
         url: url
       });
@@ -343,7 +343,7 @@ export class MessagePage {
       var messages = [];
       messages.push({
         date: new Date().toString(),
-        sender: localStorage.getItem('uid'),
+        sender: localStorage.getItem('uid_psg'),
         type: 'image',
         url: url
       });
@@ -358,11 +358,11 @@ export class MessagePage {
       }).then((success) => {
         let conversationId = success.key;
         // Add conversation references to users.
-        this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid') + '/conversations/' + this.userId).update({
+        this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid_psg') + '/conversations/' + this.userId).update({
           conversationId: conversationId,
           messagesRead: 1
         });
-        this.angularfireDatabase.object('/users/' + this.userId + '/conversations/' + localStorage.getItem('uid')).update({
+        this.angularfireDatabase.object('/users/' + this.userId + '/conversations/' + localStorage.getItem('uid_psg')).update({
           conversationId: conversationId,
           messagesRead: 0
         });

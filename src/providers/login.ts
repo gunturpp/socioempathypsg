@@ -13,7 +13,7 @@ export class LoginProvider {
   private navCtrl: NavController;
   
   constructor(public loadingProvider: LoadingProvider, public alertProvider: AlertProvider, public zone: NgZone) {
-    console.log('fire', localStorage.getItem('uid'));
+    console.log('fire', localStorage.getItem('uid_psg'));
       
       this.cek();
     

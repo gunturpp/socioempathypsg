@@ -40,7 +40,7 @@
       <ion-avatar item-left *ngIf="profileUser">
         <img src="{{profileUser.img}}">
       </ion-avatar>
-      <div [ngClass]=hasUnreadMessages(profileUser)>
+      <div [ngClass]=hasUnreadMessages(conversation)>
         <h2 *ngIf="profileUser"><b>{{profileUser.name}}</b></h2>
         <ion-badge color="danger" *ngIf="conversation.unreadMessagesCount > 0">{{conversation.unreadMessagesCount}}</ion-badge>
         <p>{{conversation.message}}</p>

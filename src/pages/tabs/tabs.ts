@@ -124,7 +124,6 @@ export class TabsPage {
     if (this.unreadMessagesCount) {
       if (this.unreadMessagesCount > 0) {
         return this.unreadMessagesCount;
-        console.log("get unread", this.unreadMessagesCount);
       }
     }
     return null;

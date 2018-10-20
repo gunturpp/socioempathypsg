@@ -1,10 +1,14 @@
 import { BoardingPage } from './../pages/boarding/boarding';
 import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Platform,ToastController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Keyboard } from '@ionic-native/keyboard';
 
+import { FcmProvider } from '../providers/fcm/fcm';
+
+import { Subject } from 'rxjs/Subject';
+import { tap } from 'rxjs/operators';
 //Pages
 import { LoginPage } from '../pages/login/login';
 import { MessagesPage } from '../pages/messages/messages';
@@ -20,7 +24,23 @@ export class MyApp {
   
   rootPage;
   
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, keyboard: Keyboard) {
+  constructor(platform: Platform, fcm: FcmProvider, toastCtrl: ToastController, statusBar: StatusBar, splashScreen: SplashScreen, keyboard: Keyboard) {
+
+    fcm.getToken()
+
+    // Listen to incoming messages
+    fcm.listenToNotifications().pipe(
+      tap(msg => {
+        // show a toast
+        const toast = toastCtrl.create({
+          message: msg.body,
+          duration: 3000,
+          position: 'top'
+        });
+        toast.present();
+      })
+    )
+    .subscribe()
 
     if(localStorage.getItem("toggle") == "true"){
       // this.rootPage = Payment3Page; 

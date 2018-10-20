@@ -38,7 +38,7 @@ export class MessagesPage {
   hasFinished: boolean;
   remainingTime = [];
   displayTime = [];
-  countOrders:any;
+  countOrders: any;
   i(arg0: any): any {
     throw new Error("Method not implemented.");
   }
@@ -60,7 +60,7 @@ export class MessagesPage {
     public dataProvider: DataProvider,
     public firebaseProvider: FirebaseProvider,
     public alertCtrl: AlertController
-  ) { }
+  ) {}
 
   countdown() {
     let bookDay, bookMonth, bookYear, bookSec, bookMin, bookHour;
@@ -68,7 +68,7 @@ export class MessagesPage {
     bookMonth = this.bookingDay.substring(6, 8);
     bookYear = this.bookingDay.substring(1, 5);
     this.bookSession;
-    console.log('booksess', this.bookSession);
+    console.log("booksess", this.bookSession);
     switch (this.bookSession) {
       case "session1":
         bookHour = 8;
@@ -217,7 +217,6 @@ export class MessagesPage {
   }
   // close timer countdown
 
-
   //  ionViewDidEnter() {
   ionViewDidLoad() {
     this.countOrder();
@@ -226,85 +225,106 @@ export class MessagesPage {
     // this.count=0;
     //untuk psg baru
     //console.log('uid gue ' , firebase.auth().currentUser.uid);
-    if (localStorage.getItem('uid_psg') == null) {
-      localStorage.setItem('uid_psg', firebase.auth().currentUser.uid);
+    if (localStorage.getItem("uid_psg") == null) {
+      localStorage.setItem("uid_psg", firebase.auth().currentUser.uid);
     }
-    console.log('uid dari local', localStorage.getItem('uid_psg'));
+    console.log("uid dari local", localStorage.getItem("uid_psg"));
     // Create userData on the database if it doesn't exist yet.
     this.searchFriend = "";
     this.loadingProvider.show();
 
     // Get info of conversations of current logged in user.
     this.dataProvider.getConversations().subscribe(conversations => {
-      console.log('list cet', conversations);
+      console.log("list cet", conversations);
       if (conversations.length > 0) {
         // this.initTimer(); // this.startTimer();
         conversations.forEach(conversation => {
           // Get conversation partner info.
           this.dataProvider.getClient(conversation.key).subscribe(user => {
             this.profileUser = user;
-            console.log("profile user : ",this.profileUser);
+            console.log("profile user-- : ", this.profileUser);
             if (conversation.key) {
               // Get conversation info.
-              this.dataProvider.getConversationbyCurrentUser(this.profileUser.userId).subscribe(listConv => {
-                console.log("listConv", listConv);
-                listConv.forEach(listConversations => { 
-                  this.count +=1;
-                  if (listConversations.conversationId != null) {
-                    this.dataProvider.getConversation(listConversations.conversationId).subscribe(obj => {
-                        console.log('obj ', obj);
-                        console.log('conId', listConversations);
-                        // Get last message of conversation.
-                        console.log("scheduleeyid", obj.scheduleId);
-                        this.bookingDay = JSON.stringify(obj.scheduleId);
-                        this.bookSession = obj.sessionke;
-                        // this.countdown();
+              this.dataProvider
+                .getConversationbyCurrentUser(this.profileUser.userId)
+                .subscribe(listConv => {
+                  console.log("listConv", listConv);
+                  listConv.forEach(listConversations => {
+                    this.count += 1;
+                    if (listConversations.conversationId != null) {
+                      this.dataProvider
+                        .getConversation(listConversations.conversationId)
+                        .subscribe(obj => {
+                          console.log("obj ", obj);
+                          console.log("conId", listConversations);
+                          // Get last message of conversation.
+                          console.log("scheduleeyid", obj.scheduleId);
+                          this.bookingDay = JSON.stringify(obj.scheduleId);
+                          this.bookSession = obj.sessionke;
+                          // this.countdown();
 
-                        let lastMessage = obj.messages[obj.messages.length - 1];
-                        listConversations.date = lastMessage.date;
-                        listConversations.sender = lastMessage.sender;
-                        listConversations.idConv = listConversations.conversationId;
-                        listConversations.key = conversation.key;
-                        listConversations.friend = conversation.friend;
-                        console.log('conv id', listConversations);
-                        // Set unreadMessagesCount
-                        listConversations.unreadMessagesCount =
-                          obj.messages.length - listConversations.messagesRead;
-                        console.log('unread', conversation.unreadMessagesCount);
-                        console.log('messages.length', obj.messages.length);
-                        console.log('conversation.messageRead', listConversations.messagesRead);
-                        // Process last message depending on messageType.
-                        if (lastMessage.type == "text") {
-                          if (lastMessage.sender == localStorage.getItem('uid_psg')) {
-                            listConversations.message = "You: " + lastMessage.message;
+                          let lastMessage =
+                            obj.messages[obj.messages.length - 1];
+                          listConversations.date = lastMessage.date;
+                          listConversations.sender = lastMessage.sender;
+                          listConversations.idConv =
+                            listConversations.conversationId;
+                          listConversations.key = conversation.key;
+                          listConversations.friend = conversation.friend;
+                          console.log("conv id", listConversations);
+                          // Set unreadMessagesCount
+                          listConversations.unreadMessagesCount =
+                            obj.messages.length -
+                            listConversations.messagesRead;
+                          console.log(
+                            "unread",
+                            listConversations.unreadMessagesCount
+                          );
+                          console.log("messages.length", obj.messages.length);
+                          console.log(
+                            "conversation.messageRead",
+                            listConversations.messagesRead
+                          );
+                          // Process last message depending on messageType.
+                          if (lastMessage.type == "text") {
+                            if (
+                              lastMessage.sender ==
+                              localStorage.getItem("uid_psg")
+                            ) {
+                              listConversations.message =
+                                "You: " + lastMessage.message;
+                            } else {
+                              listConversations.message = lastMessage.message;
+                            }
                           } else {
-                            listConversations.message = lastMessage.message;
+                            if (
+                              lastMessage.sender ==
+                              localStorage.getItem("uid_psg")
+                            ) {
+                              conversation.message =
+                                "You sent a photo message.";
+                            } else {
+                              conversation.message =
+                                "has sent you a photo message.";
+                            }
                           }
-                        } else {
-                          if (lastMessage.sender == localStorage.getItem('uid_psg')) {
-                            conversation.message = "You sent a photo message.";
-                          } else {
-                            conversation.message = "has sent you a photo message.";
-                          }
-                        }
-                        // Add or update conversation.
+                          // Add or update conversation.
 
-                        this.addOrUpdateConversation(listConversations);
-                        console.log('print this.conversations', this.conversations);
+                          this.addOrUpdateConversation(listConversations);
+                          console.log(
+                            "print this.conversations",
+                            this.conversations
+                          );
+                        });
+                    }
 
-                      });
-                  }
-
-                  console.log('count',this.count);
-                  console.log('panjang',this.panjang);
-                  if(this.count == this.panjang)
-                      this.loadingProvider.hide();
-
-                }); //end of for each
-              }); // end of user3
+                    console.log("count", this.count);
+                    console.log("panjang", this.panjang);
+                    if (this.count == this.panjang) this.loadingProvider.hide();
+                  }); //end of for each
+                }); // end of user3
             }
           });
-         
         });
         this.loadingProvider.hide();
       } else {
@@ -316,7 +336,7 @@ export class MessagesPage {
     // Update conversations' last active date time elapsed every minute based on Moment.js.
     var that = this;
     if (!that.updateDateTime) {
-      that.updateDateTime = setInterval(function () {
+      that.updateDateTime = setInterval(function() {
         if (that.conversations) {
           that.conversations.forEach(conversation => {
             let date = conversation.date;
@@ -337,7 +357,9 @@ export class MessagesPage {
   deleteConversation(conversation) {
     // realtime load data
     this.navCtrl.setRoot(this.navCtrl.getActive().component);
-    this.angularfireDatabase.list('/psg/' + localStorage.getItem('uid_psg') + '/conversations/').remove(conversation);
+    this.angularfireDatabase
+      .list("/psg/" + localStorage.getItem("uid_psg") + "/conversations/")
+      .remove(conversation);
   }
 
   // Add or update conversation for real-time sync based on our observer, sort by active date.
@@ -347,7 +369,9 @@ export class MessagesPage {
     } else {
       var index = -1;
       for (var i = 0; i < this.conversations.length; i++) {
-        if (this.conversations[i].conversationId == conversation.conversationId) {
+        if (
+          this.conversations[i].conversationId == conversation.conversationId
+        ) {
           index = i;
         }
       }
@@ -374,7 +398,7 @@ export class MessagesPage {
   createUserData() {
     firebase
       .database()
-      .ref("psg/" + localStorage.getItem('uid_psg'))
+      .ref("psg/" + localStorage.getItem("uid_psg"))
       .once("value")
       .then(account => {
         //console.log(account.val());
@@ -431,7 +455,7 @@ export class MessagesPage {
               displayName: "Ganti Nama",
               name: name,
               username: username,
-              role: localStorage.getItem('registerRole'),
+              role: localStorage.getItem("registerRole"),
               anonymouse: "false",
               realName: name,
               moodLevel: "Normal",
@@ -441,9 +465,9 @@ export class MessagesPage {
               KTM: "",
               PsyCard: "",
               KTP: "",
-              gender: localStorage.getItem('gender'),
+              gender: localStorage.getItem("gender"),
               email: email,
-              phone: localStorage.getItem('phone'),
+              phone: localStorage.getItem("phone"),
               description: description,
               dateCreated: new Date().toString()
             })
@@ -461,7 +485,6 @@ export class MessagesPage {
 
   // Open chat with friend.
   message(userId, idConv) {
-    console.log(userId);
     this.app.getRootNav().push(MessagePage, { userId: userId, idConv: idConv });
   }
 
@@ -474,17 +497,18 @@ export class MessagesPage {
   // alert
   showConfirm(i) {
     let confirm = this.alertCtrl.create({
-      title: 'Hapus Obrolan?',
-      message: 'Setelah anda menghapus obrolan,histori akan hilang, anda yakin?',
+      title: "Hapus Obrolan?",
+      message:
+        "Setelah anda menghapus obrolan,histori akan hilang, anda yakin?",
       buttons: [
         {
-          text: 'Tidak',
+          text: "Tidak",
           handler: () => {
-            console.log('Disagree clicked');
+            console.log("Disagree clicked");
           }
         },
         {
-          text: 'Iya',
+          text: "Iya",
           handler: () => {
             this.deleteConversation(i);
           }
@@ -549,7 +573,6 @@ export class MessagesPage {
         });
       });
     });
-
   }
 
   //this is the last

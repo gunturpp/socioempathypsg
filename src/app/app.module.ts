@@ -14,6 +14,8 @@ import { Keyboard } from '@ionic-native/keyboard';
 import { TextMaskModule } from 'angular2-text-mask';
 import { SignupPage } from '../pages/signup/signup';
 
+import { Firebase } from '@ionic-native/firebase';
+
 import { MyApp } from './app.component';
 import { FirstProfilePage } from '../pages/first-profile/first-profile';
 import { LoginPage } from '../pages/login/login';
@@ -64,6 +66,7 @@ import { AlertProvider } from '../providers/alert';
 import { ImageProvider } from '../providers/image';
 import { DataProvider } from '../providers/data';
 import { FirebaseProvider } from '../providers/firebase';
+import { FcmProvider } from '../providers/fcm/fcm';
 
 import * as firebase from 'firebase';
 import { AngularFireModule } from 'angularfire2';
@@ -115,9 +118,7 @@ firebase.initializeApp(Login.firebaseConfig);
     FormWithdrawPage,
     DetailWithdrawPage,
     TransactionsPage,
-    DetailTransactionPage,
-
-    
+    DetailTransactionPage,    
     FriendPipe,
     SearchPipe, 
     DateFormatPipe,
@@ -182,6 +183,8 @@ firebase.initializeApp(Login.firebaseConfig);
     DetailTransactionPage
   ],
   providers: [
+    Firebase,
+    FcmProvider,
     StatusBar, SplashScreen, Camera, GooglePlus, Keyboard, { provide: ErrorHandler, useClass: IonicErrorHandler }, LoginProvider, LogoutProvider, LoadingProvider, AlertProvider, ImageProvider, DataProvider, FirebaseProvider]
 })
 export class AppModule { }

@@ -111,13 +111,13 @@ export class ConsultationRequestPage {
         let conversationId = success.key;
         this.message = "";
         // Add conversation reference to the users.
-        this.angularfireDatabase.object("/psg/" + localStorage.getItem("uid") + "/conversations/" + this.userId + "/" + conversationId)
+        this.angularfireDatabase.object("/psg/" + localStorage.getItem("uid_psg") + "/conversations/" + this.userId + "/" + conversationId)
           .update({
             conversationId: conversationId,
             messagesRead: 1
           });
         this.angularfireDatabase
-          .object("/users/" + this.userId + "/conversations/" + localStorage.getItem("uid") + "/" + conversationId)
+          .object("/users/" + this.userId + "/conversations/" + localStorage.getItem("uid_psg") + "/" + conversationId)
           .update({
             conversationId: conversationId,
             messagesRead: 0

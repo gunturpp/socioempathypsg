@@ -169,7 +169,7 @@ export class MessagePage {
 
   // Check if currentPage is active, then update user's messagesRead.
   setMessagesRead(message) {
-    //if (this.navCtrl.getActive().instance instanceof MessagePage) {
+    if (this.navCtrl.getActive().instance instanceof MessagePage) {
       // Update user's messagesRead on database.
       var totalMessagesCount;
      // this.dataProvider.getListConversationMessages(this.conversationId).subscribe((messages) => {
@@ -178,7 +178,7 @@ export class MessagePage {
       this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid_psg') + '/conversations/' + this.userId + '/' + this.idConv).update({
         messagesRead: totalMessagesCount
       });
-   // }
+    }
   }
 
   // Check if 'return' button is pressed and send the message.

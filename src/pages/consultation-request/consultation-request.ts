@@ -75,7 +75,7 @@ export class ConsultationRequestPage {
       this.booking.confirmation = "accepted";
       this.navCtrl.pop();
       console.log("sukses update booking");
-      //this.viewCtrl.dismiss(this.event);
+      //this.viewCtrl.dismiss(this.event); 
     });
   }
 
@@ -91,12 +91,12 @@ export class ConsultationRequestPage {
     var messages = [];
     messages.push({
       date: new Date().toString(),
-      sender: localStorage.getItem("uid"),
+      sender: localStorage.getItem("uid_psg"),
       type: "text",
       message: "Selamat Request anda telah diterima oleh PSG"
     });
     var users = [];
-    users.push(localStorage.getItem("uid"));
+    users.push(localStorage.getItem("uid_psg"));
     users.push(this.userId);
     // Add conversation.
     this.angularfireDatabase.list("conversations").push({

@@ -1,47 +1,45 @@
 import * as functions from "firebase-functions";
-
 import * as admin from "firebase-admin";
 admin.initializeApp();
 
-exports.newSubscriberNotification = functions.database
-  .ref("/devices_token/{token}")
-  .onWrite(async event => {
-    const data = event.after.data();
+exports.psgChatNotification = functions.database
+  .ref("/conversations/{conversationId}/messages/{messageId}")
+  .onWrite((change, context) => {
+    const db = admin.database();
 
-    const tokenId = data.token;
-    const sender = data.userId;
-
+    const messageData = change.after.val();
+    const psgId = messageData.sender; //sender id
     // Notification content
     const payload = {
       notification: {
-        title: "New Message",
-        body: `${sender} chat you!`,
-        icon: "https://goo.gl/Fz9nrQ"
+        title: `${psgId} chat you!`,
+        body: `${messageData.message}`,
+        icon: `${messageData.avatar}`,
+        sound: `default`
       }
     };
+    const options = {
+      priority: "high"
+    }
 
-    // ref to the device collection for the user
-    const db = admin.database();
-    const devicesRef = db.ref("/devices_token/" + tokenId).orderByKey();
-
+    // // ref to the device collection for the user
     const tokens = [];
-
-    // get the user's tokens and send notifications
-    const devices = await devicesRef
-
-      devices.once("value")
-      // kalo firestore pake yang ini
-      // const devices = await devicesRef.get();
-
-      // send a notification to each device token
-      .then(snapshot => {
-        snapshot.forEach(result => {            
-          const token = result.key;
-
-          tokens.push(token);
-          return true;
+    // send a notification to each device token
+    db.ref("/devices_token").orderByChild('userId').equalTo('VWKITrwfdLdEprMigOa8OnvGfwO2')
+    .on('child_added',function(snap) {
+      console.log(`snapshot4`,snap.key);
+      
+      tokens.push(snap.key);
         });
-      });
-
-    return admin.messaging().sendToDevice(tokens, payload);
+        
+        console.log(`tokens2`,tokens);
+    return admin.messaging().sendToDevice(tokens, payload, options)
+    .then(function(response) {
+      // See the MessagingDevicesResponse reference documentation for
+      // the contents of response.
+      console.log('Successfully sent message:', response);
+    })
+    .catch(function(error) {
+      console.log('Error sending message:', error);
+    });
   });

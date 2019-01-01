@@ -29,7 +29,6 @@ export class NotifPage {
           this.detailBooking.push(detailBooking);
           console.log("detail_booking", this.detailBooking);
           console.log('ionViewDidLoad NotifPage');
-  
           //get client profile in booking psg
           this.dataProvider.getClient(detailBooking.userId).subscribe(clients => {
             this.clients = clients;

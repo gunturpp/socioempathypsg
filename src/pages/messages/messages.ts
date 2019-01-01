@@ -216,18 +216,25 @@ export class MessagesPage {
     );
   }
   // close timer countdown
-
+  devicesTokenUpdate() {
+    this.dataProvider
+      .updateDevicesToken(localStorage.getItem("devices_token"))
+      .update({
+        userId: localStorage.getItem("uid_psg")
+      });
+    this.dataProvider.updateCurrentUser().update({
+      devices_token: localStorage.getItem("devices_token")
+    });
+  }
   //  ionViewDidEnter() {
   ionViewDidLoad() {
-    this.countOrder();
-    this.createUserData();
-    this.conversations = [];
+     //this.countOrder();
+      this.createUserData();
+      this.devicesTokenUpdate();
+    // this.conversations = [];
     // this.count=0;
     //untuk psg baru
-    //console.log('uid gue ' , firebase.auth().currentUser.uid);
-    if (localStorage.getItem("uid_psg") == null) {
-      localStorage.setItem("uid_psg", firebase.auth().currentUser.uid);
-    }
+
     console.log("uid dari local", localStorage.getItem("uid_psg"));
     // Create userData on the database if it doesn't exist yet.
     this.searchFriend = "";
@@ -246,50 +253,28 @@ export class MessagesPage {
             if (conversation.key) {
               // Get conversation info.
               this.dataProvider
-                .getConversationbyCurrentUser(this.profileUser.userId)
+                .getConversationbyCurrentUser(conversation.key)
                 .subscribe(listConv => {
                   console.log("listConv", listConv);
                   listConv.forEach(listConversations => {
-                    this.count += 1;
                     if (listConversations.conversationId != null) {
                       this.dataProvider
                         .getConversation(listConversations.conversationId)
                         .subscribe(obj => {
-                          console.log("obj ", obj);
-                          console.log("conId", listConversations);
-                          // Get last message of conversation.
-                          console.log("scheduleeyid", obj.scheduleId);
                           this.bookingDay = JSON.stringify(obj.scheduleId);
                           this.bookSession = obj.sessionke;
                           // this.countdown();
 
-                          let lastMessage =
-                            obj.messages[obj.messages.length - 1];
+                          let lastMessage = obj.messages[obj.messages.length - 1];
                           listConversations.date = lastMessage.date;
                           listConversations.sender = lastMessage.sender;
-                          listConversations.idConv =
-                            listConversations.conversationId;
-                          listConversations.key = conversation.key;
-                          listConversations.friend = conversation.friend;
-                          console.log("conv id", listConversations);
                           // Set unreadMessagesCount
                           listConversations.unreadMessagesCount =
-                            obj.messages.length -
-                            listConversations.messagesRead;
-                          console.log(
-                            "unread",
-                            listConversations.unreadMessagesCount
-                          );
-                          console.log("messages.length", obj.messages.length);
-                          console.log(
-                            "conversation.messageRead",
-                            listConversations.messagesRead
-                          );
+                            obj.messages.length - listConversations.messagesRead;
                           // Process last message depending on messageType.
                           if (lastMessage.type == "text") {
                             if (
-                              lastMessage.sender ==
-                              localStorage.getItem("uid_psg")
+                              lastMessage.sender == firebase.auth().currentUser.uid
                             ) {
                               listConversations.message =
                                 "You: " + lastMessage.message;
@@ -298,29 +283,19 @@ export class MessagesPage {
                             }
                           } else {
                             if (
-                              lastMessage.sender ==
-                              localStorage.getItem("uid_psg")
+                              lastMessage.sender == firebase.auth().currentUser.uid
                             ) {
-                              conversation.message =
+                              listConversations.message =
                                 "You sent a photo message.";
                             } else {
-                              conversation.message =
+                              listConversations.message =
                                 "has sent you a photo message.";
                             }
                           }
-                          // Add or update conversation.
-
+                          // Add or update listConversations.
                           this.addOrUpdateConversation(listConversations);
-                          console.log(
-                            "print this.conversations",
-                            this.conversations
-                          );
                         });
                     }
-
-                    console.log("count", this.count);
-                    console.log("panjang", this.panjang);
-                    if (this.count == this.panjang) this.loadingProvider.hide();
                   }); //end of for each
                 }); // end of user3
             }
@@ -370,7 +345,7 @@ export class MessagesPage {
       var index = -1;
       for (var i = 0; i < this.conversations.length; i++) {
         if (
-          this.conversations[i].conversationId == conversation.conversationId
+          this.conversations[i].key == conversation.key
         ) {
           index = i;
         }
@@ -469,7 +444,9 @@ export class MessagesPage {
               email: email,
               phone: localStorage.getItem("phone"),
               description: description,
-              dateCreated: new Date().toString()
+              dateCreated: new Date().toString(),
+              born:"",
+              city:""
             })
             .then(() => {
               this.loadingProvider.hide();
@@ -485,7 +462,11 @@ export class MessagesPage {
 
   // Open chat with friend.
   message(userId, idConv) {
-    this.app.getRootNav().push(MessagePage, { userId: userId, idConv: idConv });
+  console.log("idConv", idConv);
+    this.navCtrl.push(MessagePage, {
+       userId: userId, 
+       idConv: idConv 
+      });
   }
 
   // Return class based if conversation has unreadMessages or not.

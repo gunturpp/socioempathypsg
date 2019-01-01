@@ -60,12 +60,15 @@ export class CalendarPage {
     // create random events.
     loadEvents() {
         this.eventSource = this.createRandomEvents();
-        console.log(this.eventSource);
+        console.log("eventSource", this.eventSource);
     }
     onViewTitleChanged(title) {
         this.viewTitle = title;
+        console.log("title",title);
+        
     }
     onEventSelected(event) {
+
         let start = moment(event.startTime).format('LLLL');
         let end = moment(event.endTime).format('LLLL');
 
@@ -84,11 +87,11 @@ export class CalendarPage {
         this.calendar.currentDate = new Date();
     }
     onTimeSelected(ev) {
-        console.log(ev);
+       //  console.log(ev);
         console.log('Selected time: ' + ev.selectedTime + ', hasEvents: ' +
             (ev.events !== undefined && ev.events.length !== 0) + ', disabled: ' + ev.disabled);
         this.selectedDay = ev.selectedTime;
-        console.log('ini waktu sekarang: ' + this.selectedDay);
+       //  console.log('ini waktu sekarang: ' + this.selectedDay);
 
     }
     // onCurrentDateChanged(event:Date) {
@@ -132,6 +135,7 @@ export class CalendarPage {
             }
         }
         return events;
+        
     }
     onRangeChanged(ev) {
         console.log('range changed: startTime: ' + ev.startTime + ', endTime: ' + ev.endTime);
@@ -200,7 +204,7 @@ export class CalendarPage {
                                     default:
                                       return 0;
                                   }
-                                console.log('list arr', listSchedule.key);
+                                console.log('list arr', new Date(this.sessionStart));
 
                                 this.eventSource.push({
                                     //  title: listSchedules[j].key,
@@ -221,7 +225,7 @@ export class CalendarPage {
                             if (this.cek == this.lenKey1) {
                                 this.refreshData(); 
                                 this.loadingProvider.hide();
-                                }
+                            }
                         });
                     });
                 // }

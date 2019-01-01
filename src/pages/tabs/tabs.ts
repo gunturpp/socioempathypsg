@@ -34,7 +34,6 @@ export class TabsPage {
   ) {}
 
   ionViewDidLoad() {
-    console.log("tabs folder");
     this.conversationsInfo = 0;
     this.getUnreadMessagesCount();
     // Get friend requests count.
@@ -55,25 +54,14 @@ export class TabsPage {
       this.conversationList = null;
       if (conversationsInfo.length > 0) {
         console.log("infoconvv", conversationsInfo);
+        this.conversationsInfo = conversationsInfo;
         conversationsInfo.forEach(conversationInfo => {
-          // this.dataProvider.getConversation(conversationInfo.conversationId).subscribe((conversation) => {
-          this.dataProvider
-            .getConversationbyCurrentUser(conversationInfo.key)
-            .subscribe(user3 => {
-              console.log("user3 ", user3);
-              user3.forEach(conversation => {
-                this.conversationsInfo += conversation.messagesRead;
-                console.log("info", this.conversationsInfo);
-                this.dataProvider
-                  .getConversation(conversation.conversationId)
-                  .subscribe(obj => {
-                    console.log("objconv", obj);
-                    if (obj) {
-                      this.addOrUpdateConversation(obj);
-                    }
-                  });
-              });
-            });
+          this.dataProvider.getConversation(conversationInfo.conversationId).subscribe((conversation) => {
+            if (conversation) {
+              console.log("in tabs",conversation);
+              this.addOrUpdateConversation(conversation);
+            }
+          });
         });
       }
     });

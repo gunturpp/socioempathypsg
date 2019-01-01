@@ -2,7 +2,6 @@ import { MoodTrackerPage } from './../pages/mood-tracker/mood-tracker';
 import { BoardingPage } from './../pages/boarding/boarding';
 import { AchievementPage } from './../pages/achievement/achievement';
 import { DuplicateMessagePage } from './../pages/duplicate-message/duplicate-message';
-import { Message2Page } from './../pages/message2/message2';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
@@ -10,12 +9,11 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Camera } from '@ionic-native/camera';
 import { GooglePlus } from '@ionic-native/google-plus';
+import { FCM } from '@ionic-native/fcm';
 import { Keyboard } from '@ionic-native/keyboard';
 import { TextMaskModule } from 'angular2-text-mask';
 import { SignupPage } from '../pages/signup/signup';
-
 import { Firebase } from '@ionic-native/firebase';
-
 import { MyApp } from './app.component';
 import { FirstProfilePage } from '../pages/first-profile/first-profile';
 import { LoginPage } from '../pages/login/login';
@@ -36,22 +34,14 @@ import { BuyPremiumPage } from '../pages/buy-premium/buy-premium';
 import { ProfilePage } from '../pages/profile/profile';
 import { CalendarPage } from '../pages/calendar/calendar';
 import { EventModalPage } from '../pages/event-modal/event-modal';
-import { EventModalPageModule } from '../pages/event-modal/event-modal.module.ts';
 import { NotifPage } from '../pages/notif/notif';
 import { LovestorePage } from '../pages/lovestore/lovestore';
-import { LovestorePageModule } from '../pages/lovestore/lovestore.module.ts';
 import { ConsultationRequestPage } from '../pages/consultation-request/consultation-request';
-import { ConsultationRequestPageModule } from '../pages/consultation-request/consultation-request.module.ts';
 import { DetailUserPage } from '../pages/detail-user/detail-user';
-import { DetailUserPageModule } from '../pages/detail-user/detail-user.module.ts';
 import { FormWithdrawPage } from '../pages/form-withdraw/form-withdraw';
-import { FormWithdrawPageModule } from '../pages/form-withdraw/form-withdraw.module.ts';
 import { DetailWithdrawPage } from '../pages/detail-withdraw/detail-withdraw';
-import { DetailWithdrawPageModule } from '../pages/detail-withdraw/detail-withdraw.module.ts';
 import { TransactionsPage } from '../pages/transactions/transactions';
-import { TransactionsPageModule } from '../pages/transactions/transactions.module.ts';
 import { DetailTransactionPage } from '../pages/detail-transaction/detail-transaction';
-import { DetailTransactionPageModule } from '../pages/detail-transaction/detail-transaction.module.ts';
 
 //import calendar plugin
 import { NgCalendarModule } from 'ionic2-calendar';
@@ -79,7 +69,6 @@ import { FriendPipe } from '../pipes/friend';
 import { SearchPipe } from '../pipes/search';
 import { ConversationPipe } from '../pipes/conversation';
 import { DateFormatPipe } from '../pipes/date';
-import { GroupPipe } from '../pipes/group';
 
 firebase.initializeApp(Login.firebaseConfig);
 
@@ -136,14 +125,6 @@ firebase.initializeApp(Login.firebaseConfig);
     AngularFireModule.initializeApp(Login.firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    // EventModalPageModule,
-    // ConsultationRequestPageModule,
-    // DetailUserPageModule,
-    // FormWithdrawPageModule,
-    // DetailWithdrawPageModule,
-    // LovestorePageModule,
-    // TransactionsPageModule,
-    //DetailTransactionPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -184,6 +165,7 @@ firebase.initializeApp(Login.firebaseConfig);
   ],
   providers: [
     Firebase,
+    FCM,
     FcmProvider,
     StatusBar, SplashScreen, Camera, GooglePlus, Keyboard, { provide: ErrorHandler, useClass: IonicErrorHandler }, LoginProvider, LogoutProvider, LoadingProvider, AlertProvider, ImageProvider, DataProvider, FirebaseProvider]
 })

@@ -5,7 +5,6 @@ import { LoadingProvider } from './loading';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import * as firebase from 'firebase';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { TimeLinePage } from '../pages/time-line/time-line';
 
 @Injectable()
 export class ImageProvider {

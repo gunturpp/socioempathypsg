@@ -38,6 +38,8 @@ export class MessagePage {
 
   ionViewDidLoad() {
     this.userId = this.navParams.get('userId');
+    console.log("userId : ", this.userId);
+
     this.idConv = this.navParams.get('idConv');
     console.log('userId', this.userId);
     // Get friend details.
@@ -168,13 +170,9 @@ export class MessagePage {
   }
 
   // Check if currentPage is active, then update user's messagesRead.
-  setMessagesRead(message) {
+  setMessagesRead(totalMessagesCount) {
     if (this.navCtrl.getActive().instance instanceof MessagePage) {
       // Update user's messagesRead on database.
-      var totalMessagesCount;
-     // this.dataProvider.getListConversationMessages(this.conversationId).subscribe((messages) => {
-        totalMessagesCount = message;
-     // });
       this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid_psg') + '/conversations/' + this.userId + '/' + this.idConv).update({
         messagesRead: totalMessagesCount
       });
@@ -223,11 +221,6 @@ export class MessagePage {
     }
   }
 
-  // Back
-  back() {
-    this.navCtrl.pop();
-  }
-
   // Send message, if there's no conversation yet, create a new conversation.
   send() {
     if (this.message) {
@@ -240,12 +233,13 @@ export class MessagePage {
         messages.push({
           date: new Date().toString(),
           sender: localStorage.getItem('uid_psg'),
+          receiver: this.userId,
           type: 'text',
           message: this.message
         });
         // Update conversation on database.
         console.log(messages);
-        this.angularfireDatabase.object('/conversations/' + this.conversationId).update({
+        this.dataProvider.updateConversation(this.conversationId).update({
           messages: messages
         });
         // Clear messagebox.
@@ -256,26 +250,24 @@ export class MessagePage {
         messages.push({
           date: new Date().toString(),
           sender: localStorage.getItem('uid_psg'),
+          receiver: this.userId,
           type: 'text',
           message: this.message
         });
-        var users = [];
-        users.push(localStorage.getItem('uid_psg'));
-        users.push(this.userId);
         // Add conversation.
-        this.angularfireDatabase.list('conversations').push({
+        this.angularfireDatabase.list('conversations' + this.conversationId).push({
           dateCreated: new Date().toString(),
           messages: messages,
-          users: users
         }).then((success) => {
-          let conversationId = success.key;
+          console.log('success')
+          let conversationId = success;
           this.message = '';
           // Add conversation reference to the users.
           this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid_psg') + '/conversations/' + this.userId).update({
             conversationId: conversationId,
             messagesRead: 1
           });
-          this.angularfireDatabase.object('/users/' + this.userId + '/conversations/' + firebase.auth().currentUser.uid).update({
+          this.angularfireDatabase.object('/users/' + this.userId + '/conversations/' + localStorage.getItem('uid_psg')).update({
             conversationId: conversationId,
             messagesRead: 0
           });

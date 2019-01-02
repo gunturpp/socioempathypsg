@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAction, AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
+import { AngularFireAction,AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
 import * as firebase from 'firebase';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import 'rxjs/add/operator/switchMap';
 @Injectable()
 export class DataProvider {
@@ -123,14 +123,14 @@ export class DataProvider {
     this.items = this.angularfireDatabase.object('/conversations/').valueChanges();
     return this.items;
   }
-  getConversationbyCurrentUser(userId){
+  getConversationbyUser(userId){
     this.items = this.angularfireDatabase.list('/psg/' + this.uid_psg + '/conversations/' + userId).valueChanges();
     return this.items;
   }
 
   // Get conversations of the current logged in user.
   getConversations() {
-    this.items = this.angularfireDatabase.list('/psg/' + this.uid_psg + '/conversations/').snapshotChanges();
+    this.items = this.angularfireDatabase.list('/psg/' + this.uid_psg + '/conversations').snapshotChanges();
     return this.items;
   }
   getValueConversations() {

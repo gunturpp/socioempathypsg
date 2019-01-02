@@ -7,7 +7,7 @@ import { Keyboard } from "@ionic-native/keyboard";
 import { FcmProvider } from "../providers/fcm/fcm";
 //Pages
 import { LoginPage } from "../pages/login/login";
-import { MessagesPage } from "../pages/messages/messages";
+import { TabsPage } from "../pages/tabs/tabs";
 import * as firebase from "firebase";
 
 @Component({
@@ -25,7 +25,7 @@ export class MyApp {
   ) {
     if (localStorage.getItem("toggle") == "true") {
       if (firebase.auth().currentUser) {
-        this.rootPage = MessagesPage;
+        this.rootPage = TabsPage;
       } else {
         this.rootPage = LoginPage;
       }
@@ -39,7 +39,7 @@ export class MyApp {
 
       // access token for push Notification
       fcm.getToken();
-      fcm.listenToNotifications()
+      // fcm.listenToNotifications()
       
       statusBar.styleDefault();
       splashScreen.hide();

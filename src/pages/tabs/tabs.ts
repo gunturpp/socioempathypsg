@@ -37,26 +37,16 @@ export class TabsPage {
     this.conversationsInfo = 0;
     this.getUnreadMessagesCount();
     // Get friend requests count.
-    // this.dataProvider.getRequests(firebase.auth().currentUser.uid).subscribe((requests) => {
-    //   if (requests.friendRequests) {
-    //     this.friendRequestCount = requests.friendRequests.length;
-    //   } else {
-    //     this.friendRequestCount = null;
-    //   }
-    // });
-
     // Get conversations and add/update if the conversation exists, otherwise delete from list.
-    //this.dataProvider.getListConversations().subscribe((conversationsInfo) => {
     this.dataProvider.getConversations().subscribe(conversationsInfo => {
       console.log("conversationsInfo : ", conversationsInfo);
       this.unreadMessagesCount = null;
       this.conversationsInfo = null;
       this.conversationList = null;
       if (conversationsInfo.length > 0) {
-        console.log("infoconvv", conversationsInfo);
         this.conversationsInfo = conversationsInfo;
         conversationsInfo.forEach(conversationInfo => {
-          this.dataProvider.getConversation(conversationInfo.conversationId).subscribe((conversation) => {
+          this.dataProvider.getConversation(conversationInfo.key).subscribe((conversation) => {
             if (conversation) {
               console.log("in tabs",conversation);
               this.addOrUpdateConversation(conversation);
@@ -88,9 +78,7 @@ export class TabsPage {
         this.conversationList.push(conversation);
       }
     }
-    console.log("conversationList ", this.conversationList);
     this.computeUnreadMessagesCount();
-    console.log("total ga dibaca ", this.unreadMessagesCount);
   }
 
   // Compute all conversation's unreadMessages.
@@ -99,7 +87,6 @@ export class TabsPage {
     if (this.conversationList) {
       for (var i = 0; i < this.conversationList.length; i++) {
         this.unreadMessagesCount += this.conversationList[i].messages.length;
-        console.log("unread tabs ", this.unreadMessagesCount);
       }
       this.unreadMessagesCount -= this.conversationsInfo;
       if (this.unreadMessagesCount == 0) {

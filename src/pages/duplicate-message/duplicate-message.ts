@@ -49,7 +49,7 @@ export class DuplicateMessagePage {
     });
 
     // Get conversationInfo with friend.
-    this.dataProvider.getConversationbyCurrentUser(this.userId).subscribe((conversation) => {
+    this.dataProvider.getConversationbyUser(this.userId).subscribe((conversation) => {
       if (conversation.$exists()) {
         // User already have conversation with this friend, get conversation
         this.conversationId = conversation.conversationId;

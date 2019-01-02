@@ -92,17 +92,14 @@ export class ConsultationRequestPage {
     messages.push({
       date: new Date().toString(),
       sender: localStorage.getItem("uid_psg"),
+      receiver: this.userId,
       type: "text",
       message: "Selamat Request anda telah diterima oleh PSG"
     });
-    var users = [];
-    users.push(localStorage.getItem("uid_psg"));
-    users.push(this.userId);
     // Add conversation.
     this.angularfireDatabase.list("conversations").push({
         dateCreated: new Date().toString(),
         messages: messages,
-        users: users,
         scheduleId: this.schedule,
         sessionke: this.session
       })

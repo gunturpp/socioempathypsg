@@ -10,21 +10,16 @@ import {
 import { AngularFireDatabase } from "angularfire2/database";
 import { LoadingProvider } from "../../providers/loading";
 import { DataProvider } from "../../providers/data";
-import { NewMessagePage } from "../new-message/new-message";
 import { MessagePage } from "../message/message";
 import * as firebase from "firebase";
-//import { Message2Page } from "../message2/message2";
-import { concat } from "rxjs/observable/concat";
 import { NotifPage } from "../notif/notif";
-import { LovestorePage } from "../lovestore/lovestore";
-import * as moment from "moment";
 
 @Component({
   selector: "page-messages",
   templateUrl: "messages.html"
 })
 export class MessagesPage {
-  profileUser: any;
+  profileUser=[];
   panjang: any;
   count: number;
   bookingDay: any;
@@ -62,205 +57,33 @@ export class MessagesPage {
     public alertCtrl: AlertController
   ) {}
 
-  countdown() {
-    let bookDay, bookMonth, bookYear, bookSec, bookMin, bookHour;
-    bookDay = this.bookingDay.substring(9, 11);
-    bookMonth = this.bookingDay.substring(6, 8);
-    bookYear = this.bookingDay.substring(1, 5);
-    this.bookSession;
-    console.log("booksess", this.bookSession);
-    switch (this.bookSession) {
-      case "session1":
-        bookHour = 8;
-        break;
-      case "session2":
-        bookHour = 10;
-        break;
-      case "session3":
-        bookHour = 12;
-        break;
-      case "session4":
-        bookHour = 14;
-        break;
-      case "session5":
-        bookHour = 16;
-        break;
-      default:
-        return 0;
-    }
-    console.log("sesi", bookHour);
-    // bookYear = moment(this.bookingDay).year();
-    // bookMonth = moment(this.bookingDay).month() + 1;
-    // bookDay = moment(this.bookingDay).days();
-    // bookHour = moment(this.bookingDay).hours() * 3600;
-    // bookMin = moment(this.bookingDay).minutes() * 60;
-    // bookSec = moment(this.bookingDay).seconds();
-    // current date
-    let sec, min, hour, day, days, today, month, year, spareDay, now, later;
-    today = moment(new Date())
-      .local()
-      .format();
-    year = moment(today).year();
-    month = moment(today).month() + 1;
-    days = moment(today).days();
-    hour = moment(today).hours() * 3600 - bookHour * 3600;
-    min = moment(today).minutes() * 60;
-    sec = moment(today).seconds();
-
-    // booking date
-    later = moment([bookYear, bookMonth, bookDay]);
-    now = moment([year, month, days]);
-    spareDay = later.diff(now, "days");
-    console.log("booking day later", bookDay, bookMonth, bookYear);
-    console.log("booking day now", days, month, year);
-    console.log("spare day", spareDay);
-
-    // waktunya countdownnya masih sama tiap list
-
-    day = spareDay * 86400;
-    console.log("times", day, hour, min, sec);
-    this.inputSeconds[this.iterate] = day + hour + min + sec;
-    console.log("inputseconds", this.inputSeconds);
-    localStorage.setItem("inputSec", JSON.stringify(this.inputSeconds));
-    this.iterate++;
-  }
-  /* Initialize and setup the time for question */
-  // ngOnInit() {
-  //   this.initTimer();
-  //   this.startTimer();
-  // }
-
-  initTimer() {
-    // Pomodoro is usually for 25 minutes
-    if (!this.timeInSeconds) {
-      // this.timeInSeconds = this.inputSeconds;
-      this.timeInSeconds = JSON.parse(localStorage.getItem("inputSec"));
-      console.log("init timer", this.timeInSeconds);
-    }
-    for (var i = 0; i < this.timeInSeconds.length; i++) {
-      console.log("increment", i);
-      this.time = this.timeInSeconds[i];
-      this.runTimer = false;
-      this.hasStarted = false;
-      this.hasFinished = false;
-      this.remainingTime[i] = this.timeInSeconds[i];
-      console.log("remain", this.remainingTime[i]);
-      this.displayTime[i] = this.getSecondsAsDigitalClock(
-        this.remainingTime[i]
-      );
-      console.log("display", this.displayTime[i]);
-    }
-  }
-  // timer countdown
-  startTimer() {
-    this.runTimer = true;
-    this.hasStarted = true;
-    this.timerTick();
-  }
-
-  pauseTimer() {
-    this.runTimer = false;
-  }
-
-  resumeTimer() {
-    this.startTimer();
-  }
-
-  timerTick() {
-    setTimeout(() => {
-      var length = JSON.parse(localStorage.getItem("inputSec")).length;
-      for (var i = 0; i < length; i++) {
-        if (!this.runTimer) {
-          return;
-        }
-        this.remainingTime[i]--;
-        this.displayTime[i] = this.getSecondsAsDigitalClock(
-          this.remainingTime[i]
-        );
-      }
-      // masi statis di array 0 doang
-      if (this.remainingTime[0] > 0) {
-        this.timerTick();
-      } else {
-        this.hasFinished = true;
-      }
-    }, 1000);
-  }
-
-  getSecondsAsDigitalClock(inputSeconds: number) {
-    if (inputSeconds != null) {
-      var sec_num = parseInt(inputSeconds.toString(), 10); // don't forget the second param
-      //console.log("sec sum", sec_num); //just uncoment to show countdown in console
-    }
-    var days = Math.floor(sec_num / 3600 / 24);
-    var hours = Math.floor(sec_num / 3600) - days * 24;
-    var temphours = Math.floor(sec_num / 3600);
-    var minutes = Math.floor((sec_num - temphours * 3600) / 60);
-    var seconds = sec_num - temphours * 3600 - minutes * 60;
-    var hoursString = "";
-    var minutesString = "";
-    var secondsString = "";
-    var daysString = "";
-    hoursString = hours < 10 ? "0" + hours : hours.toString();
-    minutesString = minutes < 10 ? "0" + minutes : minutes.toString();
-    secondsString = seconds < 10 ? "0" + seconds : seconds.toString();
-    daysString = days.toString();
-    return (
-      daysString +
-      "day " +
-      hoursString +
-      ":" +
-      minutesString +
-      ":" +
-      secondsString
-    );
-  }
-  // close timer countdown
-  devicesTokenUpdate() {
-    this.dataProvider
-      .updateDevicesToken(localStorage.getItem("devices_token"))
-      .update({
-        userId: localStorage.getItem("uid_psg")
-      });
-    this.dataProvider.updateCurrentUser().update({
-      devices_token: localStorage.getItem("devices_token")
-    });
-  }
-  //  ionViewDidEnter() {
   ionViewDidLoad() {
-     //this.countOrder();
-      this.createUserData();
-      this.devicesTokenUpdate();
-    // this.conversations = [];
-    // this.count=0;
-    //untuk psg baru
-
-    console.log("uid dari local", localStorage.getItem("uid_psg"));
     // Create userData on the database if it doesn't exist yet.
-    this.searchFriend = "";
     this.loadingProvider.show();
-
+    this.createUserData();
+    this.devicesTokenUpdate();
+    this.searchFriend = "";
+    // notification new booking
+    this.countOrder();
+    
     // Get info of conversations of current logged in user.
     this.dataProvider.getConversations().subscribe(conversations => {
-      console.log("list cet", conversations);
+      console.log("conversations", conversations);
       if (conversations.length > 0) {
-        // this.initTimer(); // this.startTimer();
         conversations.forEach(conversation => {
           // Get conversation partner info.
-          this.dataProvider.getClient(conversation.key).subscribe(user => {
-            this.profileUser = user;
-            console.log("profile user-- : ", this.profileUser);
+          this.dataProvider.getClient(conversation.key).subscribe(users => {
+            this.profileUser.push(users);
+            console.log("profileUser", this.profileUser);
             if (conversation.key) {
               // Get conversation info.
               this.dataProvider
-                .getConversationbyCurrentUser(conversation.key)
-                .subscribe(listConv => {
-                  console.log("listConv", listConv);
-                  listConv.forEach(listConversations => {
+              .getConversationbyUser(conversation.key).subscribe(listConv => {
+                listConv.forEach(listConversations => {
+                  listConversations.key = conversation.key;
                     if (listConversations.conversationId != null) {
                       this.dataProvider
-                        .getConversation(listConversations.conversationId)
-                        .subscribe(obj => {
+                      .getConversation(listConversations.conversationId).subscribe(obj => {
                           this.bookingDay = JSON.stringify(obj.scheduleId);
                           this.bookSession = obj.sessionke;
                           // this.countdown();
@@ -268,6 +91,7 @@ export class MessagesPage {
                           let lastMessage = obj.messages[obj.messages.length - 1];
                           listConversations.date = lastMessage.date;
                           listConversations.sender = lastMessage.sender;
+                         
                           // Set unreadMessagesCount
                           listConversations.unreadMessagesCount =
                             obj.messages.length - listConversations.messagesRead;
@@ -292,8 +116,9 @@ export class MessagesPage {
                                 "has sent you a photo message.";
                             }
                           }
-                          // Add or update listConversations.
                           this.addOrUpdateConversation(listConversations);
+
+                          // Add or update listConversations.
                         });
                     }
                   }); //end of for each
@@ -322,11 +147,16 @@ export class MessagesPage {
       }, 60000);
     }
   }
-
-  //ngOnInit() {
-  //  this.initTimer();
-  //  this.startTimer();
-  //}
+  devicesTokenUpdate() {
+    this.dataProvider
+      .updateDevicesToken(localStorage.getItem("devices_token"))
+      .update({
+        userId: localStorage.getItem("uid_psg")
+      });
+    this.dataProvider.updateCurrentUser().update({
+      devices_token: localStorage.getItem("devices_token")
+    });
+  }
 
   // delete personal message
   deleteConversation(conversation) {
@@ -346,6 +176,7 @@ export class MessagesPage {
       for (var i = 0; i < this.conversations.length; i++) {
         if (
           this.conversations[i].key == conversation.key
+          
         ) {
           index = i;
         }
@@ -381,7 +212,6 @@ export class MessagesPage {
         if (!account.val()) {
           this.loadingProvider.show();
           let user = firebase.auth().currentUser;
-          console.log(user);
           var userId, name, provider, img, email;
           let providerData = user.providerData[0];
 
@@ -454,15 +284,8 @@ export class MessagesPage {
         }
       });
   }
-
-  // New conversation.
-  newMessage() {
-    this.app.getRootNav().push(NewMessagePage);
-  }
-
   // Open chat with friend.
   message(userId, idConv) {
-  console.log("idConv", idConv);
     this.navCtrl.push(MessagePage, {
        userId: userId, 
        idConv: idConv 
@@ -536,11 +359,6 @@ export class MessagesPage {
   notif() {
     this.navCtrl.push(NotifPage);
   }
-
-  store() {
-    this.navCtrl.push(LovestorePage);
-  }
-
   //untuk count order
   countOrder() {
     this.countOrders = 0;
@@ -555,6 +373,4 @@ export class MessagesPage {
       });
     });
   }
-
-  //this is the last
 }

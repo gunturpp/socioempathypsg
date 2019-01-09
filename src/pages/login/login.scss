@@ -113,62 +113,6 @@ page-login {
         background: $dark-active;
       }
 
-      .register{
-        background: rgba(0,0,0,0.5);
-        width: 100%;
-        height: 100%;
-
-        // .text-input::-moz-placeholder {
-        //   color: white;
-        // }
-
-        // .text-input:-ms-input-placeholder {
-        //   color: white;
-        // }
-
-        // .text-input::-webkit-input-placeholder {
-        //   text-indent: 0;
-        //   color: white;
-        // }
-
-        p {
-          width: 70vw;
-          margin-left: auto;
-          margin-right: auto;
-        }
-
-        ion-list {
-          padding: 0;
-          margin: 0 0 0.75em;
-          background-color: transparent;
-
-          ion-item {
-            background: transparent;
-            color: $primary;
-
-            ion-label {
-              text-align: left;
-              width: 24vw;
-            }
-
-            ion-input {
-              color: #000000;
-            }
-          }
-        }
-
-        button.clear {
-          color: #000000;
-          margin: 0;
-          width: auto !important;
-          background: transparent !important;
-        }
-
-        button.clear.activated {
-          color: $primary;
-        }
-      }
-
       .form {
         width: 100%;
         height: 100%;
@@ -211,6 +155,14 @@ page-login {
       }
     }
   }
-
+  .btn-signup {
+    background: rgba($color: #000000, $alpha: 0.8)
+  }
+  .forgotPassword {
+    text-align: right !important;
+    font-size: 12px;
+    display: block;
+    color:#000000;
+  }
 }
 

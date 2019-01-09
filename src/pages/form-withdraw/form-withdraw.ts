@@ -6,6 +6,7 @@ import { Validators } from '@angular/forms';
 import { DetailWithdrawPage } from '../detail-withdraw/detail-withdraw';
 import { LoadingProvider } from '../../providers/loading';
 import { AngularFireDatabase } from 'angularfire2/database';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'page-form-withdraw',
@@ -48,7 +49,7 @@ export class FormWithdrawPage {
       dateCreated: new Date().toString(),
       namaPenerima: this.withdrawForm.value["namaPenerima"],
       lovepoint: this.withdrawForm.value["lovepoint"],
-      psgId: localStorage.getItem('uid_psg'),
+      psgId: firebase.auth().currentUser.uid,
       rek: this.withdrawForm.value["rek"],
       bank: this.withdrawForm.value["bank"],
       status: "waiting"
@@ -56,7 +57,7 @@ export class FormWithdrawPage {
       console.log('sukses buat conversation');
       let transactionId = success.key;
       // Add conversation reference to the users.
-      this.angularfireDatabase.object('/psg/' + localStorage.getItem('uid_psg') + '/transactions/' + transactionId).update({
+      this.angularfireDatabase.object('/psg/' + firebase.auth().currentUser.uid + '/transactions/' + transactionId).update({
         transactionId: transactionId,
         status:'waiting'
        // messagesRead: 1

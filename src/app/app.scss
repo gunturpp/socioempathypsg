@@ -248,7 +248,8 @@ div.messages {
 
 //Footer Bar for message.html and group.html
 ion-footer.footer {
-  background-image: url('../assets/images/background.png');
+  background: #ffffff !important;
+  // background-image: url('../assets/images/background.png');
   background-position: initial initial;
   background-repeat: initial initial;
 }
@@ -281,21 +282,34 @@ ion-footer.footer {
     color: $primary;
   }
 }
-
 .bottom_bar {
-  background: rgba(0, 0, 0, 0.3) !important;
+  background: rgba(220, 220, 220, 0.3) !important;
   padding-top: 0.25em;
   padding-bottom: 0.25em;
 
-  ion-input {
-    width: 70%;
-    margin-left: auto;
-    margin-right: auto;
+  ion-textarea {
+    width: 80%;
     font-size: 110%;
+    margin-left: 5px;
     border-radius: 0.75em;
-    color: #fff;
+    color: $dark;
+    border: 1px #dcdcdc solid;
+    height: 50px;
   }
-
+  .text-input-ios {
+    height: 80px;
+  }
+  ion-textarea:hover  {
+    border: 1px $theblues solid;
+    height: 100px;
+  }
+  ion-textarea:hover textarea.text-input.text-input-md {
+    height: 100px;
+  }
+  ion-fab[right] {
+    right: 0;
+    z-index: 10;
+  }
   ion-fab button,
   ion-fab button.activated {
     background: transparent !important;
@@ -307,6 +321,6 @@ ion-footer.footer {
 
   ion-fab button ion-icon {
     font-size: 2em !important;
-    color: $primary;
+    color: $dark;
   }
 }

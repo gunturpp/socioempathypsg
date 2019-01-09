@@ -1,9 +1,14 @@
 <ion-header>
   <ion-navbar hideBackButton="false">
-    <ion-title style="text-align:center">{{title}}</ion-title>
+    <ion-title>{{title}}</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content has-footer>
+    <!-- Problem -->
+    <!-- <div class="problems">
+      <span class="field-problem">Keluhan :</span><br>
+      <span>Masalah mental ketika orangtua bercerai ingin bunuh diri</span>
+    </div>     -->
   <!-- Messages -->
   <div class="messages">
     <p class="center" *ngIf="startIndex > 0"><span tappable (click)="loadPreviousMessages()">Load previous messages</span></p>
@@ -43,14 +48,25 @@
   </div>
 </ion-content>
 <!-- Message Box -->
-<ion-footer>
+<ion-footer *ngIf="displayTime  !== 'timeover' || displayTime  !== 'notyetready' || confirmation!= 'waiting' ">
   <div class="bottom_bar">
-    <ion-fab middle left>
+    <!-- <ion-fab middle left>
       <button ion-fab mini tappable (click)="sendPhoto()"><ion-icon name="md-camera"></ion-icon></button>
-    </ion-fab>
-    <ion-input type="text" placeholder="Type your message" [(ngModel)]="message" (focus)="scrollBottom()" (keypress)="onType($event.keyCode)"></ion-input>
+    </ion-fab> -->
+    <ion-textarea type="text" placeholder="Type your message" [(ngModel)]="message" (focus)="scrollBottom()" (keypress)="onType($event.keyCode)"></ion-textarea>
     <ion-fab middle right>
-      <button ion-fab mini tappable (click)="send()" [disabled]="!message"><ion-icon name="md-send"></ion-icon></button>
+      <button ion-fab mini tappable (click)="send()" [disabled]="!message">
+        <ion-icon name="send"></ion-icon>
+      </button>
     </ion-fab>
   </div>
+</ion-footer>
+<ion-footer *ngIf="displayTime  == 'timeover' && confirmation!= 'waiting' ">
+  <div class="session_end">Your session is ended with your client.</div>
+</ion-footer>
+<ion-footer *ngIf="displayTime  == 'notyetready' && confirmation!= 'waiting'">
+  <div class="session_end">Your session not yet ready. </div>
+</ion-footer>
+<ion-footer *ngIf="confirmation  == 'waiting'">
+  <div class="session_end">waiting confirmation. </div>
 </ion-footer>

@@ -32,7 +32,8 @@ export class VerificationPage {
     this.emailVerified = false;
     this.isLoggingOut = false;
     // Get user data and send an email verification automatically.
-    this.getUserData();
+    this.createUserData();
+    // this.getUserData();
     this.sendEmailVerification();
     // Create the emailVerification checker.
     var that = this;
@@ -57,49 +58,130 @@ export class VerificationPage {
   }
 
   // Get user data from the logged in Firebase user to show on html markup.
-  getUserData() {
-    let user = firebase.auth().currentUser;
-    var userId, name, provider, img, email;
-    let providerData = user.providerData[0];
+  // getUserData() {
+  //   let user = firebase.auth().currentUser;
+  //   var userId, name, provider, img, email;
+  //   let providerData = user.providerData[0];
 
-    userId = user.uid;
+  //   userId = user.uid;
 
-    // Retrieve name from Firebase user
-    if (user.displayName || providerData.displayName) {
-      name = user.displayName;
-      name = providerData.displayName;
-    } else {
-      name = "SocioEmpathy User";
-    }
+  //   // Retrieve name from Firebase user
+  //   if (user.displayName || providerData.displayName) {
+  //     name = user.displayName;
+  //     name = providerData.displayName;
+  //   } else {
+  //     name = "SocioEmpathy User";
+  //   }
 
-    // Retrieve provider from Firebase user
-    if (providerData.providerId == 'password') {
-      provider = "Firebase";
-    } else if (providerData.providerId == 'facebook.com') {
-      provider = "Facebook";
-    } else if (providerData.providerId == 'google.com') {
-      provider = "Google";
-    }
+  //   // Retrieve provider from Firebase user
+  //   if (providerData.providerId == 'password') {
+  //     provider = "Firebase";
+  //   } else if (providerData.providerId == 'facebook.com') {
+  //     provider = "Facebook";
+  //   } else if (providerData.providerId == 'google.com') {
+  //     provider = "Google";
+  //   }
 
-    // Retrieve photoURL from Firebase user
-    if (user.photoURL || providerData.photoURL) {
-      img = user.photoURL;
-      img = providerData.photoURL;
-    } else {
-      img = "assets/images/profile.png";
-    }
+  //   // Retrieve photoURL from Firebase user
+  //   if (user.photoURL || providerData.photoURL) {
+  //     img = user.photoURL;
+  //     img = providerData.photoURL;
+  //   } else {
+  //     img = "assets/images/profile.png";
+  //   }
 
-    // Retrieve email from Firebase user
-    email = user.email;
+  //   // Retrieve email from Firebase user
+  //   email = user.email;
 
-    // Set to user variable for our markup html
-    this.user = {
-      userId: userId,
-      name: name,
-      provider: provider,
-      img: img,
-      email: email
-    };
+  //   // Set to user variable for our markup html
+  //   this.user = {
+  //     userId: userId,
+  //     name: name,
+  //     provider: provider,
+  //     img: img,
+  //     email: email
+  //   };
+  // }
+  createUserData() {
+    firebase
+      .database()
+      .ref("/psg/" + firebase.auth().currentUser.uid)
+      .once("value")
+      .then(account => {
+        // No database data yet, create user data on database
+        if (!account.val()) {
+          // this.loadingProvider.show();
+          let user = firebase.auth().currentUser;
+          // declare
+          var userId, name, provider, img, email;
+          let providerData = user.providerData[0];
+          userId = user.uid;
+          // Get name from Firebase user.
+          if (user.displayName || providerData.displayName) {
+            name = user.displayName;
+            name = providerData.displayName;
+          } else {
+            name = localStorage.getItem("displayName");
+          }
+          // Set default username based on name and userId.
+          let username = name.replace(/ /g, "") + userId.substring(0, 8);
+          // Get provider from Firebase user.
+          if (providerData.providerId == "password") {
+            provider = "Firebase";
+          } else if (providerData.providerId == "facebook.com") {
+            provider = "Facebook";
+          } else if (providerData.providerId == "google.com") {
+            provider = "Google";
+          }
+          // Get photoURL from Firebase user.
+          if (user.photoURL || providerData.photoURL) {
+            img = user.photoURL;
+            img = providerData.photoURL;
+          } else {
+            img = "assets/images/profile.png";
+          }
+          // Get email from Firebase user.
+          email = user.email;
+          this.user = {
+            userId: userId,
+            name: name,
+            provider: provider,
+            img: img,
+            email: email
+          };
+          // Set default description.
+          let description = "Hello! I am a new SocioEmpathy user.";
+          // set default displayName to Firebase
+          // Insert data on our database using AngularFire.
+          this.angularfireDatabase
+            .object("/psg/" + userId)
+            .set({
+              userId: userId,
+              displayName: localStorage.getItem("displayName"),
+              name: name,
+              username: username,
+              anonymouse: "false",
+              realName: name,
+              provider: provider,
+              img: img,
+              devices_token: "",
+              gender: localStorage.getItem("gender"),
+              email: email,
+              phoneNumber: localStorage.getItem("phoneNumber"),
+              description: description,
+              dateCreated: new Date().toString(),
+              province: localStorage.getItem("province"),
+              status: "None",
+              birth: localStorage.getItem("birth"),
+              profession: "None",
+              role:"psychology",
+              emailVerified:false
+            })
+            .then(() => {
+              this.loadingProvider.hide();
+            });
+        }
+      });
   }
 
   // Send an email verification to the user's email.
@@ -148,10 +230,10 @@ export class VerificationPage {
                     // Call ionViewDidLoad again to update user on the markup and automatically send verification mail.
                     this.ionViewDidLoad();
                     // Update the user data on the database if it exists.
-                    firebase.database().ref('accounts/' + firebase.auth().currentUser.uid).once('value')
+                    firebase.database().ref('psg/' + firebase.auth().currentUser.uid).once('value')
                       .then((account) => {
                         if (account.val()) {
-                          this.angularfireDatabase.object('/accounts/' + firebase.auth().currentUser.uid).update({
+                          this.angularfireDatabase.object('/psg/' + firebase.auth().currentUser.uid).update({
                             email: email
                           });
                         }

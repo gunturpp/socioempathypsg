@@ -36,7 +36,7 @@ $colors: (
 // Color Variables
 $danger:     #f53d3d;
 $theblues:   #549AD4;
-$primary: #1ec7fa;
+$primary: #549AD4;
 $primary-active: #ffd75b;
 $secondary: #000000;
 $secondary-active: #6acdff;
@@ -92,6 +92,8 @@ $tabs-md-border: 0;
 $searchbar-md-input-clear-icon-color: $theblues;
 $searchbar-md-input-clear-icon-size: 22px;
 
+$datetime-md-placeholder-color: $theblues;
+$datetime-md-color: $theblues;
 // App Windows Variables
 // --------------------------------------------------
 // Windows only Sass variables can go here

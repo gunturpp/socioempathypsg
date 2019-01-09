@@ -29,7 +29,7 @@
     <!-- <ion-searchbar [(ngModel)]="searchFriend" placeholder="Search for friend or username" showCancelButton="true" cancelButtonText="Done"></ion-searchbar> -->
     <!-- press button di comment -->
     <ion-item (press)="pressEvent(conversation.sender)" *ngFor="let conversation of conversations | conversationFilter:searchFriend; let i = index"
-      no-lines tappable (click)="message(conversation.key,conversation.conversationId)">
+      no-lines tappable (click)="message(conversation.key,conversation.conversationId,i)">
       <!-- <ion-item  *ngFor="let conversation of conversations | conversationFilter:searchFriend" no-lines tappable (click)="message(conversation.$key)"> -->
       <!-- </ion-item> -->
       <ion-avatar item-left *ngIf="profileUser">
@@ -40,7 +40,8 @@
         <ion-badge color="danger" *ngIf="conversation.unreadMessagesCount > 0">{{conversation.unreadMessagesCount}}</ion-badge>
         <p>{{conversation.message}}</p>
         <!-- <div class="countdown">{{displayTime[i]}}</div> -->
-        <span class="date">{{conversation.date | DateFormat}}</span>
+        <span class="date"> {{displayTime[i]}}
+          <br>{{conversation.date | DateFormat}}</span>
       </div>
     </ion-item>
   </ion-list>

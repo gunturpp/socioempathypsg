@@ -15,38 +15,44 @@
           <form [formGroup]="emailPasswordForm">
             <ion-list>
 
+
+              <ion-item>
+                <ion-label stacked color="theblues">Nama</ion-label>
+                <ion-input type="text" formControlName="displayName" placeholder="Masukkan Nama"></ion-input>
+              </ion-item>
+
               <ion-item>
                 <ion-label stacked color="theblues">Email</ion-label>
-                <ion-input type="email" formControlName="email" placeholder="Your Email Address"></ion-input>
+                <ion-input type="email" formControlName="email" placeholder="Masukkan Email"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label stacked color="theblues">Password</ion-label>
-                <ion-input type="password" formControlName="password" placeholder="Create A Password"></ion-input>
+                <ion-input type="password" formControlName="password" placeholder="Masukkan Password"></ion-input>
               </ion-item>
 
               <ion-item>
-                <ion-label stacked color="theblues">Phone</ion-label>
-                <ion-input type="number" [(ngModel)]="phoneNumber" formControlName="phone" placeholder="Enter your Phone Number" [textMask]="{mask: masks.phoneNumber}"></ion-input>
+                <ion-label stacked color="theblues">No. Handphone</ion-label>
+                <ion-input type="number" [(ngModel)]="phoneNumber" formControlName="phoneNumber" placeholder="Masukkan Nomer Handphone" [textMask]="{mask: masks.phoneNumber}"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label stacked color="theblues">Gender</ion-label>
-                <ion-select formControlName="gender" placeholder="Select Your Role" style="margin-right:27%; color:black">
+                <ion-select formControlName="gender" placeholder="Pilih Gender" style="margin-right:27%; color:black">
                   <ion-option style="margin-right:80%; color:#549AD4" value="Male">Male&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</ion-option>
                   <ion-option style="margin-right:80%; color:#549AD4" value="Female">Female&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</ion-option>
                 </ion-select>
               </ion-item>
-
-              <!-- <ion-item>
-                <ion-label stacked color="theblues">Role</ion-label>
-                <ion-select formControlName="role" placeholder="Select Your Role" style="margin-right:27%; color:black">
-                  <ion-option style="margin-right:80%; color:#549AD4" value="Regular User">Regular User&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</ion-option>
-                  <ion-option style="margin-right:80%; color:#549AD4" value="Psychology Student">Psychology Student&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</ion-option>
-                  <ion-option style="margin-right:80%; color:#549AD4" value="Junior Psychologist">Junior Psychologist&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</ion-option>
-                  <ion-option style="margin-right:80%; color:#549AD4" value="Senior Psychologist">Senior Psychologist&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</ion-option>
+              <ion-item>
+                <ion-label stacked color="theblues">Tanggal Lahir</ion-label >
+                <ion-datetime  style="color:black" placeholder="YYYY-MM-DD" formControlName="birth" displayFormat="YYYY-MM-DD" min="1960" max="2020-11-30"></ion-datetime>
+              </ion-item>
+              <ion-item>
+                <ion-label stacked color="theblues">Domisili</ion-label>
+                <ion-select formControlName="province" placeholder="Pilih Domisili"  [compareWith]="compareFn">
+                    <ion-option style="margin-right:80%; color:#549AD4" *ngFor="let prov of provinceData" [value]="prov.value">{{prov.text}}</ion-option>
                 </ion-select>
-              </ion-item> -->
+              </ion-item>
 
             </ion-list>
             <button ion-button tappable (click)="register()" [disabled]="!emailPasswordForm.valid">SIGN UP</button>

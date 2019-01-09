@@ -38,25 +38,20 @@ export class CalendarPage {
         mode: 'month',
         currentDate: new Date()
     };
+    isButtonActive: boolean;
 
     constructor(public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private alertCtrl: AlertController,
         public dataProvider: DataProvider, public angularfireDatabase: AngularFireDatabase,public loadingProvider: LoadingProvider
-    ) {
-        console.log(this.schedules);
-
-    }
+    ) {}
 
     //add event in Calendar function
     addEvent() {
         let modal = this.modalCtrl.create(EventModalPage, { selectedDay: this.selectedDay });
         modal.present();
         modal.onDidDismiss(data => {
-
             this.ionViewDidLoad();
-
         });
     }
-
     // create random events.
     loadEvents() {
         this.eventSource = this.createRandomEvents();
@@ -65,8 +60,8 @@ export class CalendarPage {
     onViewTitleChanged(title) {
         this.viewTitle = title;
         console.log("title",title);
-        
     }
+    
     onEventSelected(event) {
 
         let start = moment(event.startTime).format('LLLL');
@@ -87,12 +82,11 @@ export class CalendarPage {
         this.calendar.currentDate = new Date();
     }
     onTimeSelected(ev) {
-       //  console.log(ev);
-        console.log('Selected time: ' + ev.selectedTime + ', hasEvents: ' +
-            (ev.events !== undefined && ev.events.length !== 0) + ', disabled: ' + ev.disabled);
+        var current = new Date();
+            current.setDate(current.getDate() + 0);
         this.selectedDay = ev.selectedTime;
-       //  console.log('ini waktu sekarang: ' + this.selectedDay);
-
+        this.isButtonActive =  this.selectedDay > current;
+        console.log("isButtonActive: ", this.isButtonActive);
     }
     // onCurrentDateChanged(event:Date) {
     //     var today = new Date();
@@ -137,15 +131,15 @@ export class CalendarPage {
         return events;
         
     }
+    markDisabled = (date: Date) => {
+        var current = new Date();
+        current.setDate(current.getDate() + 0);
+        return date < current;
+    }
     onRangeChanged(ev) {
         console.log('range changed: startTime: ' + ev.startTime + ', endTime: ' + ev.endTime);
     }
-    markDisabled = (date: Date) => {
-        var current = new Date();
-        current.setHours(0, 0, 0);
-        return date < current;
-    };
-
+    
     //get schedules psg side
     // ionViewDidEnter() {
     ionViewDidLoad() {
@@ -154,7 +148,7 @@ export class CalendarPage {
         this.count = 0;
         this.sumSchedules = 0;
         console.log('ionViewDidLoad CalendarPage');
-        console.log('tes uid ', localStorage.getItem('uid_psg'));
+        console.log('tes uid ', firebase.auth().currentUser.uid);
         
         this.dataProvider.getScheduleByUser().subscribe(schedules => {
             this.loadingProvider.show();
@@ -164,7 +158,7 @@ export class CalendarPage {
                 // for (var i=0; i < schedules.length; i++){
                     schedules.forEach(schedule => {
                     this.loadingProvider.hide();
-                        this.lenKey1 = schedules.length;
+                    this.lenKey1 = schedules.length;
                         console.log('lenkey1', this.lenKey1);
                         //this.schedule[i] = schedules[i];
                         this.index = 0;
@@ -179,31 +173,66 @@ export class CalendarPage {
                                 //   for(var j=0; j < listSchedules.length; j++){
                                 this.count += 1;
                                 var k = schedule.key;
-                                console.log('dalem j ', k);
                                 switch (listSchedule.key) {
                                     case "session1":
-                                      this.sessionStart = k + "T08:00:00";
-                                      this.sessionEnd = k + "T10:00:00";
-                                      break;
+                                        this.sessionStart = k + "T08:00:00";
+                                        this.sessionEnd = k + "T09:00:00";
+                                    break;
                                     case "session2":
-                                      this.sessionStart =  k + "T10:00:00";
-                                      this.sessionEnd =  k + "T12:00:00";
-                                      break;
+                                        this.sessionStart =  k + "T09:00:00";
+                                        this.sessionEnd =  k + "T10:00:00";
+                                    break;
                                     case "session3":
-                                      this.sessionStart =  k + "T12:00:00";
-                                      this.sessionEnd =  k + "T14:00:00";
-                                      break;
+                                        this.sessionStart =  k + "T10:00:00";
+                                        this.sessionEnd =  k + "T11:00:00";
+                                    break;
                                     case "session4":
-                                      this.sessionStart =  k + "T14:00:00";
-                                      this.sessionEnd =  k + "T16:00:00";
-                                      break;
+                                        this.sessionStart =  k + "T11:00:00";
+                                        this.sessionEnd =  k + "T12:00:00";
+                                    break;
                                     case "session5":
-                                      this.sessionStart =  k + "T16:00:00";
-                                      this.sessionEnd =  k + "T18:00:00";
-                                      break;
+                                        this.sessionStart =  k + "T12:00:00";
+                                        this.sessionEnd =  k + "T13:00:00";
+                                    break;
+                                    case "session6":
+                                       this.sessionStart = k + "T013:00:00";
+                                        this.sessionEnd = k + "T14:00:00";
+                                        break;
+                                    case "session7":
+                                        this.sessionStart =  k + "T14:00:00";
+                                        this.sessionEnd =  k + "T15:00:00";
+                                        break;
+                                    case "session8":
+                                        this.sessionStart =  k + "T15:00:00";
+                                        this.sessionEnd =  k + "T16:00:00";
+                                        break;
+                                    case "session9":
+                                        this.sessionStart =  k + "T16:00:00";
+                                        this.sessionEnd =  k + "T17:00:00";
+                                        break;
+                                    case "session10":
+                                        this.sessionStart =  k + "T17:00:00";
+                                        this.sessionEnd =  k + "T18:00:00";
+                                        break;
+                                    case "session11":
+                                        this.sessionStart = k + "T18:00:00";
+                                        this.sessionEnd = k + "T19:00:00";
+                                        break;
+                                    case "session12":
+                                        this.sessionStart =  k + "T19:00:00";
+                                        this.sessionEnd =  k + "T20:00:00";
+                                        break;
+                                    case "session13":
+                                        this.sessionStart =  k + "T20:00:00";
+                                        this.sessionEnd =  k + "T21:00:00";
+                                        break;
+                                    case "session14":
+                                        this.sessionStart =  k + "T21:00:00";
+                                        this.sessionEnd =  k + "T22:00:00";
+                                        break;
                                     default:
                                       return 0;
-                                  }
+                                    }
                                 console.log('list arr', new Date(this.sessionStart));
 
                                 this.eventSource.push({
@@ -228,7 +257,7 @@ export class CalendarPage {
                             }
                         });
                     });
-                // }
+                    // }
             } else {
                 this.loadingProvider.hide();
             }
@@ -236,15 +265,15 @@ export class CalendarPage {
         });
         //end of subscribe
     }
-
+    
 
 
     // //get schedules client side
     ionViewDidEnter(){
         this.dataProvider.getScheduling().subscribe(schedules=>{
-                console.log('schedule', schedules);
+            console.log('schedule', schedules);
              if (schedules.length > 0) {
-                schedules.forEach(psg => {
+                 schedules.forEach(psg => {
                     console.log('arr',this.eventSource);
                     console.log('psgsc',psg.key);
                     this.eventSource.push({                                                  
@@ -254,22 +283,22 @@ export class CalendarPage {
                         allDay: false
                         });
                 });
-             }
+            }
         });
-
+        
     }
-
-
+    
+    
     //end of ionViewDidLoad
-
+    
     //function for refresh array of schedule data
     refreshData() {
         let eventData = this.eventz;
-
-
+        
+        
         eventData.startTime = new Date(12 - 2 - 1997);
         eventData.endTime = new Date(12 - 2 - 1997);
-
+        
         let events = this.eventSource;
         events.push(eventData);
         this.eventSource = [];
@@ -278,6 +307,6 @@ export class CalendarPage {
             console.log('EVa: ', this.eventSource);
         });
     }
-
-
+    
+    
 }

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.ionic.socioempathypsg" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="id.socio.sociopsikolog" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>SocioPsikolog</name>
     <description>Aplikasi untuk Psikolog dalam proses menangani klien.</description>
     <author email="socioempathyid@gmail.com" href="http://ionicframework.com/">SocioEmpathy Team</author>

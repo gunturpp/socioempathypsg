@@ -35,11 +35,7 @@ export class UserInfoPage {
     this.dataProvider.getUser(firebase.auth().currentUser.uid).subscribe((user) => {
       this.friends = user.friends;
     });
-    // Get requests of current logged in user.
-    this.dataProvider.getRequests(firebase.auth().currentUser.uid).subscribe((requests) => {
-      this.friendRequests = requests.friendRequests;
-      this.requestsSent = requests.requestsSent;
-    });
+
   }
 
   // Back
@@ -52,87 +48,6 @@ export class UserInfoPage {
     let imageModal = this.modalCtrl.create(ImageModalPage, { img: img });
     imageModal.present();
   }
-
-  // Accept friend request.
-  acceptFriendRequest() {
-    this.alert = this.alertCtrl.create({
-      title: 'Confirm Friend Request',
-      message: 'Do you want to accept <b>' + this.user.name + '</b> as your friend?',
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: data => { }
-        },
-        {
-          text: 'Accept',
-          handler: () => {
-            this.firebaseProvider.acceptFriendRequest(this.userId);
-          }
-        }
-      ]
-    }).present();
-  }
-
-  // Deny friend request.
-  rejectFriendRequest() {
-    this.alert = this.alertCtrl.create({
-      title: 'Reject Friend Request',
-      message: 'Do you want to reject <b>' + this.user.name + '</b> as your friend?',
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: data => { }
-        },
-        {
-          text: 'Reject',
-          handler: () => {
-            this.firebaseProvider.deleteFriendRequest(this.userId);
-          }
-        }
-      ]
-    }).present();
-  }
-
-  // Cancel friend request sent.
-  cancelFriendRequest() {
-    this.alert = this.alertCtrl.create({
-      title: 'Friend Request Pending',
-      message: 'Do you want to delete your friend request to <b>' + this.user.name + '</b>?',
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: data => { }
-        },
-        {
-          text: 'Delete',
-          handler: () => {
-            this.firebaseProvider.cancelFriendRequest(this.userId);
-          }
-        }
-      ]
-    }).present();
-  }
-
-  // Send friend request.
-  sendFriendRequest() {
-    this.alert = this.alertCtrl.create({
-      title: 'Send Friend Request',
-      message: 'Do you want to send friend request to <b>' + this.user.name + '</b>?',
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: data => { }
-        },
-        {
-          text: 'Send',
-          handler: () => {
-            this.firebaseProvider.sendFriendRequest(this.userId);
-          }
-        }
-      ]
-    }).present();
-  }
-
   // Open chat with this user.
   sendMessage() {
     this.navCtrl.push(MessagePage, { userId: this.userId });

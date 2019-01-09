@@ -12,46 +12,60 @@ const errorMessages = {
   // If you added your own messages don't forget to make a function for them or add them in the showErrorMessage switch block.
 
   // Firebase Error Messages
-  accountExistsWithDifferentCredential: { title: 'Account Exists!', subTitle: 'An account with the same credential already exists.' },
+  accountExistsWithDifferentCredential: { title: 'Akun Telah digunakan!', subTitle: 'Silahkan coba lagi menggunakan akun lain. Terima kasih.' },
+  notPsychology: { title: 'Tidak Dapat Masuk.', subTitle: 'Gunakan akun lain dan login kembali.' },
   invalidCredential: { title: 'Invalid Credential!', subTitle: 'An error occured logging in with this credential.' },
-  operationNotAllowed: { title: 'Login Failed!', subTitle: 'Logging in with this provider is not allowed! Please contact support.' },
+  operationNotAllowed: { title: 'Login Gagal!', subTitle: 'Login ditolah, silahkan hubungi tim kami. Terima kasih.' },
   userDisabled: { title: 'Account Disabled!', subTitle: 'Sorry! But this account has been suspended! Please contact support.' },
-  userNotFound: { title: 'Account Not Found!', subTitle: 'Sorry, but an account with this credential could not be found.' },
-  wrongPassword: { title: 'Incorrect Password!', subTitle: 'Sorry, but the password you have entered is incorrect.' },
-  invalidEmail: { title: 'Invalid Email!', subTitle: 'Sorry, but you have entered an invalid email address.' },
-  emailAlreadyInUse: { title: 'Email Not Available!', subTitle: 'Sorry, but this email is already in use.' },
+  userNotFound: { title: 'Akun Tidak Ditemukan!', subTitle: 'Silahkan daftar terlebih dahulu.' },
+  wrongPassword: { title: 'Password Salah!', subTitle: 'Maaf, password yang anda masukkan salah.' },
+  invalidEmail: { title: 'Email Salah!', subTitle: 'Maaf, email yang anda masukkan salah' },
+  emailAlreadyInUse: { title: 'Email Tidak Tersedia', subTitle: 'Maaf, email telah digunakan.' },
   weakPassword: { title: 'Weak Password!', subTitle: 'Sorry, but you have entered a weak password.' },
   requiresRecentLogin: { title: 'Credential Expired!', subTitle: 'Sorry, but this credential has expired! Please login again.' },
   userMismatch: { title: 'User Mismatch!', subTitle: 'Sorry, but this credential is for another user!' },
   providerAlreadyLinked: { title: 'Already Linked!', subTitle: 'Sorry, but your account is already linked to this credential.' },
   credentialAlreadyInUse: { title: 'Credential Not Available!', subTitle: 'Sorry, but this credential is already used by another user.' },
   // Profile Error Messages
-  changeName: { title: 'Change Name Failed!', subTitle: 'Sorry, but we\'ve encountered an error changing your name.' },
+  changeName: { title: 'Gagal Mengganti Nama!', subTitle: 'Maaf, terjadi kesalahan saat mengganti nama. Silahkan coba lagi.' },
   invalidCharsName: Validator.profileNameValidator.patternError,
   nameTooShort: Validator.profileNameValidator.lengthError,
-  changeEmail: { title: 'Change Email Failed!', subTitle: 'Sorry, but we\'ve encountered an error changing your email address.' },
+  changeEmail: { title: 'Gagal Mengganti Email!', subTitle: 'Maaf,  terjadi kesalahan saat mengganti email. Silahkan coba lagi.' },
   invalidProfileEmail: Validator.profileEmailValidator.patternError,
-  changePhoto: { title: 'Change Photo Failed!', subTitle: 'Sorry, but we\'ve encountered an error changing your photo.' },
+  changePhoto: { title: 'Gagal Mengganti Foto!', subTitle: ' terjadi kesalahan saat mengganti foto. Silahkan coba lagi.' },
+  changeInvoice: { title: 'Invoice Gagal dibuat!', subTitle: 'Silahkan pilih paket kembali.' },
   passwordTooShort: Validator.profilePasswordValidator.lengthError,
   invalidCharsPassword: Validator.profilePasswordValidator.patternError,
-  passwordsDoNotMatch: { title: 'Change Password Failed!', subTitle: 'Sorry, but the passwords you entered do not match.' },
-  updateProfile: { title: 'Update Profile Failed', subTitle: 'Sorry, but we\'ve encountered an error updating your profile.' },
-  usernameExists: { title: 'Username Already Exists!', subTitle: 'Sorry, but this username is already taken by another user.' },
+  passwordsDoNotMatch: { title: 'Gagal Mengganti Password!', subTitle: 'Maaf, password yang anda masukkan tidak sesuai.' },
+  updateProfile: { title: 'Gagal Mengubah Profil', subTitle: 'Maaf, terjadi kesalahan saat mengganti Profil. Silahkan coba lagi.' },
+  updateProfession: { title: 'Gagal Mengubah Profesi', subTitle: 'Maaf, terjadi kesalahan saat mengganti Profesi. Silahkan coba lagi.' },
+  updateCity: { title: 'Gagal Mengubah Kota', subTitle: 'Maaf, terjadi kesalahan saat mengganti Kota. Silahkan coba lagi.' },
+  updateStatus: { title: 'Gagal Mengubah Status', subTitle: 'Maaf, terjadi kesalahan saat mengganti Status. Silahkan coba lagi.' },
+  updateBirth: { title: 'Gagal Mengubah Tanggal Lahir', subTitle: 'Maaf, terjadi kesalahan saat mengganti Tanggal Lahir. Silahkan coba lagi.' },
+  updateNumber: { title: 'Gagal Mengubah Nomer', subTitle: 'Maaf, terjadi kesalahan saat mengganti Nomer. Silahkan coba lagi.' },
+  usernameExists: { title: 'Username Telah Digunakan!', subTitle: 'Maaf, username telah digunakan oleh pengguna lain.' },
   // Image Error Messages
-  imageUpload: { title: 'Image Upload Failed!', subTitle: 'Sorry but we\'ve encountered an error uploading selected image.' },
+  imageUpload: { title: 'Gagal Mengunggah Gambar!', subTitle: 'Maaf but we\'ve encountered an error uploading selected image.' },
   // Group Error Messages
-  groupUpdate: { title: 'Update Group Failed!', subTitle: 'Sorry, but we\'ve encountered an error updating this group.' },
-  groupLeave: { title: 'Leave Group Failed!', subTitle: 'Sorry, but you\'ve encountered an error leaving this group.' },
-  groupDelete: { title: 'Delete Group Failed!', subTitle: 'Sorry, but we\'ve encountered an error deleting this group.' }
+  groupUpdate: { title: 'Update Group Failed!', subTitle: 'Maaf, but we\'ve encountered an error updating this group.' },
+  groupLeave: { title: 'Leave Group Failed!', subTitle: 'Maaf, but you\'ve encountered an error leaving this group.' },
+  groupDelete: { title: 'Delete Group Failed!', subTitle: 'Maaf, but we\'ve encountered an error deleting this group.' }
 };
 
 const successMessages = {
-  passwordResetSent: { title: 'Password Reset Sent!', subTitle: 'A password reset email has been sent to: ' },
-  profileUpdated: { title: 'Profile Updated!', subTitle: 'Your profile has been successfully updated!' },
-  emailVerified: { title: 'Email Confirmed!', subTitle: 'Congratulations! Your email has been confirmed!' },
-  emailVerificationSent: { title: 'Email Confirmation Sent!', subTitle: 'An email confirmation has been sent to: ' },
+  passwordResetSent: { title: 'Reset Password Telah Dikirim!', subTitle: 'reset password telah dikirim ke email: ' },
+  profileUpdated: { title: 'Berhasil Mengganti Profil!', subTitle: 'Terima kasih!' },
+  numberUpdated: { title: 'Berhasil Mengganti Nomer Handphone!', subTitle: 'Terima kasih!' },
+  invoiceUpdated: { title: 'Berhasil Membeli Paket!', subTitle: 'Kami akan cek invoice 2x24 jam, silahkan periksa status invoice anda. Terima kasih.' },
+  professionUpdated: { title: 'Berhasil Mengganti Profession!', subTitle: 'Terima kasih!' },
+  cityUpdated: { title: 'Berhasil Mengganti Kota!', subTitle: 'Terima kasih!' },
+  birthUpdated: { title: 'Berhasil Mengganti Tanggal Lahir!', subTitle: 'Terima kasih!' },
+  statusUpdated: { title: 'Berhasil Mengganti Status!', subTitle: 'Terima kasih!' },
+
+  emailVerified: { title: 'Email Telah Dikonfirmasi!', subTitle: 'Selamat! email anda berhasil dikonfirmasi' },
+  emailVerificationSent: { title: 'Konfirmasi Email Telah dikirim', subTitle: 'Periksa email anda: ' },
   accountDeleted: { title: 'Account Deleted!', subTitle: 'Your account has been successfully deleted.' },
-  passwordChanged: { title: 'Password Changed!', subTitle: 'Your password has been successfully changed.' },
+  passwordChanged: { title: 'Berhasil Mengganti Password!', subTitle: 'Password anda berhasil diganti.' },
   friendRequestSent: { title: 'Friend Request Sent!', subTitle: 'Your friend request has been successfully sent!' },
   friendRequestRemoved: { title: 'Friend Request Deleted!', subTitle: 'Your friend request has been successfully deleted.' },
   groupUpdated: { title: 'Group Updated!', subTitle: 'This group has been successfully updated!' },
@@ -161,6 +175,13 @@ export class AlertProvider {
         this.alert = this.alertCtrl.create({
           title: errorMessages.accountExistsWithDifferentCredential["title"],
           subTitle: errorMessages.accountExistsWithDifferentCredential["subTitle"],
+          buttons: ['OK']
+        }).present();
+        break;
+      case 'auth/not-psychology':
+        this.alert = this.alertCtrl.create({
+          title: errorMessages.notPsychology["title"],
+          subTitle: errorMessages.notPsychology["subTitle"],
           buttons: ['OK']
         }).present();
         break;

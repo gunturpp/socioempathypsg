@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "605484190997",
+    "firebase_url": "https://socioempathynew.firebaseio.com",
+    "project_id": "socioempathynew",
+    "storage_bucket": "socioempathynew.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:605484190997:android:1f93fb54cfa7f3af",
+        "android_client_info": {
+          "package_name": "id.socio.socioempathy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "605484190997-bpi2d8mnm5kinc9lj7d7kmcj2n061m5p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.socio.socioempathy",
+            "certificate_hash": "d6f847e8e5971db9ebb6856d42ccadca740ea91c"
+          }
+        },
+        {
+          "client_id": "605484190997-sl9angusn3re6edjqedaomtlf1956pjo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbyTve_98aWYbo3yd0BGyLjYXW7Sa95KE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "605484190997-sl9angusn3re6edjqedaomtlf1956pjo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:605484190997:android:42ec10328fe2d707",
+        "android_client_info": {
+          "package_name": "id.socio.sociopsikolog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "605484190997-gnjegb861607jcgado4omii40jibh0p2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.socio.sociopsikolog",
+            "certificate_hash": "d6f847e8e5971db9ebb6856d42ccadca740ea91c"
+          }
+        },
+        {
+          "client_id": "605484190997-sl9angusn3re6edjqedaomtlf1956pjo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbyTve_98aWYbo3yd0BGyLjYXW7Sa95KE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "605484190997-sl9angusn3re6edjqedaomtlf1956pjo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

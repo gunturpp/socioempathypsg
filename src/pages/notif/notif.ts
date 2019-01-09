@@ -9,11 +9,8 @@ import { ConsultationRequestPage } from '../consultation-request/consultation-re
 })
 export class NotifPage {
 
-  name: any;
   bookings = [];
   detailBooking = [];
-  user = [];
-  sessions = [];
   clients=[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public dataProvider: DataProvider) {
@@ -36,12 +33,17 @@ export class NotifPage {
           })
         })
       });
-    });
-
-  
+    });  
   }
   request(booking,client) {
     this.navCtrl.push(ConsultationRequestPage, { booking: booking, client:client});
   }
-
+  ionViewWillLeave() {
+    let tabs = document.querySelectorAll('.show-tabbar');
+    if (tabs !== null) {
+        Object.keys(tabs).map((key) => {
+            tabs[key].style.display = 'flex';
+        });
+    }
+  }
 }

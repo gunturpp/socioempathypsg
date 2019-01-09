@@ -4,6 +4,8 @@ import { DataProvider } from "../../providers/data";
 import { AngularFireDatabase } from "angularfire2/database";
 import { DetailUserPage } from "../detail-user/detail-user";
 import { AlertProvider } from "../../providers/alert";
+import { TabsPage } from "../tabs/tabs";
+import * as firebase from 'firebase';
 
 @Component({
   selector: "page-consultation-request",
@@ -47,54 +49,76 @@ export class ConsultationRequestPage {
 
     switch (this.booking.sessionke) {
       case "session1":
-        this.session = "08.00 - 10.00";
+        this.session = "08:00:00";
         break;
       case "session2":
-        this.session = "10.00 - 12.00";
+        this.session = "09:00:00";
         break;
       case "session3":
-        this.session = "12.00 - 14.00";
+        this.session = "10:00:00";
         break;
       case "session4":
-        this.session = "14.00 - 16.00";
+        this.session = "11:00:00";
         break;
       case "session5":
-        this.session = "16.00 - 18.00";
+        this.session = "12:00:00";
+        break;
+      case "session6":
+        this.session = "13:00:00";
+        break;
+      case "session7":
+        this.session = "14:00:00";
+        break;
+      case "session8":
+        this.session = "15:00:00";
+        break;
+      case "session9":
+        this.session = "16:00:00";
+        break;
+      case "session10":
+        this.session = "17:00:00";
+        break;
+        case "session11":
+        this.session = "18:00:00";
+        break;
+      case "session12":
+        this.session = "19:00:00";
+        break;
+      case "session13":
+        this.session = "21:00:00";
+        break;
+      case "session14":
+        this.session = "22:00:00";
         break;
       default:
-        return 0;
+      return 0;
     }
-
+  }
+  ionViewWillEnter() {
+    let tabs = document.querySelectorAll('.show-tabbar');
+    if (tabs !== null) {
+        Object.keys(tabs).map((key) => {
+            tabs[key].style.display = 'none';
+        });
+    }
   }
 
   accept() {
     this.dataProvider.accBooking(this.createdAt).then(() => {
       //  this.loadingProvider.hide();
-      //make a conversation to users
       this.send();
       this.booking.confirmation = "accepted";
-      this.navCtrl.pop();
       console.log("sukses update booking");
-      //this.viewCtrl.dismiss(this.event); 
     });
   }
-
-  declinez() {
-    this.dataProvider.rejectBooking(this.createdAt).then(() => {
-      this.booking.confirmation = "rejected";
-      this.navCtrl.pop();
-      console.log("sukses reject booking");
-    });
-  }
-
   send() {
     var messages = [];
     messages.push({
       date: new Date().toString(),
-      sender: localStorage.getItem("uid_psg"),
+      sender: firebase.auth().currentUser.uid,
       receiver: this.userId,
       type: "text",
-      message: "Selamat Request anda telah diterima oleh PSG"
+      message: "Selamat Request anda telah diterima oleh psikolog"
     });
     // Add conversation.
     this.angularfireDatabase.list("conversations").push({
@@ -104,17 +128,18 @@ export class ConsultationRequestPage {
         sessionke: this.session
       })
       .then(success => {
+        this.navCtrl.parent.parent.setRoot(TabsPage);
         console.log("sukses buat conversation", success);
         let conversationId = success.key;
         this.message = "";
         // Add conversation reference to the users.
-        this.angularfireDatabase.object("/psg/" + localStorage.getItem("uid_psg") + "/conversations/" + this.userId + "/" + conversationId)
+        this.angularfireDatabase.object("/psg/" + firebase.auth().currentUser.uid + "/conversations/" + this.userId + "/" + conversationId)
           .update({
             conversationId: conversationId,
             messagesRead: 1
           });
         this.angularfireDatabase
-          .object("/users/" + this.userId + "/conversations/" + localStorage.getItem("uid_psg") + "/" + conversationId)
+          .object("/users/" + this.userId + "/conversations/" + firebase.auth().currentUser.uid + "/" + conversationId)
           .update({
             conversationId: conversationId,
             messagesRead: 0
@@ -141,9 +166,20 @@ export class ConsultationRequestPage {
       })
       .present();
   }
+  declinez() {
+    this.dataProvider.rejectBooking(this.createdAt).then(success => {
+      var newTicket:number;
+      newTicket = this.client.ticketTotal + 1;
+      this.angularfireDatabase.object("/users/" + this.client.userId).update({
+        ticketTotal:newTicket
+      })
+      this.booking.confirmation = "rejected";
+      this.navCtrl.parent.parent.setRoot(TabsPage);
+      console.log("sukses reject booking");
+    });
+  }
 
   detail() {
     this.navCtrl.push(DetailUserPage, { uid: this.userId });
   }
-  //end of send()
 }

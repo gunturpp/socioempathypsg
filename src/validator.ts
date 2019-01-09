@@ -7,6 +7,12 @@ import { Validators } from '@angular/forms';
 export namespace Validator {
   // Set your validators here, don't forget to import and use them in the appropriate class that uses formGroups.
   // In this example, they are used on LoginPage where a formGroup for email and passwords is used.
+  export const displayNameValidator = ['', [
+    Validators.minLength(3),
+    Validators.maxLength(30),
+    Validators.required,
+    Validators.pattern('^[a-zA-Z ]*$')]
+  ];
   export const emailValidator = ['', [
     Validators.minLength(5),
     Validators.required,
@@ -17,6 +23,21 @@ export namespace Validator {
     Validators.required,
     Validators.pattern('^[a-zA-Z0-9!@#$%^&*()_+-=]*$')]
   ];
+  export const phoneValidator = ['', [
+    Validators.minLength(9),
+    Validators.maxLength(13),
+    Validators.required]
+    ];
+  export const genderValidator = ['', [
+    Validators.required]
+    ];
+  export const birthValidator = ['', [
+    Validators.required]
+    ];
+  export const provinceValidator = ['', [
+    Validators.required]
+    ];
+                
   // Set your prompt input validators here, don't forget to import and use them on the AlertController prompt.
   // In this example they are used by home.ts where the user are allowed to change their profile.
   // errorMessages are used by the AlertProvider class and is imported inside AlertProvider.errorMessages which is used by showErrorMessage().

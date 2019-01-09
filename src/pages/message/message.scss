@@ -1,2 +1,23 @@
 page-message {
+  .session_end {
+    color: white;
+    font-size: 16px;
+    background-color: black;
+    text-align: center;
+    padding: 20px;
+  }
+  .problems {
+    position: fixed;
+    display: block;
+    top:0;
+    width: 100%;
+    z-index: 15;
+    background-color: white;
+    padding: 10px;
+  }
+  .field-problem {
+    font-size: 10px;
+    color: #aaaaaa;
+  }
+
 }

@@ -21,9 +21,6 @@ import { HomePage } from '../pages/home/home';
 import { VerificationPage } from '../pages/verification/verification';
 import { TabsPage } from '../pages/tabs/tabs';
 import { MessagesPage } from '../pages/messages/messages';
-import { FriendsPage } from '../pages/friends/friends';
-import { SearchPeoplePage } from '../pages/search-people/search-people';
-import { RequestsPage } from '../pages/requests/requests';
 import { UserInfoPage } from '../pages/user-info/user-info';
 import { NewMessagePage } from '../pages/new-message/new-message';
 import { MessagePage } from '../pages/message/message';
@@ -81,9 +78,6 @@ firebase.initializeApp(Login.firebaseConfig);
     VerificationPage,
     TabsPage,
     MessagesPage,
-    FriendsPage,
-    SearchPeoplePage,
-    RequestsPage,
     UserInfoPage,
     NewMessagePage,
     MessagePage,
@@ -135,9 +129,6 @@ firebase.initializeApp(Login.firebaseConfig);
     VerificationPage,
     TabsPage,
     MessagesPage,
-    FriendsPage,
-    SearchPeoplePage,
-    RequestsPage,
     UserInfoPage,
     NewMessagePage,
     MessagePage,

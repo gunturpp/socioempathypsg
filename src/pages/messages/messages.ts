@@ -13,6 +13,7 @@ import { DataProvider } from "../../providers/data";
 import { MessagePage } from "../message/message";
 import * as firebase from "firebase";
 import { NotifPage } from "../notif/notif";
+import * as moment from "moment";
 
 @Component({
   selector: "page-messages",
@@ -22,21 +23,17 @@ export class MessagesPage {
   profileUser=[];
   panjang: any;
   count: number;
-  bookingDay: any;
-  bookSession: any;
+  bookingDay=[];
+  bookSession=[];
+  bookConfirmation=[];
   inputSeconds = [];
   iterate = 0;
   timeInSeconds: any;
   time: any;
-  runTimer: boolean;
-  hasStarted: boolean;
-  hasFinished: boolean;
-  remainingTime = [];
   displayTime = [];
   countOrders: any;
-  i(arg0: any): any {
-    throw new Error("Method not implemented.");
-  }
+  increment=0;
+
   conversation: any;
   public conversations = [];
   private conversationsById: any;
@@ -60,12 +57,16 @@ export class MessagesPage {
   ionViewDidLoad() {
     // Create userData on the database if it doesn't exist yet.
     this.loadingProvider.show();
-    this.createUserData();
     this.devicesTokenUpdate();
     this.searchFriend = "";
     // notification new booking
     this.countOrder();
-    
+    let tabs = document.querySelectorAll('.show-tabbar');
+    if (tabs !== null) {
+        Object.keys(tabs).map((key) => {
+            tabs[key].style.display = 'flex';
+        });
+    } 
     // Get info of conversations of current logged in user.
     this.dataProvider.getConversations().subscribe(conversations => {
       console.log("conversations", conversations);
@@ -84,9 +85,13 @@ export class MessagesPage {
                     if (listConversations.conversationId != null) {
                       this.dataProvider
                       .getConversation(listConversations.conversationId).subscribe(obj => {
-                          this.bookingDay = JSON.stringify(obj.scheduleId);
-                          this.bookSession = obj.sessionke;
-                          // this.countdown();
+                          this.bookingDay[this.increment] = obj.scheduleId;
+                          this.bookSession[this.increment] = obj.sessionke;
+                          if(obj.confirmation) {
+                            this.bookConfirmation[this.increment] = obj.confirmation
+                          }
+                          this.countdown(obj.scheduleId, obj.sessionke,this.increment);
+                          this.increment++;
 
                           let lastMessage = obj.messages[obj.messages.length - 1];
                           listConversations.date = lastMessage.date;
@@ -147,11 +152,49 @@ export class MessagesPage {
       }, 60000);
     }
   }
+  countdown(date,time,index){
+    var b = moment(date+' '+time);
+    setInterval(() => { 
+      var a = moment();
+      this.timeInSeconds = Math.round(b.diff(a)/1000);
+      this.displayTime[index] = this.getSecondsAsDigitalClock(this.timeInSeconds,index)
+      // console.log("this.displayTime[index]", index); //just uncoment to show countdown in console	
+   }, 1000);
+  }
+  getSecondsAsDigitalClock(inputSeconds: number,index) {	
+      var sec_num = inputSeconds; // don't forget the second param	
+      if (sec_num < 0) {	
+        return 'timeover';	
+      } else {	
+      // console.log("milisecond", sec_num); //just uncoment to show countdown in console	
+      var days = Math.floor(sec_num / 86400); // 3600 * 24	
+      var hours = Math.floor(sec_num / 3600) - days * 24;	
+      var temphours = Math.floor(sec_num / 3600);	
+      var minutes = Math.floor((sec_num - temphours * 3600) / 60);	
+      // console.log("minutes", minutes);	
+      var seconds = Math.floor(sec_num - temphours * 3600 - minutes * 60);	
+      var hoursString = "";	
+      var minutesString = "";	
+      var secondsString = "";	
+      var daysString = "";	
+      hoursString = hours < 10 ? "0" + hours : hours.toString();	
+      minutesString = minutes < 10 ? "0" + minutes : minutes.toString();	
+      secondsString = seconds < 10 ? "0" + seconds : seconds.toString();	
+      daysString = days.toString();	
+      // return daysString + "days ";	
+      if (daysString == "0") {	
+        return hoursString + ":" + minutesString + ":" + secondsString;	
+      } else {	
+        return (daysString +" days " +hoursString +":" +minutesString +":" + secondsString);	
+      }	
+    }	
+  }
+
   devicesTokenUpdate() {
     this.dataProvider
       .updateDevicesToken(localStorage.getItem("devices_token"))
       .update({
-        userId: localStorage.getItem("uid_psg")
+        userId: firebase.auth().currentUser.uid
       });
     this.dataProvider.updateCurrentUser().update({
       devices_token: localStorage.getItem("devices_token")
@@ -163,7 +206,7 @@ export class MessagesPage {
     // realtime load data
     this.navCtrl.setRoot(this.navCtrl.getActive().component);
     this.angularfireDatabase
-      .list("/psg/" + localStorage.getItem("uid_psg") + "/conversations/")
+      .list("/psg/" + firebase.auth().currentUser.uid + "/conversations/")
       .remove(conversation);
   }
 
@@ -200,96 +243,23 @@ export class MessagesPage {
       });
     }
   }
-  // Create userData on the database if it doesn't exist yet.
-  createUserData() {
-    firebase
-      .database()
-      .ref("psg/" + localStorage.getItem("uid_psg"))
-      .once("value")
-      .then(account => {
-        //console.log(account.val());
-        // No database data yet, create user data on database
-        if (!account.val()) {
-          this.loadingProvider.show();
-          let user = firebase.auth().currentUser;
-          var userId, name, provider, img, email;
-          let providerData = user.providerData[0];
 
-          userId = user.uid;
-
-          // Get name from Firebase user.
-          if (user.displayName || providerData.displayName) {
-            name = user.displayName;
-            name = providerData.displayName;
-          } else {
-            name = "SocioEmpathy PSG";
-          }
-
-          // Set default username based on name and userId.
-          let username = name.replace(/ /g, "") + userId.substring(0, 8);
-
-          // Get provider from Firebase user.
-          if (providerData.providerId == "password") {
-            provider = "Firebase";
-          } else if (providerData.providerId == "facebook.com") {
-            provider = "Facebook";
-          } else if (providerData.providerId == "google.com") {
-            provider = "Google";
-          }
-
-          // Get photoURL from Firebase user.
-          if (user.photoURL || providerData.photoURL) {
-            img = user.photoURL;
-            img = providerData.photoURL;
-          } else {
-            img = "assets/images/profile.png";
-          }
-
-          // Get email from Firebase user.
-          email = user.email;
-
-          // Set default description.
-          let description = "Hello! I am a new SocioEmpathy PSG.";
-          // set default displayName to Firebase
-
-          // Insert data on our database using AngularFire.
-          this.angularfireDatabase
-            .object("/psg/" + userId)
-            .set({
-              userId: userId,
-              displayName: "Ganti Nama",
-              name: name,
-              username: username,
-              role: localStorage.getItem("registerRole"),
-              anonymouse: "false",
-              realName: name,
-              moodLevel: "Normal",
-              provider: provider,
-              img: img,
-              docStatus: "false",
-              KTM: "",
-              PsyCard: "",
-              KTP: "",
-              gender: localStorage.getItem("gender"),
-              email: email,
-              phone: localStorage.getItem("phone"),
-              description: description,
-              dateCreated: new Date().toString(),
-              born:"",
-              city:""
-            })
-            .then(() => {
-              this.loadingProvider.hide();
-            });
-        }
-      });
-  }
   // Open chat with friend.
-  message(userId, idConv) {
+  message(userId, idConv,i) {
+    let tabs = document.querySelectorAll('.show-tabbar');
+    if (tabs !== null) {
+        Object.keys(tabs).map((key) => {
+            tabs[key].style.display = 'none';
+        });
+    }
+    console.log("this.displayTime[i] :", this.displayTime[i]);    
     this.navCtrl.push(MessagePage, {
        userId: userId, 
-       idConv: idConv 
-      });
+       idConv: idConv,
+       session: this.bookSession[i],
+       day:this.bookingDay[i],
+       confirmation:this.bookConfirmation[i]
+    });
   }
 
   // Return class based if conversation has unreadMessages or not.
@@ -357,7 +327,14 @@ export class MessagesPage {
   }
 
   notif() {
+    let tabs = document.querySelectorAll('.show-tabbar');
+    if (tabs !== null) {
+      Object.keys(tabs).map((key) => {
+        tabs[key].style.display = 'none';
+      });
+    }
     this.navCtrl.push(NotifPage);
+  
   }
   //untuk count order
   countOrder() {
@@ -365,7 +342,7 @@ export class MessagesPage {
     this.dataProvider.getListBooking().subscribe(data => {
       data.forEach(book => {
         this.dataProvider.getDetailBooking(book.key).subscribe(data2 => {
-          console.log("data2", data2);
+          // console.log("data2", data2);
           if (data2.confirmation == "waiting") {
             this.countOrders++;
           }

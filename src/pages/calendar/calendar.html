@@ -13,25 +13,19 @@
 
 
 <ion-content padding class="has-header">
-  <ion-fab bottom right>
-    <button class="kanan" ion-fab color="primary" (click)="addEvent()"><ion-icon name="add"></ion-icon></button>
-  </ion-fab> 
-  
-  <!-- <ion-item *ngFor="let schedule of sesuatu">
-    <p>{{schedule.$key}}</p>
-  </ion-item> -->
+  <ion-fab *ngIf="isButtonActive == true" bottom right>
+    <button class="kanan" ion-fab mini color="primary" (click)="addEvent()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>   
   <h4 text-center>{{viewTitle}}</h4>
-  <calendar [eventSource]="eventSource"
-            [calendarMode]="calendar.mode"
-            [currentDate]="calendar.currentDate"
-            (onEventSelected)="onEventSelected($event)"
-            (onTitleChanged)="onViewTitleChanged($event)"
-            (onTimeSelected)="onTimeSelected($event)"
-            step="30"
-            class="calendar">
-            
+  <calendar 
+  [markDisabled]="markDisabled"
+  [eventSource]="eventSource"
+  [calendarMode]="calendar.mode"
+  [currentDate]="calendar.currentDate"
+  (onEventSelected)="onEventSelected($event)"
+  (onTitleChanged)="onViewTitleChanged($event)"
+  (onTimeSelected)="onTimeSelected($event)"
+  step="30"
+  class="calendar">            
   </calendar>
-  <!-- <ion-item *ngFor="let schedule of schedules; let i = index;">
-    <p>{{schedules[i].key}}</p>
-  </ion-item>  -->
 </ion-content>

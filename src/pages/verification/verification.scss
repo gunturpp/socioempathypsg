@@ -66,12 +66,12 @@ page-verification {
     margin-top: 1.125em !important;
 
     ion-item {
-      background: rgba(0, 0, 0, 0.3) !important;
+      background: $theblues !important;
       color: #fff !important;
     }
 
     ion-item.activated {
-      background: rgba(0, 0, 0, 0.5) !important;
+      background: rgba(0, 0, 0, 0.3) !important;
       color: $primary !important;
     }
 

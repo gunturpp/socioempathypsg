@@ -3,9 +3,7 @@ import { NavController } from 'ionic-angular';
 import { LoginProvider } from '../../providers/login';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validator } from '../../validator';
-import { Validators } from '@angular/forms';
 import { SignupPage } from '../signup/signup';
-import { TabsPage } from '../tabs/tabs';
 
 @Component({
   selector: 'page-login',
@@ -16,8 +14,6 @@ export class LoginPage {
   private emailPasswordForm: FormGroup;
   private emailForm: FormGroup;
   private role: FormGroup;
-  masks: any;
-  phoneNumber: any = "";
   // LoginPage
   // This is the page where the user can register and login to our app.
   // It's important to initialize the loginProvider here and setNavController as it will direct the routes of our app.
@@ -28,30 +24,16 @@ export class LoginPage {
     this.emailPasswordForm = formBuilder.group({
       email: Validator.emailValidator,
       password: Validator.passwordValidator,
-      role: Validators.required,
-      phone: Validators.required,
-      gender: Validators.required
     });
     this.emailForm = formBuilder.group({
       email: Validator.emailValidator
     });
 
-    this.masks = {
-        phoneNumber: ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
-    };
   }
 
   ionViewDidLoad() {
     // Set view mode to main.
-    this.mode = 'main';
-
-    console.log('uid', localStorage.getItem('uid_psg'));
-    if (localStorage.getItem('uid_psg') != null && localStorage.getItem('uid_psg')) {
-     //  if (Login.emailVerification) {
-       this.navCtrl.setRoot(TabsPage);
-         console.log('logged in', localStorage.getItem('token'));
-       }
-      
+    this.mode = 'main';      
   }
 
   // Call loginProvider and login the user with email and password.
@@ -65,13 +47,6 @@ export class LoginPage {
     this.navCtrl.push(SignupPage);
   }
   // Call loginProvider and register the user with email and password.
-  register() {
-    let unmaskedData = {
-        phoneNumber: this.phoneNumber.replace(/\D+/g, '')
-    };
-    console.log(unmaskedData);
-    this.loginProvider.register(this.emailPasswordForm.value["email"], this.emailPasswordForm.value["password"], this.emailPasswordForm.value["role"], this.emailPasswordForm.value["phone"], this.emailPasswordForm.value["gender"]);
-  }
 
   // Call loginProvider and send a password reset email.
   forgotPassword() {

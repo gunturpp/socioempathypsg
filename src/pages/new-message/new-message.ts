@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, App } from 'ionic-angular';
-import { SearchPeoplePage } from '../search-people/search-people';
 import { MessagePage } from '../message/message';
 import { DataProvider } from '../../providers/data';
 import { LoadingProvider } from '../../providers/loading';
@@ -62,9 +61,7 @@ export class NewMessagePage {
   }
 
   // Search people.
-  searchPeople() {
-    this.navCtrl.push(SearchPeoplePage);
-  }
+
 
   // Open chat with this user.
   message(userId) {

@@ -15,13 +15,6 @@ export class EventModalPage {
 
   user: any;
   userId: any;
-  session1: boolean = false;
-  session2: boolean = false;
-  session3: boolean = false;
-  session4: boolean = false;
-  session5: boolean = false;
-  session6: boolean = false;
-  session7: boolean = false;
   session8: boolean = false;
   session9: boolean = false;
   session10: boolean = false;
@@ -29,9 +22,16 @@ export class EventModalPage {
   session12: boolean = false;
   session13: boolean = false;
   session14: boolean = false;
+  session15: boolean = false;
+  session16: boolean = false;
+  session17: boolean = false;
+  session18: boolean = false;
+  session19: boolean = false;
+  session20: boolean = false;
+  session21: boolean = false;
   dates: any;
   dates2: any;
-
+  session=[];
   private scheduleForm: FormGroup;
 
 
@@ -72,12 +72,13 @@ export class EventModalPage {
       this.loadingProvider.hide();
     });
   }
-
+  
   createScheduling() {
     this.loadingProvider.show();
+    this.session
     // Insert data on our database using AngularFire.
-    if(this.session1){
-      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session1/' + firebase.auth().currentUser.uid )
+    if(this.session8){
+      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session8/' + firebase.auth().currentUser.uid )
         .update({
           available: true,
           date: this.dates
@@ -87,142 +88,11 @@ export class EventModalPage {
           });
         this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
         .update({
-          session1: true,
+          session8: true,
         })
         .then(() => {
           console.log("sukses buat schedule1s");
         });
-    } 
-    if (this.session2){
-      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session2/' + firebase.auth().currentUser.uid )
-      .update({
-        available: true,
-        date: this.dates
-
-      })
-      .then(() => {
-        console.log("sukses buat schedule2");
-      });
-
-      this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2  )
-      .update({
-        session2: true,
-      })
-      .then(() => {
-        console.log("sukses buat schedule2s");
-      });
-    } 
-    if (this.session3) {
-      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session3/' + firebase.auth().currentUser.uid )
-      .update({
-        available: true,
-        date: this.dates
-
-      })
-      .then(() => {
-        console.log("sukses buat schedule3");
-      });
-
-      this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
-      .update({
-        session3: true
-      })
-      .then(() => {
-        console.log("sukses buat schedule3s");
-      });
-    } 
-    if (this.session4){
-      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session4/' + firebase.auth().currentUser.uid )
-      .update({
-        available: true,
-        date: this.dates
-
-      })
-      .then(() => {
-        console.log("sukses buat schedule4");
-      });
-
-      this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
-      .update({
-        session4: true,
-      })
-      .then(() => {
-        console.log("sukses buat schedule4s");
-      });
-    } 
-    if (this.session5){
-      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session5/' + firebase.auth().currentUser.uid )
-      .update({
-        available: true,
-        date: this.dates
-
-      })
-      .then(() => {
-        console.log("sukses buat schedule5");
-      });
-
-      this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
-      .update({
-        session5: true,
-      })
-      .then(() => {
-        console.log("sukses buat schedule5s");
-      });
-    }
-    if(this.session6){
-      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session6/' + firebase.auth().currentUser.uid )
-        .update({
-          available: true,
-          date: this.dates
-        })
-        .then(() => {
-          console.log("sukses buat schedule6");
-          });
-        this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
-        .update({
-          session6: true,
-        })
-        .then(() => {
-          console.log("sukses buat schedule1s");
-        });
-    } 
-    if (this.session7){
-      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session7/' + firebase.auth().currentUser.uid )
-      .update({
-        available: true,
-        date: this.dates
-
-      })
-      .then(() => {
-        console.log("sukses buat schedule2");
-      });
-
-      this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2  )
-      .update({
-        session7: true,
-      })
-      .then(() => {
-        console.log("sukses buat schedule2s");
-      });
-    } 
-    if (this.session8) {
-      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session8/' + firebase.auth().currentUser.uid )
-      .update({
-        available: true,
-        date: this.dates
-
-      })
-      .then(() => {
-        console.log("sukses buat schedule3");
-      });
-
-      this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
-      .update({
-        session8: true
-      })
-      .then(() => {
-        console.log("sukses buat schedule3s");
-      });
     } 
     if (this.session9){
       this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session9/' + firebase.auth().currentUser.uid )
@@ -232,74 +102,19 @@ export class EventModalPage {
 
       })
       .then(() => {
-        console.log("sukses buat schedule4");
-      });
-
-      this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
-      .update({
-        session9: true,
-      })
-      .then(() => {
-        console.log("sukses buat schedule4s");
-      });
-    } 
-    if (this.session10){
-      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session10/' + firebase.auth().currentUser.uid )
-      .update({
-        available: true,
-        date: this.dates
-
-      })
-      .then(() => {
-        console.log("sukses buat schedule5");
-      });
-
-      this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
-      .update({
-        session10: true,
-      })
-      .then(() => {
-        console.log("sukses buat schedule5s");
-      });
-    }
-    if(this.session11){
-      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session11/' + firebase.auth().currentUser.uid )
-        .update({
-          available: true,
-          date: this.dates
-        })
-        .then(() => {
-          console.log("sukses buat schedule1");
-          });
-        this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
-        .update({
-          session11: true,
-        })
-        .then(() => {
-          console.log("sukses buat schedule1s");
-        });
-    } 
-    if (this.session12){
-      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session12/' + firebase.auth().currentUser.uid )
-      .update({
-        available: true,
-        date: this.dates
-
-      })
-      .then(() => {
         console.log("sukses buat schedule2");
       });
 
       this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2  )
       .update({
-        session12: true,
+        session9: true,
       })
       .then(() => {
         console.log("sukses buat schedule2s");
       });
     } 
-    if (this.session13) {
-      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session13/' + firebase.auth().currentUser.uid )
+    if (this.session10) {
+      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session10/' + firebase.auth().currentUser.uid )
       .update({
         available: true,
         date: this.dates
@@ -311,14 +126,14 @@ export class EventModalPage {
 
       this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
       .update({
-        session13: true
+        session10: true
       })
       .then(() => {
         console.log("sukses buat schedule3s");
       });
     } 
-    if (this.session14){
-      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session14/' + firebase.auth().currentUser.uid )
+    if (this.session11){
+      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session11/' + firebase.auth().currentUser.uid )
       .update({
         available: true,
         date: this.dates
@@ -330,7 +145,193 @@ export class EventModalPage {
 
       this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
       .update({
+        session11: true,
+      })
+      .then(() => {
+        console.log("sukses buat schedule4s");
+      });
+    } 
+    if (this.session12){
+      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session12/' + firebase.auth().currentUser.uid )
+      .update({
+        available: true,
+        date: this.dates
+
+      })
+      .then(() => {
+        console.log("sukses buat schedule5");
+      });
+
+      this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
+      .update({
+        session12: true,
+      })
+      .then(() => {
+        console.log("sukses buat schedule5s");
+      });
+    }
+    if(this.session13){
+      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session13/' + firebase.auth().currentUser.uid )
+        .update({
+          available: true,
+          date: this.dates
+        })
+        .then(() => {
+          console.log("sukses buat schedule6");
+          });
+        this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
+        .update({
+          session13: true,
+        })
+        .then(() => {
+          console.log("sukses buat schedule1s");
+        });
+    } 
+    if (this.session14){
+      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session14/' + firebase.auth().currentUser.uid )
+      .update({
+        available: true,
+        date: this.dates
+
+      })
+      .then(() => {
+        console.log("sukses buat schedule2");
+      });
+
+      this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2  )
+      .update({
         session14: true,
+      })
+      .then(() => {
+        console.log("sukses buat schedule2s");
+      });
+    } 
+    if (this.session15) {
+      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session15/' + firebase.auth().currentUser.uid )
+      .update({
+        available: true,
+        date: this.dates
+
+      })
+      .then(() => {
+        console.log("sukses buat schedule3");
+      });
+
+      this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
+      .update({
+        session15: true
+      })
+      .then(() => {
+        console.log("sukses buat schedule3s");
+      });
+    } 
+    if (this.session16){
+      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session16/' + firebase.auth().currentUser.uid )
+      .update({
+        available: true,
+        date: this.dates
+
+      })
+      .then(() => {
+        console.log("sukses buat schedule4");
+      });
+
+      this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
+      .update({
+        session16: true,
+      })
+      .then(() => {
+        console.log("sukses buat schedule4s");
+      });
+    } 
+    if (this.session17){
+      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session17/' + firebase.auth().currentUser.uid )
+      .update({
+        available: true,
+        date: this.dates
+
+      })
+      .then(() => {
+        console.log("sukses buat schedule5");
+      });
+
+      this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
+      .update({
+        session17: true,
+      })
+      .then(() => {
+        console.log("sukses buat schedule5s");
+      });
+    }
+    if(this.session18){
+      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session18/' + firebase.auth().currentUser.uid )
+        .update({
+          available: true,
+          date: this.dates
+        })
+        .then(() => {
+          console.log("sukses buat schedule1");
+          });
+        this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
+        .update({
+          session18: true,
+        })
+        .then(() => {
+          console.log("sukses buat schedule1s");
+        });
+    } 
+    if (this.session19){
+      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session19/' + firebase.auth().currentUser.uid )
+      .update({
+        available: true,
+        date: this.dates
+
+      })
+      .then(() => {
+        console.log("sukses buat schedule2");
+      });
+
+      this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2  )
+      .update({
+        session19: true,
+      })
+      .then(() => {
+        console.log("sukses buat schedule2s");
+      });
+    } 
+    if (this.session20) {
+      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session20/' + firebase.auth().currentUser.uid )
+      .update({
+        available: true,
+        date: this.dates
+
+      })
+      .then(() => {
+        console.log("sukses buat schedule3");
+      });
+
+      this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
+      .update({
+        session20: true
+      })
+      .then(() => {
+        console.log("sukses buat schedule3s");
+      });
+    } 
+    if (this.session21){
+      this.angularfireDatabase.object('/scheduling/' + this.dates2 + '/session21/' + firebase.auth().currentUser.uid )
+      .update({
+        available: true,
+        date: this.dates
+
+      })
+      .then(() => {
+        console.log("sukses buat schedule4");
+      });
+
+      this.angularfireDatabase.object('psg/' + firebase.auth().currentUser.uid + '/scheduling/' + this.dates2 )
+      .update({
+        session21: true,
       })
       .then(() => {
         console.log("sukses buat schedule4s");

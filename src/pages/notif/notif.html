@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Notifications</ion-title>
+    <ion-title>Notifikasi</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -9,21 +9,21 @@
 
 <ion-content>
     <ng-container *ngFor="let detail of detailBooking; let i = index;">
-            <ion-item *ngIf="detail.confirmation == 'waiting'" (click)="request(detail,clients)">
+            <ion-item (click)="request(detail,clients[i])">
               <ion-avatar class="profile" item-start>
-                  <img src="{{clients.img}}">
+                  <img src="{{clients[i].img}}">
               </ion-avatar>
               <ion-row class="left">
                 <ion-col>
                   <h3>
-                    {{clients.name}}
+                    {{clients[i].name}}
                   </h3>
                 </ion-col>
                 <ion-col>
-                  <div class="time">{{bookings[i].key | DateFormat}}</div>
+                  <div class="time">{{bookings[i].id | DateFormat}}</div>
                 </ion-col>
               </ion-row>
-              <p class="kecil">Consultant request to you</p>
+              <p class="kecil">permintaan konseli baru untuk konsultasi</p>
               <ion-row class="icon">
                   <ion-col>
                     <button ion-button icon-left clear small>
@@ -44,7 +44,7 @@
     <ion-grid *ngIf="clients.length <= 0" style="height: 100%">
       <ion-row justify-content-center align-items-center style="height: 100%">
           <h1><ion-icon  name="notifications"></ion-icon></h1>
-          <h4>You have no notifications</h4>
+          <h4>Anda tidak memiliki notifikasi</h4>
       </ion-row>
     </ion-grid>
           

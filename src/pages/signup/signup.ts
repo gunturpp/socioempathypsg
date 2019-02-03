@@ -58,7 +58,7 @@ export class SignupPage {
       this.emailPasswordForm.value["password"],
       this.emailPasswordForm.value["phoneNumber"], 
       this.emailPasswordForm.value["gender"],
-      this.emailPasswordForm.value["province"],
+      this.emailPasswordForm.value["province"].value,
       this.emailPasswordForm.value["birth"]);
   }
   back(){

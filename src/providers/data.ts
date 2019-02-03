@@ -159,7 +159,12 @@ export class DataProvider {
    this.items = this.angularfireDatabase.list('/psg/' + firebase.auth().currentUser.uid + '/booking/' ).snapshotChanges();
    return this.items;
   }
-
+  getValueBooking(uid){
+    // this.items = this.angularfireDatabase.object('/psg/' + firebase.auth().currentUser.uid + '/booking/' ).valueChanges();
+    this.items = this.angularfireDatabase.object('/psg/' + firebase.auth().currentUser.uid + '/booking/' + uid ).valueChanges();
+    return this.items;
+   }
+ 
   //get detail booking for list
   getDetailBooking(bookId){
     this.items = this.angularfireDatabase.object('/booking/' + bookId).valueChanges();

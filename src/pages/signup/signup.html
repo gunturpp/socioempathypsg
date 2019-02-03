@@ -50,7 +50,7 @@
               <ion-item>
                 <ion-label stacked color="theblues">Domisili</ion-label>
                 <ion-select formControlName="province" placeholder="Pilih Domisili"  [compareWith]="compareFn">
-                    <ion-option style="margin-right:80%; color:#549AD4" *ngFor="let prov of provinceData" [value]="prov.value">{{prov.text}}</ion-option>
+                    <ion-option style="margin-right:80%; color:#549AD4" *ngFor="let prov of provinceData" [value]="prov">{{prov.text}}</ion-option>
                 </ion-select>
               </ion-item>
 

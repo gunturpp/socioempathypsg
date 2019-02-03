@@ -24,6 +24,7 @@ export class ConsultationRequestPage {
   problem: any;
   displayName:any;
   img:any;
+  tickets: any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -38,7 +39,7 @@ export class ConsultationRequestPage {
     this.client = this.navParams.get("client");
     // console.log("booking", this.booking);
     // console.log("client", this.client);
-
+    this.ticketClient();
     this.createdAt = this.booking.createdAt;
     this.userId = this.booking.userId;
     this.problem = this.booking.problem;
@@ -102,7 +103,12 @@ export class ConsultationRequestPage {
         });
     }
   }
-
+  ticketClient(){
+    this.dataProvider.getTicketsByClient(this.client.userId).subscribe(tickets =>{
+      this.tickets = tickets;
+      console.log("ticketstickets", this.tickets);
+    })
+  }
   accept() {
     this.dataProvider.accBooking(this.createdAt).then(() => {
       //  this.loadingProvider.hide();
@@ -150,14 +156,14 @@ export class ConsultationRequestPage {
   decline() {
     this.alert = this.alertCtrl
       .create({
-        title: "Confirm Reject",
-        message: "Are you sure you want to reject this request?",
+        title: "Tolak Klien",
+        message: "anda yakin ingin menolak klien?.",
         buttons: [
           {
-            text: "Cancel"
+            text: "Batal"
           },
           {
-            text: "Confirm",
+            text: "Tolak",
             handler: data => {
               this.declinez();
             }
@@ -169,8 +175,8 @@ export class ConsultationRequestPage {
   declinez() {
     this.dataProvider.rejectBooking(this.createdAt).then(success => {
       var newTicket:number;
-      newTicket = this.client.ticketTotal + 1;
-      this.angularfireDatabase.object("/users/" + this.client.userId).update({
+      newTicket = this.tickets.ticketTotal + 1;
+      this.angularfireDatabase.object("/tickets/" + this.client.userId).update({
         ticketTotal:newTicket
       })
       this.booking.confirmation = "rejected";

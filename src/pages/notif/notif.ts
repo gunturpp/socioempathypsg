@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { DataProvider } from "../../providers/data";
 import { ConsultationRequestPage } from '../consultation-request/consultation-request';
+import * as firebase from 'firebase';
+import { LoadingProvider } from '../../providers/loading';
 
 @Component({
   selector: 'page-notif',
@@ -13,23 +15,34 @@ export class NotifPage {
   detailBooking = [];
   clients=[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public dataProvider: DataProvider) {
+  constructor(
+    public loadingProvider: LoadingProvider,
+    public navCtrl: NavController, public navParams: NavParams, public dataProvider: DataProvider) {
   }
 
   ionViewDidLoad() {
+    this.loadingProvider.show();
 
+    var x = 0
     //get list of booking in psg table
     this.dataProvider.getListBooking().subscribe(listBooking => {
-      this.bookings = listBooking;
       listBooking.forEach(booking => {
-        this.dataProvider.getDetailBooking(booking.key).subscribe(detailBooking =>{
-          this.detailBooking.push(detailBooking);
-          console.log("detail_booking", this.detailBooking);
-          console.log('ionViewDidLoad NotifPage');
-          //get client profile in booking psg
-          this.dataProvider.getClient(detailBooking.userId).subscribe(clients => {
-            this.clients = clients;
-            console.log("client_detail", this.clients);
+        this.dataProvider.getValueBooking(booking.key).subscribe(val => {
+          console.log("buking", val);
+          this.bookings.push(val);
+          this.dataProvider.getDetailBooking(val.id).subscribe(detailBooking =>{
+            if (detailBooking.confirmation == "waiting" ) {
+              console.log("detailBooking", detailBooking);
+              x++
+              this.detailBooking.push(detailBooking);
+              console.log('ionViewDidLoad NotifPage',x);
+              //get client profile in booking psg
+              this.dataProvider.getClient(detailBooking.userId).subscribe(clients => {
+                this.clients.push(clients);
+                this.loadingProvider.hide();
+                console.log("client_detail", this.clients);
+              })
+            }
           })
         })
       });

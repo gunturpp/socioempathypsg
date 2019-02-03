@@ -252,7 +252,9 @@ export class MessagesPage {
             tabs[key].style.display = 'none';
         });
     }
-    console.log("this.displayTime[i] :", this.displayTime[i]);    
+
+    console.log("userId :", userId);    
+    console.log("idConv :", idConv);    
     this.navCtrl.push(MessagePage, {
        userId: userId, 
        idConv: idConv,
@@ -341,12 +343,14 @@ export class MessagesPage {
     this.countOrders = 0;
     this.dataProvider.getListBooking().subscribe(data => {
       data.forEach(book => {
-        this.dataProvider.getDetailBooking(book.key).subscribe(data2 => {
-          // console.log("data2", data2);
-          if (data2.confirmation == "waiting") {
-            this.countOrders++;
-          }
-        });
+        this.dataProvider.getValueBooking(book.key).subscribe(val => {
+          console.log("data2data2", val.id);
+          this.dataProvider.getDetailBooking(val.id).subscribe(data2 => {
+            if (data2.confirmation == "waiting") {
+              this.countOrders++;
+            }
+          });
+        })
       });
     });
   }
